@@ -20,6 +20,21 @@ namespace GrubyKlient
             CenterToScreen();
             InitializeComponent();
             LocalizeComponents();
+
+            ServerAPIInterface.Instance.onLoginPacketReceiveHandler += API_onLoginPacketReceiveHandler;
+        }
+
+        void API_onLoginPacketReceiveHandler(object sender, ServerAPIInterface.LoginPacketEventArgs e)
+        {
+            this.Invoke(() =>
+            {
+                if(e.AuthenticationOk)
+                    DialogResult = DialogResult.OK;
+                else
+                    DialogResult = DialogResult.Abort;
+
+                Close();
+            });
         }
 
         private void LocalizeComponents()
@@ -31,6 +46,11 @@ namespace GrubyKlient
             this.groupBox.Text = locale.GetString("login");
             this.buttonLogin.Text = locale.GetString("signin");
             this.Text = "HotelApp - " + locale.GetString("login");
+        }
+
+        private void buttonLogin_Click(object sender, EventArgs e)
+        {
+            ServerAPIInterface.Instance.RequestLogin(textBoxUser.Text, textBoxPwd.Text);
         }
     }
 }

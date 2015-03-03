@@ -3,20 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace GrubyKlient
 {
     static class Program
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
         [STAThread]
         static void Main()
         {
+            Thread workerThread = new Thread(ServerAPIInterface.Instance.StartThreadWork);
+            workerThread.Start();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Login());
+
+            MainForm mainForm = new MainForm();
+            mainForm.FormClosed += mainForm_FormClosed;
+            Application.Run(mainForm);
+        }
+
+        static void mainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            ServerAPIInterface.Instance.StopThread();
         }
     }
 }
