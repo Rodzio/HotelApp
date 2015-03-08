@@ -80,15 +80,15 @@ namespace GrubyKlient
         // Websocket callbacks
         void ws_OnMessage(object sender, MessageEventArgs e)
         {
-            dynamic obj = JObject.Parse(e.Data);
-            if (!wsRequests.Contains(obj.requestId.ToString()))
+            dynamic jsonObj = JObject.Parse(e.Data);
+            if (!wsRequests.Contains(jsonObj.requestId.ToString()))
                 return;
 
-            wsRequests.Remove(obj.requestId.ToString());
+            wsRequests.Remove(jsonObj.requestId.ToString());
 
-            if(obj.command == "login")
+            if(jsonObj.command == "login")
             {
-                dynamic loginData = JObject.Parse(obj.loginData.ToString());
+                dynamic loginData = JObject.Parse(jsonObj.loginData.ToString());
                 string pwd = loginData.password;
                 if (onLoginPacketReceiveHandler != null)
                     onLoginPacketReceiveHandler(this, new LoginPacketEventArgs(true));
