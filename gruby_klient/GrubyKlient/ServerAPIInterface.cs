@@ -77,7 +77,7 @@ namespace GrubyKlient
         }
 
 
-        // Websocket caallbacks
+        // Websocket callbacks
         void ws_OnMessage(object sender, MessageEventArgs e)
         {
             dynamic obj = JObject.Parse(e.Data);

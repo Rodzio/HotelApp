@@ -38,7 +38,6 @@ namespace GrubyKlient
                     this.labelError.Visible = true;
                     this.buttonLogin.Enabled = true;
                 }
-
             });
         }
 
@@ -57,7 +56,7 @@ namespace GrubyKlient
         private void buttonLogin_Click(object sender, EventArgs e)
         {
             ServerAPIInterface.Instance.RequestLogin(textBoxUser.Text, textBoxPwd.Text);
-            this.buttonLogin.Enabled = false;
+            this.buttonLogin.Enabled = false; // Disable untill we get server response
         }
     }
 }
