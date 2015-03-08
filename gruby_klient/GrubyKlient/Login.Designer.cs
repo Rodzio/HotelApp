@@ -34,11 +34,13 @@
             this.labelPwd = new System.Windows.Forms.Label();
             this.labelUser = new System.Windows.Forms.Label();
             this.buttonLogin = new System.Windows.Forms.Button();
+            this.labelError = new System.Windows.Forms.Label();
             this.groupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox
             // 
+            this.groupBox.Controls.Add(this.labelError);
             this.groupBox.Controls.Add(this.textBoxPwd);
             this.groupBox.Controls.Add(this.textBoxUser);
             this.groupBox.Controls.Add(this.labelPwd);
@@ -46,7 +48,7 @@
             this.groupBox.Controls.Add(this.buttonLogin);
             this.groupBox.Location = new System.Drawing.Point(13, 13);
             this.groupBox.Name = "groupBox";
-            this.groupBox.Size = new System.Drawing.Size(365, 124);
+            this.groupBox.Size = new System.Drawing.Size(365, 137);
             this.groupBox.TabIndex = 0;
             this.groupBox.TabStop = false;
             this.groupBox.Text = "Login";
@@ -87,7 +89,7 @@
             // buttonLogin
             // 
             this.buttonLogin.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonLogin.Location = new System.Drawing.Point(151, 89);
+            this.buttonLogin.Location = new System.Drawing.Point(151, 104);
             this.buttonLogin.Name = "buttonLogin";
             this.buttonLogin.Size = new System.Drawing.Size(75, 23);
             this.buttonLogin.TabIndex = 5;
@@ -95,11 +97,22 @@
             this.buttonLogin.UseVisualStyleBackColor = true;
             this.buttonLogin.Click += new System.EventHandler(this.buttonLogin_Click);
             // 
+            // labelError
+            // 
+            this.labelError.AutoSize = true;
+            this.labelError.ForeColor = System.Drawing.Color.Red;
+            this.labelError.Location = new System.Drawing.Point(44, 85);
+            this.labelError.Name = "labelError";
+            this.labelError.Size = new System.Drawing.Size(133, 13);
+            this.labelError.TabIndex = 10;
+            this.labelError.Text = "Error: authentication failed.";
+            this.labelError.Visible = false;
+            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(390, 149);
+            this.ClientSize = new System.Drawing.Size(390, 162);
             this.Controls.Add(this.groupBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -120,6 +133,7 @@
         private System.Windows.Forms.Label labelUser;
         private System.Windows.Forms.Button buttonLogin;
         private System.Windows.Forms.TextBox textBoxPwd;
+        private System.Windows.Forms.Label labelError;
 
     }
 }

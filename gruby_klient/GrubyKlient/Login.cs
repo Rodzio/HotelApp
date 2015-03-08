@@ -28,12 +28,17 @@ namespace GrubyKlient
         {
             this.Invoke(() =>
             {
-                if(e.AuthenticationOk)
+                if (e.AuthenticationOk)
+                {
                     DialogResult = DialogResult.OK;
+                    Close();
+                }
                 else
-                    DialogResult = DialogResult.Abort;
+                {
+                    this.labelError.Visible = true;
+                    this.buttonLogin.Enabled = true;
+                }
 
-                Close();
             });
         }
 
@@ -43,6 +48,7 @@ namespace GrubyKlient
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("pl-PL");
             this.labelUser.Text = locale.GetString("username") + ":";
             this.labelPwd.Text = locale.GetString("password") + ":";
+            this.labelError.Text = locale.GetString("loginError");
             this.groupBox.Text = locale.GetString("login");
             this.buttonLogin.Text = locale.GetString("signin");
             this.Text = "HotelApp - " + locale.GetString("login");
@@ -51,6 +57,7 @@ namespace GrubyKlient
         private void buttonLogin_Click(object sender, EventArgs e)
         {
             ServerAPIInterface.Instance.RequestLogin(textBoxUser.Text, textBoxPwd.Text);
+            this.buttonLogin.Enabled = false;
         }
     }
 }

@@ -120,6 +120,9 @@
   <data name="login" xml:space="preserve">
     <value>Logowanie</value>
   </data>
+  <data name="loginError" xml:space="preserve">
+    <value>Błąd: niepowodzenie logowania</value>
+  </data>
   <data name="password" xml:space="preserve">
     <value>Hasło</value>
   </data>

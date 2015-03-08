@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
+using WebSocketSharp;
+using Newtonsoft.Json.Linq;
 
 namespace GrubyKlient
 {
@@ -22,8 +25,8 @@ namespace GrubyKlient
         static ServerAPIInterface() { }
         private ServerAPIInterface() {
             isRunning = false;
-            testFlag = false;
             shouldStop = false;
+            wsRequests = new List<string>();
         }
 
         // --
@@ -40,9 +43,10 @@ namespace GrubyKlient
         public delegate void loginPacketReceiveHandler(object sender, LoginPacketEventArgs e);
         public event loginPacketReceiveHandler onLoginPacketReceiveHandler;
 
-        private volatile bool testFlag;
         private static bool isRunning;
         private bool shouldStop;
+        private WebSocket ws;
+        private List<string> wsRequests;
 
         public void StartThreadWork()
         {
@@ -52,20 +56,19 @@ namespace GrubyKlient
             else
                 return;
 
+            ws = new WebSocket("ws://echo.websocket.org");
+            ws.OnMessage += ws_OnMessage;
+            ws.Connect();
+
             while (true)
             {
                 if (shouldStop)
-                    return;
+                    break;
 
-                if (testFlag)
-                {
-                    if (onLoginPacketReceiveHandler != null)
-                        onLoginPacketReceiveHandler(this, new LoginPacketEventArgs(true));
-
-                    testFlag = false;
-                }
                 Thread.Sleep(100);
             }
+
+            ws.Close();
         }
 
         public void StopThread()
@@ -73,11 +76,35 @@ namespace GrubyKlient
             shouldStop = true;
         }
 
+
+        // Websocket caallbacks
+        void ws_OnMessage(object sender, MessageEventArgs e)
+        {
+            dynamic obj = JObject.Parse(e.Data);
+            if (!wsRequests.Contains(obj.requestId.ToString()))
+                return;
+
+            wsRequests.Remove(obj.requestId.ToString());
+
+            if(obj.command == "login")
+            {
+                dynamic loginData = JObject.Parse(obj.loginData.ToString());
+                string pwd = loginData.password;
+                if (onLoginPacketReceiveHandler != null)
+                    onLoginPacketReceiveHandler(this, new LoginPacketEventArgs(true));
+            }
+        }
+
         // Here declare functions that send packets to API server
         public void RequestLogin(string username, string pwd)
         {
-            // Just casually setting up test flag for now...
-            testFlag = true;
+            dynamic jsonObj = new JObject();
+            jsonObj.command = "login";
+            jsonObj.requestId = Guid.NewGuid().ToString();
+            jsonObj.loginData = JObject.FromObject(new { email = username, password = Hash.GetSHA512(pwd) });
+            ws.Send(jsonObj.ToString());
+
+            wsRequests.Add(jsonObj.requestId.ToString());
         }
     }
 }

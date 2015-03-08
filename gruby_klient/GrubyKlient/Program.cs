@@ -20,7 +20,10 @@ namespace GrubyKlient
 
             MainForm mainForm = new MainForm();
             mainForm.FormClosed += mainForm_FormClosed;
-            Application.Run(mainForm);
+            if(!mainForm.IsDisposed)
+                Application.Run(mainForm);
+            else
+                ServerAPIInterface.Instance.StopThread();
         }
 
         static void mainForm_FormClosed(object sender, FormClosedEventArgs e)

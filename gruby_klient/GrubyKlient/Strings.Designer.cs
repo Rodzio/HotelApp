@@ -70,6 +70,15 @@ namespace GrubyKlient {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error: authentication failed.
+        /// </summary>
+        public static string loginError {
+            get {
+                return ResourceManager.GetString("loginError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
         public static string password {
