@@ -14,6 +14,7 @@ namespace GrubyKlient
     {
         public MainForm()
         {
+            CenterToScreen();
             InitializeComponent();
 
             Login login = new Login();
