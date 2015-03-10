@@ -1,0 +1,152 @@
+drop table if exists hotels;
+
+drop table if exists loginData;
+
+drop table if exists reservations;
+
+drop table if exists reservedRoom;
+
+drop table if exists room;
+
+drop table if exists roomEvenHistory;
+
+drop table if exists roomPreset;
+
+drop table if exists userDesc;
+
+drop table if exists users;
+
+/*==============================================================*/
+/* Table: hotels                                                */
+/*==============================================================*/
+create table hotels
+(
+   hotelId              varchar(10) not null,
+   hotelName            varchar(30) not null,
+   hotelAdressCountry   varchar(30) not null,
+   hoteAdressCityl      varchar(30) not null,
+   hotelNoumber         varchar(30) not null,
+   numberOfStars        int not null,
+   hotelMail            varchar(30),
+   hotelPhone           varchar(30),
+   numberOfRooms        int not null,
+   primary key (hotelId)
+);
+
+/*==============================================================*/
+/* Table: loginData                                             */
+/*==============================================================*/
+create table loginData
+(
+   logIn                varchar(20) not null,
+   passHash             varchar(40) not null,
+   userMailAddress      varchar(30) not null,
+   premissionLevel      int not null,
+   primary key (logIn)
+);
+
+/*==============================================================*/
+/* Table: reservations                                          */
+/*==============================================================*/
+create table reservations
+(
+   reservationid        varchar(10) not null,
+   numberOfReservedRooms int not null,
+   bookedFrom           date not null,
+   bookedTo             date not null,
+   primary key (reservationid)
+);
+
+/*==============================================================*/
+/* Table: reservedRoom                                          */
+/*==============================================================*/
+create table reservedRoom
+(
+   reservationid        varchar(10) not null,
+   roomNumber           int not null,
+   hotId                varchar(10) not null,
+   primary key (reservationid, roomNumber, hotId)
+);
+
+/*==============================================================*/
+/* Table: room                                                  */
+/*==============================================================*/
+create table room
+(
+   hotId                varchar(10) not null,
+   roomNumber           int not null,
+   standart             int not null,
+   hotelId              varchar(10) not null,
+   floorNoumber         tinyint not null,
+   balcony              blob not null,
+   isReserved           blob,
+   primary key (roomNumber, hotId)
+);
+
+/*==============================================================*/
+/* Table: roomEvenHistory                                       */
+/*==============================================================*/
+create table roomEvenHistory
+(
+   roomDescId           varchar(10) not null,
+   roomNumber           int,
+   hotId                varchar(10),
+   date                 datetime not null,
+   "desc"               text not null,
+   primary key (roomDescId)
+);
+
+/*==============================================================*/
+/* Table: roomPreset                                            */
+/*==============================================================*/
+create table roomPreset
+(
+   presetId             varchar(10),
+   standart             int not null,
+   cost                 float not null,
+   addonalEqupment      text,
+   primary key (standart)
+);
+
+/*==============================================================*/
+/* Table: userDesc                                              */
+/*==============================================================*/
+create table userDesc
+(
+   userDescId           varchar(10) not null,
+   userId               varchar(30),
+   userDate             datetime not null,
+   userText             text not null,
+   primary key (userDescId)
+);
+
+/*==============================================================*/
+/* Table: users                                                 */
+/*==============================================================*/
+create table users
+(
+   userId               varchar(30) not null,
+   firstName            varchar(30) not null,
+   secondName           varchar(30) not null,
+   premisionLvl         int not null,
+   userMailAddress      varchar(30),
+   primary key (userId)
+);
+
+alter table reservedRoom add constraint FK_reservedRoom foreign key (reservationid)
+      references reservations (reservationid) on delete restrict on update restrict;
+
+alter table reservedRoom add constraint FK_reservedRoom2 foreign key (roomNumber, hotId)
+      references room (roomNumber, hotId) on delete restrict on update restrict;
+
+alter table room add constraint FK_hotelRoom foreign key (hotelId)
+      references hotels (hotelId) on delete restrict on update restrict;
+
+alter table room add constraint FK_roomPreset foreign key (standart)
+      references roomPreset (standart) on delete restrict on update restrict;
+
+alter table roomEvenHistory add constraint FK_roomDesc foreign key (roomNumber, hotId)
+      references room (roomNumber, hotId) on delete restrict on update restrict;
+
+alter table userDesc add constraint FK_userDesc foreign key (userId)
+      references users (userId) on delete restrict on update restrict;
