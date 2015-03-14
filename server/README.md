@@ -10,6 +10,13 @@ Serwer ma za zadanie utworzyć API dostępowe do bazy danych. Izoluje to bazę d
 
 * Wstępna wersja komponentu, nie oferująca jeszcze żadnych planowanych funkcjonalności
 
+### Instalacja i konfiguracja ###
+
+Serwer należy uruchomić za pomocą node.js z zainstalowanymi poniższymi modułami:
+* ws - rdzeń aplikacji, serwer WebSocket
+* mysql - wykorzystywany do łączenia się z bazą danych
+* nodemailer - wykorzystywany przy wysyłani maili potwierdzających rejestrację
+
 ### Autor ###
 
 Michał Łuniewski
