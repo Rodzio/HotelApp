@@ -26,6 +26,7 @@ namespace GrubyKlient
         private ServerAPIInterface() {
             isRunning = false;
             shouldStop = false;
+            connectionEstablished = false;
             wsRequests = new List<string>();
         }
 
@@ -43,8 +44,25 @@ namespace GrubyKlient
         public delegate void loginPacketReceiveHandler(object sender, LoginPacketEventArgs e);
         public event loginPacketReceiveHandler onLoginPacketReceiveHandler;
 
+        public class RegisterPacketEventArgs : EventArgs
+        {
+            private readonly bool registered;
+            private readonly string message;
+
+            public bool Registered { get { return registered; } }
+            public string Message { get { return message; } }
+            public RegisterPacketEventArgs(bool registered, string message)
+            {
+                this.registered = registered;
+                this.message = message;
+            }
+        }
+        public delegate void RegisterPacketReceiveHandler(object sender, RegisterPacketEventArgs e);
+        public event RegisterPacketReceiveHandler onRegisterPacketReceiveHandler;
+
         private static bool isRunning;
         private bool shouldStop;
+        private bool connectionEstablished;
         private WebSocket ws;
         private List<string> wsRequests;
 
@@ -59,6 +77,7 @@ namespace GrubyKlient
             ws = new WebSocket("ws://echo.websocket.org");
             ws.OnMessage += ws_OnMessage;
             ws.Connect();
+            RequestHelloHandshake();
 
             while (true)
             {
@@ -86,22 +105,76 @@ namespace GrubyKlient
 
             wsRequests.Remove(jsonObj.requestId.ToString());
 
-            if(jsonObj.command == "login")
+            switch ((string)jsonObj.command)
             {
-                dynamic loginData = JObject.Parse(jsonObj.loginData.ToString());
-                string pwd = loginData.password;
-                if (onLoginPacketReceiveHandler != null)
-                    onLoginPacketReceiveHandler(this, new LoginPacketEventArgs(true));
+                case "hello":
+                    connectionEstablished = true;
+                break;
+
+                case "login":
+                    /*
+                    bool logged = jsonObj.logged;
+                    if (onLoginPacketReceiveHandler != null)
+                        onLoginPacketReceiveHandler(this, new LoginPacketEventArgs(logged));*/
+
+                    if (onLoginPacketReceiveHandler != null)
+                        onLoginPacketReceiveHandler(this, new LoginPacketEventArgs(true));
+                break;
+
+                case "register":
+                    bool registered = jsonObj.registered;
+                    string message = "";
+                    if(registered)
+                        message = jsonObj.message;
+
+                    if (onRegisterPacketReceiveHandler != null)
+                        onRegisterPacketReceiveHandler(this, new RegisterPacketEventArgs(registered, message));
+                break;
             }
         }
 
         // Here declare functions that send packets to API server
+        private void RequestHelloHandshake() // This one's private for internal use only
+        {
+            dynamic jsonObj = new JObject();
+            jsonObj.command = "hello";
+            jsonObj.requestId = Guid.NewGuid().ToString();
+            ws.Send(jsonObj.ToString());
+
+            wsRequests.Add(jsonObj.requestId.ToString());
+        }
+
         public void RequestLogin(string username, string pwd)
         {
+            if (!connectionEstablished)
+                return;
+
             dynamic jsonObj = new JObject();
             jsonObj.command = "login";
             jsonObj.requestId = Guid.NewGuid().ToString();
-            jsonObj.loginData = JObject.FromObject(new { email = username, password = Hash.GetSHA512(pwd) });
+            jsonObj.loginData = JObject.FromObject(new { userEmail = username, userPasswordHash = Hash.GetSHA512(pwd) });
+            ws.Send(jsonObj.ToString());
+
+            wsRequests.Add(jsonObj.requestId.ToString());
+        }
+
+        public void RequestRegisterUser(string username, string firstName, string secondName, string lastName, string email, string pwd, string permissionLevel)
+        {
+            if (!connectionEstablished)
+                return;
+
+            dynamic jsonObj = new JObject();
+            jsonObj.command = "register";
+            jsonObj.requestId = Guid.NewGuid().ToString();
+            jsonObj.registerData = JObject.FromObject(new { 
+                userId = username, 
+                userFirstName = firstName, 
+                userSecondName = secondName,
+                userLastName = lastName, 
+                userEmail = email, 
+                userPasswordHash = Hash.GetSHA512(pwd),
+                userPremissionLevel = permissionLevel
+            });
             ws.Send(jsonObj.ToString());
 
             wsRequests.Add(jsonObj.requestId.ToString());
