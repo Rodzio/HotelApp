@@ -1,4 +1,4 @@
-require('./databaseObject'); //gives access to database object, ready for queries
+var database = require('./databaseObject'); //gives access to database object, ready for queries
 require('./serverSettings'); //gives access to server settings like logging particular things
 
 function Client(ws)
@@ -72,7 +72,14 @@ function messageHandler(msgString, client)
 			}
 			if(msg.command == "register")
 			{
-				var registerStatus = registerUser(msg.registerData)
+				var registerStatus = registerUser(msg.registerData);
+
+				var regsiternResponse = {};
+				regsiternResponse.command = "login";
+				regsiternResponse.requestId = msg.requestId;
+				regsiternResponse.result = loginStatus;
+				
+				client.socket.send(JSON.stringify(regsiterResponse));
 			}
 	}
 
@@ -82,11 +89,11 @@ function messageHandler(msgString, client)
 
 function logInUser(loginData)
 {
-	loginData.email = "test@test.com";
-	loginData.password = "xyzpass";	
+	loginData.UserEmail = "test@test.com";
+	loginData.UserPassword = "xyzpass";	
 
 //
-	var loginQuery = "SELECT password FROM users WHERE email == " + loginData.email;
+	var loginQuery = "SELECT UserPasswordHash FROM Users WHERE UserEmail = " + loginData.email;
 	database.query(loginQuery,function(err, rows, fields) {
 		 if(rows[0].password == loginData.password) return true;
 		 else return false; 
@@ -95,6 +102,22 @@ function logInUser(loginData)
 
 function registerUser(registerData)
 {
-
+	registerData.UserId = "AUX12345"; //numer dowodu osobistego
+	registerData.UserFirstName = "Paweł";
+	registerData.UserSecondName = "Karol"; //not mandatory
+	registerData.UserLastName = "Majewski";
+	registerData.UserEmail = "pawel@majewski.pl";
+	registerData.UserPasswordHash = "abcd";
+	registerData.UserPermissionLevel = "superadmin"; //będzie pakiet dający listę dostępnych user permission leveli
 }
 
+function setUserPermissionLevel(data)
+{
+	data.UserId = "AUX12345";
+	data.UserPermissionLevel = "superadmin";
+}
+
+var query = "SELECT * FROM `idc hotel suite database`.hotels";
+database.query(query, function(err, rows, fields) {
+	console.log(rows[0]);
+});
