@@ -86,8 +86,8 @@
 
     <div class="container" id="home-content">
         <div class="jumbotron">
-            <h1 style="text-align: center;">Welcome to the</h1>
-            <img src="http://www.galaxy-hotel.com/img/x2/collection/downloads/GALAXY%20HOTEL%20IRAKLIO%20LOGO_1349959520.jpg" class="img-thumbnail">
+            <h1 style="text-align: center;">Welcome to</h1>
+            <img src="Resources/hotel-logo.png" class="img-thumbnail">
             <p>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed, lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam. Quisque semper justo at risus. Donec venenatis,
                 turpis vel hendrerit interdum, dui ligula ultricies purus, sed posuere libero dui id orci. Nam congue, pede vitae dapibus aliquet, elit magna vulputate arcu, vel tempus metus leo non est. Etiam sit amet lectus quis est congue mollis. Phasellus
@@ -187,6 +187,39 @@
                 <div class="row">
                     <div class="col-md-4" id="hotel-container">
                         <h3>Choose hotel</h3>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="c-ctr" onclick="nvaigateReservations('c-ctr')">
+                                Choose a country <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a id="ctr1">Country one</a></li>
+                                <li><a id="ctr2">Country two</a></li>
+                                <li><a id="ctr3">Country three</a></li>
+                                <li><a id="ctr4">Country four</a></li>
+                            </ul>
+                        </div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle hidden" data-toggle="dropdown" aria-expanded="false" id="c-ct" onclick="nvaigateReservations('c-ct')">
+                                Choose a city <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a id="ct1">City one</a></li>
+                                <li><a id="ct2">City two</a></li>
+                                <li><a id="ct3">City three</a></li>
+                                <li><a id="ct4">City four</a></li>
+                                <li><a id="ct5">City five</a></li>
+                                <li><a id="ct6">City six</a></li>
+                            </ul>
+                        </div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle hidden" data-toggle="dropdown" aria-expanded="false" id="c-h" onclick="nvaigateReservations('c-h')">
+                                Choose a hotel <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a id="h1">The Company Hotel one</a></li>
+                                <li><a id="h2">The Company Hotel two</a></li>
+                            </ul>
+                        </div>
                     </div>
                     <div class="col-md-4" id="room-container">
                         <h3>Choose room</h3>
@@ -203,7 +236,7 @@
                                 clearBtn: true,
                                 orientation: "auto",
                                 multidate: true,
-                                multidateSeparator: "#"
+                                multidateSeparator: ", "
                             });
                         </script>
                     </div>

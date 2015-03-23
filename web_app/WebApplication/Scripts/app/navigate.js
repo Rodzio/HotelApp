@@ -60,3 +60,7 @@ function viewGuestbookEntries() {
     string += '</div>';
     document.getElementById("view-guestbook-content").innerHTML = string;
 }
+
+function navigateReservations(button) {
+    document.getElementById(button).
+}
