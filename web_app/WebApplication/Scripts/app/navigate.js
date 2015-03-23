@@ -49,7 +49,7 @@ function guestbookEntrySubmit() {
         lname: document.getElementById("gb-input-lname").value,
         text: document.getElementById("gb-input-entry").value
     }
-    alert(entry);
+    alert(entry.email +" "+ entry.fname +" "+ entry.lname +" "+ entry.text);
 }
 
 function viewGuestbookEntries() {
@@ -61,6 +61,6 @@ function viewGuestbookEntries() {
     document.getElementById("view-guestbook-content").innerHTML = string;
 }
 
-function navigateReservations(button) {
-    document.getElementById(button).
+function navigateReservations(group, value, next) {
+    document.getElementById(group).textContent = document.getElementById(value).textContent;
 }

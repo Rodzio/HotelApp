@@ -185,78 +185,80 @@
 
             <div class="container hidden" id="new-reservation-content">
                 <div class="row">
-                    <div class="col-md-4" id="hotel-container">
+                    <div class="col-md-4" id="hotel-container" style="text-align: center;">
                         <h3>Choose hotel</h3>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="c-ctr" onclick="nvaigateReservations('c-ctr')">
-                                Choose a country <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a id="ctr1">Country one</a></li>
-                                <li><a id="ctr2">Country two</a></li>
-                                <li><a id="ctr3">Country three</a></li>
-                                <li><a id="ctr4">Country four</a></li>
-                            </ul>
-                        </div>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle hidden" data-toggle="dropdown" aria-expanded="false" id="c-ct" onclick="nvaigateReservations('c-ct')">
-                                Choose a city <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a id="ct1">City one</a></li>
-                                <li><a id="ct2">City two</a></li>
-                                <li><a id="ct3">City three</a></li>
-                                <li><a id="ct4">City four</a></li>
-                                <li><a id="ct5">City five</a></li>
-                                <li><a id="ct6">City six</a></li>
-                            </ul>
-                        </div>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle hidden" data-toggle="dropdown" aria-expanded="false" id="c-h" onclick="nvaigateReservations('c-h')">
-                                Choose a hotel <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a id="h1">The Company Hotel one</a></li>
-                                <li><a id="h2">The Company Hotel two</a></li>
-                            </ul>
+                        <div class="btn-group-vertical">
+                            <div class="btn-group" style="width:100%">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="c-ctr">
+                                    Choose a country <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a id="ctr1" onclick="navigateReservations('c-ctr', 'ctr1', 'c-ct')">Country one</a></li>
+                                    <li><a id="ctr2" onclick="navigateReservations('c-ctr', 'ctr2', 'c-ct')">Country two</a></li>
+                                    <li><a id="ctr3" onclick="navigateReservations('c-ctr', 'ctr3', 'c-ct')">Country three</a></li>
+                                    <li><a id="ctr4" onclick="navigateReservations('c-ctr', 'ctr4', 'c-ct')">Country four</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="btn-group" style="width:100%">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="c-ct">
+                                    Choose a city<span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a id="ct1" onclick="navigateReservations('c-ct', 'ct1', 'c-h')">City one</a></li>
+                                    <li><a id="ct2" onclick="navigateReservations('c-ct', 'ct2', 'c-h')">City two</a></li>
+                                    <li><a id="ct3" onclick="navigateReservations('c-ct', 'ct3', 'c-h')">City three</a></li>
+                                    <li><a id="ct4" onclick="navigateReservations('c-ct', 'ct4', 'c-h')">City four</a></li>
+                                    <li><a id="ct5" onclick="navigateReservations('c-ct', 'ct5', 'c-h')">City five</a></li>
+                                    <li><a id="ct6" onclick="navigateReservations('c-ct', 'ct6', 'c-h')">City six</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="btn-group" style="width:100%">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="c-h">
+                                    Choose a hotel <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a id="h1" onclick="navigateReservations('c-h', 'h1', '')">The Company Hotel one</a></li>
+                                    <li><a id="h2" onclick="navigateReservations('c-h', 'h2', '')">The Company Hotel two</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-4" id="room-container">
-                        <h3>Choose room</h3>
+                    <div class="col-md-4" id="room-container" style="text-align: center;">
+                        <h3>Choose room details</h3>
+                    </div>
+                    <div class="col-md-4" id="sandbox-container" style="text-align: center;">
+                        <h3>Choose date</h3>
+                        <div id="datepicker" style="align: center;">
+                            <script>
+                                $('#sandbox-container div').datepicker({
+                                    format: "dd/mm/yyyy",
+                                    clearBtn: true,
+                                    multidate: true,
+                                    multidateSeparator: ", "
+                                });
+                            </script>
+                        </div>
+                    </div>
+
+                        <!-- /callendar -->
                     </div>
                 </div>
+                <!-- /new-reservation -->
 
-                <div id="sandbox-container">
-                    <h3>Choose date of reservation</h3>
-                    <div class="input-group date">
-                        <input type="text" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
-                        <script>
-                            $('#sandbox-container .input-group.date').datepicker({
-                                format: "dd/mm/yyyy",
-                                clearBtn: true,
-                                orientation: "auto",
-                                multidate: true,
-                                multidateSeparator: ", "
-                            });
-                        </script>
-                    </div>
+                <div class="container hidden" id="have-reservation-content" style="width: 30%;">
+                    <form class="form-signin">
+                        <label for="input-email" class="sr-only">Email address</label>
+                        <input type="email" id="r-input-email" class="form-control" placeholder="Email address" required autofocus>
+                        <label for="input-password" class="sr-only">Password</label>
+                        <input type="password" id="r-input-password" class="form-control" placeholder="Password" required="">
+                        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                    </form>
                 </div>
-                <!-- /callendar -->
-            </div>
-            <!-- /new-reservation -->
+                <!-- /have-reservation -->
 
-            <div class="container hidden" id="have-reservation-content" style="width: 30%;">
-                <form class="form-signin">
-                    <label for="input-email" class="sr-only">Email address</label>
-                    <input type="email" id="r-input-email" class="form-control" placeholder="Email address" required autofocus>
-                    <label for="input-password" class="sr-only">Password</label>
-                    <input type="password" id="r-input-password" class="form-control" placeholder="Password" required="">
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-                </form>
-            </div>
-            <!-- /have-reservation -->
-
-        </div>
+           </div>
     </div>
     <!-- /reservations -->
 
