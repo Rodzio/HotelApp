@@ -29,5 +29,10 @@ namespace GrubyKlient
             if(login.DialogResult != DialogResult.OK)
                 Close();
         }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
