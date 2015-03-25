@@ -67,8 +67,6 @@
                             </span>
                         </a>
                     </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
                     <li class="inactive" id="contact-button" onclick="navPage('contact-button')">
                         <a href="#contact">
                             Contact
@@ -87,7 +85,8 @@
     <div class="container" id="home-content">
         <div class="jumbotron">
             <h1 style="text-align: center;">Welcome to</h1>
-            <img src="Resources/hotel-logo.png" class="img-thumbnail">
+            <h2></h2>
+            <img src="Resources/hotel-logo.png" class="img-thumbnail" style="background-color:transparent; border: none;">
             <p>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed, lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam. Quisque semper justo at risus. Donec venenatis,
                 turpis vel hendrerit interdum, dui ligula ultricies purus, sed posuere libero dui id orci. Nam congue, pede vitae dapibus aliquet, elit magna vulputate arcu, vel tempus metus leo non est. Etiam sit amet lectus quis est congue mollis. Phasellus
@@ -190,53 +189,104 @@
                         <div class="btn-group-vertical">
                             <div class="btn-group" style="width:100%">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="c-ctr">
-                                    Choose a country <span class="caret"></span>
+                                    Hotel detail 1 <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a id="ctr1" onclick="navigateReservations('c-ctr', 'ctr1', 'c-ct')">Country one</a></li>
-                                    <li><a id="ctr2" onclick="navigateReservations('c-ctr', 'ctr2', 'c-ct')">Country two</a></li>
-                                    <li><a id="ctr3" onclick="navigateReservations('c-ctr', 'ctr3', 'c-ct')">Country three</a></li>
-                                    <li><a id="ctr4" onclick="navigateReservations('c-ctr', 'ctr4', 'c-ct')">Country four</a></li>
+                                    <li><a id="ctr1" onclick="navigateReservations('c-ctr', 'ctr1', 'c-ct')">example one</a></li>
+                                    <li><a id="ctr2" onclick="navigateReservations('c-ctr', 'ctr2', 'c-ct')">example two</a></li>
+                                    <li><a id="ctr3" onclick="navigateReservations('c-ctr', 'ctr3', 'c-ct')">example three</a></li>
+                                    <li><a id="ctr4" onclick="navigateReservations('c-ctr', 'ctr4', 'c-ct')">example four</a></li>
                                 </ul>
                             </div>
 
                             <div class="btn-group" style="width:100%">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="c-ct">
-                                    Choose a city<span class="caret"></span>
+                                    Hotel detail 2<span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a id="ct1" onclick="navigateReservations('c-ct', 'ct1', 'c-h')">City one</a></li>
-                                    <li><a id="ct2" onclick="navigateReservations('c-ct', 'ct2', 'c-h')">City two</a></li>
-                                    <li><a id="ct3" onclick="navigateReservations('c-ct', 'ct3', 'c-h')">City three</a></li>
-                                    <li><a id="ct4" onclick="navigateReservations('c-ct', 'ct4', 'c-h')">City four</a></li>
-                                    <li><a id="ct5" onclick="navigateReservations('c-ct', 'ct5', 'c-h')">City five</a></li>
-                                    <li><a id="ct6" onclick="navigateReservations('c-ct', 'ct6', 'c-h')">City six</a></li>
+                                    <li><a id="ct1" onclick="navigateReservations('c-ct', 'ct1', 'c-h')">example one</a></li>
+                                    <li><a id="ct2" onclick="navigateReservations('c-ct', 'ct2', 'c-h')">example two</a></li>
+                                    <li><a id="ct3" onclick="navigateReservations('c-ct', 'ct3', 'c-h')">example three</a></li>
+                                    <li><a id="ct4" onclick="navigateReservations('c-ct', 'ct4', 'c-h')">example four</a></li>
+                                    <li><a id="ct5" onclick="navigateReservations('c-ct', 'ct5', 'c-h')">example five</a></li>
+                                    <li><a id="ct6" onclick="navigateReservations('c-ct', 'ct6', 'c-h')">example six</a></li>
                                 </ul>
                             </div>
 
                             <div class="btn-group" style="width:100%">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="c-h">
-                                    Choose a hotel <span class="caret"></span>
+                                    Hotel detail 3 <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a id="h1" onclick="navigateReservations('c-h', 'h1', '')">The Company Hotel one</a></li>
-                                    <li><a id="h2" onclick="navigateReservations('c-h', 'h2', '')">The Company Hotel two</a></li>
+                                    <li><a id="h1" onclick="navigateReservations('c-h', 'h1', '')">example one</a></li>
+                                    <li><a id="h2" onclick="navigateReservations('c-h', 'h2', '')">example two</a></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4" id="room-container" style="text-align: center;">
                         <h3>Choose room details</h3>
+                        <div class="btn-group-vertical">
+                            <div class="btn-group" style="width:100%">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="c-ctr">
+                                    Room detail type 1 <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a id="ctr1">one</a></li>
+                                    <li><a id="ctr2">two</a></li>
+                                    <li><a id="ctr3">three</a></li>
+                                    <li><a id="ctr4">four</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="btn-group" style="width:100%">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="c-ct">
+                                    Room detail type 2 <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a id="ct1">one</a></li>
+                                    <li><a id="ct2">two</a></li>
+                                    <li><a id="ct3">three</a></li>
+                                    <li><a id="ct4">four</a></li>
+                                    <li><a id="ct5">five</a></li>
+                                    <li><a id="ct6">six</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="btn-group" style="width:100%">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="c-h">
+                                    Room detail type 3 <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a id="h1">one</a></li>
+                                    <li><a id="h2">two</a></li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-4" id="sandbox-container" style="text-align: center;">
-                        <h3>Choose date</h3>
-                        <div id="datepicker" style="align: center;">
+                        <h3>Choose reservation dates</h3>
+                        <div class="input-group date">
+                            <input type="text" class="form-control" id="from-date" placeholder="From"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
                             <script>
-                                $('#sandbox-container div').datepicker({
+                                $('#sandbox-container .input-group.date').datepicker({
                                     format: "dd/mm/yyyy",
                                     clearBtn: true,
-                                    multidate: true,
-                                    multidateSeparator: ", "
+                                    orientation: "top auto",
+                                    multidate: false,
+                                    calendarWeeks: true
+                                });
+                            </script>
+                        </div>
+                        <div class="input-group date">
+                            <input type="text" class="form-control" id="to-date" placeholder="To"><span class=" input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                            <script>
+                                $('#sandbox-container .input-group.date').datepicker({
+                                    format: "dd/mm/yyyy",
+                                    clearBtn: true,
+                                    orientation: "top auto",
+                                    multidate: false,
+                                    calendarWeeks: true
                                 });
                             </script>
                         </div>
@@ -306,21 +356,27 @@
     </div>
     <!-- /guestbook -->
 
-    <div class="container hidden" id="contact-content">
+    <div class="container hidden" id="contact-content" style="width: 70%">
         <div class="jumbotron">
             <h2 style="text-align: center;">Contact us</h2>
-            <img src="https://farm9.staticflickr.com/8206/8215404569_a966225dfe_o.jpg" class="img-thumbnail">
-            <ul>
-                <p>certain hotel:</p>
-                <li>e-mail: certain-hotel@the-company.com</li>
-                <li>telephone number: +12 345 67 89</li>
-            </ul>
+            <form role="form">
+                <div class="form-signin">
+                    <label for="input-email" class="sr-only">Email address</label>
+                    <input type="email" id="gb-input-email" class="form-control" placeholder="Email address" required>
+                    <label for="input-fname" class="sr-only">First name</label>
+                    <input type="text" id="gb-input-fname" class="form-control" placeholder="First name" required>
+                    <label for="input-lname" class="sr-only">Last name</label>
+                    <input type="text" id="gb-input-lname" class="form-control" placeholder="Last name" required>
+                    <textarea class="form-control" id="gb-input-entry" rows="10" placeholder="Message"></textarea>
+                </div>
+                <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="contactFormSubmit()">Send</button>
+            </form>
         </div>
     </div>
     <!-- /contact -->
 
     <footer style="text-align: center;">
-        Copyright © Mikołaj Grygorcewicz 2015
+        Copyright © IDC Suite 2015
     </footer>
 
 </body>
