@@ -39,7 +39,19 @@ function getRandomInt(min, max) {
 
 function messageHandler(msgString, client)
 {
-	msg = JSON.parse(msgString);
+	try
+	{
+		msg = JSON.parse(msgString);
+		if(msg.command === null) throw "Command is null";
+		if(serverSettings.clientMessagesLogging === true) 
+			console.log("Client " + client.id + " send message. ID: " + msg.command);
+	} 
+	catch(e) 
+	{
+		if(e == "Command is null") console.log("Client " + client.id + " send message, but there is no command field.");
+		else console.log("Client " + client.id + " send message, but it isn't proper JSON object.");
+		return false;
+	}
 
 	if(serverSettings.mode == "echo") 
 		client.socket.send(msgString);
@@ -52,56 +64,76 @@ function messageHandler(msgString, client)
 				client.confirmed = true;
 
 				var helloResponse = {};
-				helloReponse.command = "hello";
+				helloResponse.command = "hello";
 				helloResponse.requestId = msg.requestId;
 
 				client.socket.send(JSON.stringify(helloResponse));
 			}
 			//ignore other cases, as communication hasn't been fully established
-		else if(client.confirmed === true)
+		//else if(client.confirmed === true)
 			if(msg.command == "login")
 			{
-				var loginStatus = logInUser(msg.loginData);
-				
-				var loginResponse = {};
-				loginResponse.command = "login";
-				loginResponse.requestId = msg.requestId;
-				loginResponse.result = loginStatus;
-				
-				client.socket.send(JSON.stringify(loginResponse));
+				database.getConnection(function(err,connection)
+				{
+					if(err) 
+					{
+						connection.release();
+						return false;
+					}
+
+					var loginQuery = "SELECT Users.UserPasswordHash FROM `idc hotel suite database`.Users WHERE Users.UserEmail = '" + msg.loginData.userEmail + "'";
+					console.log(loginQuery);
+					
+					connection.query(loginQuery,function(err, rows, fields) {
+						connection.release();
+						var loginStatus = false;
+						if(rows.length > 0)
+						{
+							//console.log("User found");
+							//console.log(rows[0].UserPasswordHash);
+							//console.log(msg.loginData.userPasswordHash);
+							if(rows[0].UserPasswordHash == msg.loginData.userPasswordHash) loginStatus = true;	
+							console.log("loginstatus - " + loginStatus);	
+						}
+						var loginResponse = {};
+						loginResponse.command = "login";
+						loginResponse.requestId = msg.requestId;
+						loginResponse.result = loginStatus;
+							
+						client.socket.send(JSON.stringify(loginResponse));	
+					});
+				});
 			}
+
 			if(msg.command == "register")
 			{
-				var registerStatus = registerUser(msg.registerData);
+				database.getConnection(function(err,connection)
+				{
+					if(err) 
+					{
+						connection.release();
+						return false;
+					}
+	
+					var registerQuery = "INSERT INTO `idc hotel suite database`.`users` VALUES ('" + msg.registerData.userId + "','" + msg.registerData.userPermissionLevel + "','" + msg.registerData.userFirstName + "','" + msg.registerData.userSecondName + "','" + msg.registerData.userLastName + "','" + msg.registerData.userEmail + "','" + msg.registerData.userPasswordHash + "');";
+					console.log(registerQuery);
+					
+					connection.query(registerQuery,function(err, rows, fields) {
+						connection.release();
+						var registerStatus = false;
+						
+						if(err) console.log(err);
+						else registerStatus = true;
 
-				var regsiternResponse = {};
-				regsiternResponse.command = "login";
-				regsiternResponse.requestId = msg.requestId;
-				regsiternResponse.result = loginStatus;
-				
-				client.socket.send(JSON.stringify(regsiterResponse));
-			}
-	}
-
-	if(serverSettings.clientMessagesLogging === true) 
-		console.log("Client " + client.id + " send message. ID: " + msg.command);
-}
-
-function logInUser(loginData)
-{
-	loginData.UserEmail = "test@test.com";
-	loginData.UserPassword = "xyzpass";	
-
-//
-	var loginQuery = "SELECT UserPasswordHash FROM Users WHERE UserEmail = " + loginData.email;
-	database.query(loginQuery,function(err, rows, fields) {
-		 if(rows[0].password == loginData.password) return true;
-		 else return false; 
-	});
-}
-
-function registerUser(registerData)
-{
+						var registerResponse = {};
+							registerResponse.command = "register";
+							registerResponse.requestId = msg.requestId;
+							registerResponse.result = registerStatus;
+							
+						client.socket.send(JSON.stringify(registerResponse));	
+					});
+				});
+				/*
 	registerData.UserId = "AUX12345"; //numer dowodu osobistego
 	registerData.UserFirstName = "Paweł";
 	registerData.UserSecondName = "Karol"; //not mandatory
@@ -109,6 +141,18 @@ function registerUser(registerData)
 	registerData.UserEmail = "pawel@majewski.pl";
 	registerData.UserPasswordHash = "abcd";
 	registerData.UserPermissionLevel = "superadmin"; //będzie pakiet dający listę dostępnych user permission leveli
+				*/
+				
+			}
+			if(msg.command == "test")
+			{
+				var query = "SELECT * FROM `idc hotel suite database`.hotels";
+					database.query(query, function(err, rows, fields) {
+						console.log(rows[0]);
+						client.socket.send(JSON.stringify(rows[0]));
+					});
+			}
+	}
 }
 
 function setUserPermissionLevel(data)
@@ -116,8 +160,3 @@ function setUserPermissionLevel(data)
 	data.UserId = "AUX12345";
 	data.UserPermissionLevel = "superadmin";
 }
-
-var query = "SELECT * FROM `idc hotel suite database`.hotels";
-database.query(query, function(err, rows, fields) {
-	console.log(rows[0]);
-});
