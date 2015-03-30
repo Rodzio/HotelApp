@@ -74,7 +74,7 @@ namespace GrubyKlient
             else
                 return;
 
-            ws = new WebSocket("ws://echo.websocket.org");
+            ws = new WebSocket("ws://83.145.169.112:9009");
             ws.OnMessage += ws_OnMessage;
             ws.Connect();
             RequestHelloHandshake();
@@ -112,13 +112,12 @@ namespace GrubyKlient
                 break;
 
                 case "login":
+                    bool logged = jsonObj.result;
+                    if (onLoginPacketReceiveHandler != null)
+                        onLoginPacketReceiveHandler(this, new LoginPacketEventArgs(logged));
                     /*
-                    bool logged = jsonObj.logged;
                     if (onLoginPacketReceiveHandler != null)
-                        onLoginPacketReceiveHandler(this, new LoginPacketEventArgs(logged));*/
-
-                    if (onLoginPacketReceiveHandler != null)
-                        onLoginPacketReceiveHandler(this, new LoginPacketEventArgs(true));
+                        onLoginPacketReceiveHandler(this, new LoginPacketEventArgs(true));*/
                 break;
 
                 case "register":
