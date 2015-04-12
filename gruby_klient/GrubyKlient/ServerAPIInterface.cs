@@ -123,7 +123,7 @@ namespace GrubyKlient
                 break;
 
                 case "register":
-                    bool registered = jsonObj.registered;
+                    bool registered = jsonObj.result;
                     string message = "";
                     if(registered)
                         message = jsonObj.message;
