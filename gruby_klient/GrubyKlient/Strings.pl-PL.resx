@@ -117,6 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="cancel" xml:space="preserve">
+    <value>Anuluj</value>
+  </data>
+  <data name="firstName" xml:space="preserve">
+    <value>Imię</value>
+  </data>
+  <data name="lastName" xml:space="preserve">
+    <value>Nazwisko</value>
+  </data>
   <data name="login" xml:space="preserve">
     <value>Logowanie</value>
   </data>
@@ -125,6 +134,18 @@
   </data>
   <data name="password" xml:space="preserve">
     <value>Hasło</value>
+  </data>
+  <data name="passwordVerify" xml:space="preserve">
+    <value>Potwierdź hasło</value>
+  </data>
+  <data name="permissionsLevel" xml:space="preserve">
+    <value>Poziom uprawnień</value>
+  </data>
+  <data name="save" xml:space="preserve">
+    <value>Zapisz</value>
+  </data>
+  <data name="secondName" xml:space="preserve">
+    <value>Drugie imię</value>
   </data>
   <data name="signin" xml:space="preserve">
     <value>Zaloguj</value>
