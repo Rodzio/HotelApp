@@ -50,6 +50,7 @@ namespace GrubyKlient
             this.labelError.Text = locale.GetString("loginError");
             this.groupBox.Text = locale.GetString("login");
             this.buttonLogin.Text = locale.GetString("signin");
+            this.buttonQuit.Text = locale.GetString("quit");
             this.Text = "HotelApp - " + locale.GetString("login");
         }
 
@@ -57,6 +58,11 @@ namespace GrubyKlient
         {
             ServerAPIInterface.Instance.RequestLogin(textBoxUser.Text, textBoxPwd.Text);
             this.buttonLogin.Enabled = false; // Disable untill we get server response
+        }
+
+        private void buttonQuit_Click(object sender, EventArgs e)
+        {
+            Dispose();
         }
     }
 }

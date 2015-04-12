@@ -44,6 +44,8 @@
             this.labelPasswordVerify = new System.Windows.Forms.Label();
             this.buttonSave = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
+            this.textBoxUserName = new System.Windows.Forms.TextBox();
+            this.labelUserName = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // comboBoxPermissionsLevel
@@ -56,42 +58,42 @@
             // 
             // textBoxFirstName
             // 
-            this.textBoxFirstName.Location = new System.Drawing.Point(156, 52);
+            this.textBoxFirstName.Location = new System.Drawing.Point(156, 77);
             this.textBoxFirstName.Name = "textBoxFirstName";
             this.textBoxFirstName.Size = new System.Drawing.Size(190, 20);
             this.textBoxFirstName.TabIndex = 1;
             // 
             // textBoxSecondName
             // 
-            this.textBoxSecondName.Location = new System.Drawing.Point(156, 78);
+            this.textBoxSecondName.Location = new System.Drawing.Point(156, 103);
             this.textBoxSecondName.Name = "textBoxSecondName";
             this.textBoxSecondName.Size = new System.Drawing.Size(190, 20);
             this.textBoxSecondName.TabIndex = 2;
             // 
             // textBoxLastName
             // 
-            this.textBoxLastName.Location = new System.Drawing.Point(156, 104);
+            this.textBoxLastName.Location = new System.Drawing.Point(156, 129);
             this.textBoxLastName.Name = "textBoxLastName";
             this.textBoxLastName.Size = new System.Drawing.Size(190, 20);
             this.textBoxLastName.TabIndex = 3;
             // 
             // textBoxEmail
             // 
-            this.textBoxEmail.Location = new System.Drawing.Point(156, 130);
+            this.textBoxEmail.Location = new System.Drawing.Point(156, 155);
             this.textBoxEmail.Name = "textBoxEmail";
             this.textBoxEmail.Size = new System.Drawing.Size(190, 20);
             this.textBoxEmail.TabIndex = 4;
             // 
             // textBoxPassword
             // 
-            this.textBoxPassword.Location = new System.Drawing.Point(156, 156);
+            this.textBoxPassword.Location = new System.Drawing.Point(156, 181);
             this.textBoxPassword.Name = "textBoxPassword";
             this.textBoxPassword.Size = new System.Drawing.Size(190, 20);
             this.textBoxPassword.TabIndex = 5;
             // 
             // textBoxPasswordVerify
             // 
-            this.textBoxPasswordVerify.Location = new System.Drawing.Point(156, 182);
+            this.textBoxPasswordVerify.Location = new System.Drawing.Point(156, 207);
             this.textBoxPasswordVerify.Name = "textBoxPasswordVerify";
             this.textBoxPasswordVerify.Size = new System.Drawing.Size(190, 20);
             this.textBoxPasswordVerify.TabIndex = 6;
@@ -108,7 +110,7 @@
             // labelFirstName
             // 
             this.labelFirstName.AutoSize = true;
-            this.labelFirstName.Location = new System.Drawing.Point(29, 55);
+            this.labelFirstName.Location = new System.Drawing.Point(29, 80);
             this.labelFirstName.Name = "labelFirstName";
             this.labelFirstName.Size = new System.Drawing.Size(55, 13);
             this.labelFirstName.TabIndex = 7;
@@ -117,7 +119,7 @@
             // labelSecondName
             // 
             this.labelSecondName.AutoSize = true;
-            this.labelSecondName.Location = new System.Drawing.Point(29, 81);
+            this.labelSecondName.Location = new System.Drawing.Point(29, 106);
             this.labelSecondName.Name = "labelSecondName";
             this.labelSecondName.Size = new System.Drawing.Size(73, 13);
             this.labelSecondName.TabIndex = 7;
@@ -126,7 +128,7 @@
             // labelLastName
             // 
             this.labelLastName.AutoSize = true;
-            this.labelLastName.Location = new System.Drawing.Point(29, 107);
+            this.labelLastName.Location = new System.Drawing.Point(29, 132);
             this.labelLastName.Name = "labelLastName";
             this.labelLastName.Size = new System.Drawing.Size(56, 13);
             this.labelLastName.TabIndex = 7;
@@ -135,7 +137,7 @@
             // labelEmail
             // 
             this.labelEmail.AutoSize = true;
-            this.labelEmail.Location = new System.Drawing.Point(29, 133);
+            this.labelEmail.Location = new System.Drawing.Point(29, 158);
             this.labelEmail.Name = "labelEmail";
             this.labelEmail.Size = new System.Drawing.Size(35, 13);
             this.labelEmail.TabIndex = 7;
@@ -144,7 +146,7 @@
             // labelPassword
             // 
             this.labelPassword.AutoSize = true;
-            this.labelPassword.Location = new System.Drawing.Point(29, 159);
+            this.labelPassword.Location = new System.Drawing.Point(29, 184);
             this.labelPassword.Name = "labelPassword";
             this.labelPassword.Size = new System.Drawing.Size(53, 13);
             this.labelPassword.TabIndex = 7;
@@ -153,7 +155,7 @@
             // labelPasswordVerify
             // 
             this.labelPasswordVerify.AutoSize = true;
-            this.labelPasswordVerify.Location = new System.Drawing.Point(29, 185);
+            this.labelPasswordVerify.Location = new System.Drawing.Point(29, 210);
             this.labelPasswordVerify.Name = "labelPasswordVerify";
             this.labelPasswordVerify.Size = new System.Drawing.Size(81, 13);
             this.labelPasswordVerify.TabIndex = 7;
@@ -167,6 +169,7 @@
             this.buttonSave.TabIndex = 8;
             this.buttonSave.Text = "Save";
             this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // buttonCancel
             // 
@@ -178,11 +181,29 @@
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
+            // textBoxUserName
+            // 
+            this.textBoxUserName.Location = new System.Drawing.Point(156, 51);
+            this.textBoxUserName.Name = "textBoxUserName";
+            this.textBoxUserName.Size = new System.Drawing.Size(190, 20);
+            this.textBoxUserName.TabIndex = 10;
+            // 
+            // labelUserName
+            // 
+            this.labelUserName.AutoSize = true;
+            this.labelUserName.Location = new System.Drawing.Point(29, 54);
+            this.labelUserName.Name = "labelUserName";
+            this.labelUserName.Size = new System.Drawing.Size(55, 13);
+            this.labelUserName.TabIndex = 11;
+            this.labelUserName.Text = "Username";
+            // 
             // AddUserForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(375, 291);
+            this.Controls.Add(this.labelUserName);
+            this.Controls.Add(this.textBoxUserName);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.labelPasswordVerify);
@@ -224,5 +245,7 @@
         private System.Windows.Forms.Label labelPasswordVerify;
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Button buttonCancel;
+        private System.Windows.Forms.TextBox textBoxUserName;
+        private System.Windows.Forms.Label labelUserName;
     }
 }

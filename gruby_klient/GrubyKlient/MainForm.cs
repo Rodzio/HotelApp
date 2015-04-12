@@ -13,6 +13,7 @@ namespace GrubyKlient
     public partial class MainForm : Form
     {
         private Login login;
+        private AddUserForm addUserForm;
 
         public MainForm()
         {
@@ -33,6 +34,12 @@ namespace GrubyKlient
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void buttonAddUser_Click(object sender, EventArgs e)
+        {
+            addUserForm = new AddUserForm();
+            addUserForm.ShowDialog(this);
         }
     }
 }

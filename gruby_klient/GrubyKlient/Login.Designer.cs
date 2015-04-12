@@ -29,12 +29,13 @@
         private void InitializeComponent()
         {
             this.groupBox = new System.Windows.Forms.GroupBox();
+            this.labelError = new System.Windows.Forms.Label();
             this.textBoxPwd = new System.Windows.Forms.TextBox();
             this.textBoxUser = new System.Windows.Forms.TextBox();
             this.labelPwd = new System.Windows.Forms.Label();
             this.labelUser = new System.Windows.Forms.Label();
             this.buttonLogin = new System.Windows.Forms.Button();
-            this.labelError = new System.Windows.Forms.Label();
+            this.buttonQuit = new System.Windows.Forms.Button();
             this.groupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -45,13 +46,23 @@
             this.groupBox.Controls.Add(this.textBoxUser);
             this.groupBox.Controls.Add(this.labelPwd);
             this.groupBox.Controls.Add(this.labelUser);
-            this.groupBox.Controls.Add(this.buttonLogin);
             this.groupBox.Location = new System.Drawing.Point(13, 13);
             this.groupBox.Name = "groupBox";
-            this.groupBox.Size = new System.Drawing.Size(365, 137);
+            this.groupBox.Size = new System.Drawing.Size(365, 122);
             this.groupBox.TabIndex = 0;
             this.groupBox.TabStop = false;
             this.groupBox.Text = "Login";
+            // 
+            // labelError
+            // 
+            this.labelError.AutoSize = true;
+            this.labelError.ForeColor = System.Drawing.Color.Red;
+            this.labelError.Location = new System.Drawing.Point(44, 85);
+            this.labelError.Name = "labelError";
+            this.labelError.Size = new System.Drawing.Size(133, 13);
+            this.labelError.TabIndex = 10;
+            this.labelError.Text = "Error: authentication failed.";
+            this.labelError.Visible = false;
             // 
             // textBoxPwd
             // 
@@ -89,7 +100,7 @@
             // buttonLogin
             // 
             this.buttonLogin.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonLogin.Location = new System.Drawing.Point(151, 104);
+            this.buttonLogin.Location = new System.Drawing.Point(303, 146);
             this.buttonLogin.Name = "buttonLogin";
             this.buttonLogin.Size = new System.Drawing.Size(75, 23);
             this.buttonLogin.TabIndex = 5;
@@ -97,23 +108,25 @@
             this.buttonLogin.UseVisualStyleBackColor = true;
             this.buttonLogin.Click += new System.EventHandler(this.buttonLogin_Click);
             // 
-            // labelError
+            // buttonQuit
             // 
-            this.labelError.AutoSize = true;
-            this.labelError.ForeColor = System.Drawing.Color.Red;
-            this.labelError.Location = new System.Drawing.Point(44, 85);
-            this.labelError.Name = "labelError";
-            this.labelError.Size = new System.Drawing.Size(133, 13);
-            this.labelError.TabIndex = 10;
-            this.labelError.Text = "Error: authentication failed.";
-            this.labelError.Visible = false;
+            this.buttonQuit.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.buttonQuit.Location = new System.Drawing.Point(13, 146);
+            this.buttonQuit.Name = "buttonQuit";
+            this.buttonQuit.Size = new System.Drawing.Size(75, 23);
+            this.buttonQuit.TabIndex = 5;
+            this.buttonQuit.Text = "Quit";
+            this.buttonQuit.UseVisualStyleBackColor = true;
+            this.buttonQuit.Click += new System.EventHandler(this.buttonQuit_Click);
             // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(390, 162);
+            this.ClientSize = new System.Drawing.Size(390, 179);
             this.Controls.Add(this.groupBox);
+            this.Controls.Add(this.buttonQuit);
+            this.Controls.Add(this.buttonLogin);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -134,6 +147,7 @@
         private System.Windows.Forms.Button buttonLogin;
         private System.Windows.Forms.TextBox textBoxPwd;
         private System.Windows.Forms.Label labelError;
+        private System.Windows.Forms.Button buttonQuit;
 
     }
 }

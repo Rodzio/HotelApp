@@ -61,6 +61,15 @@ namespace GrubyKlient {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add user.
+        /// </summary>
+        public static string addUser {
+            get {
+                return ResourceManager.GetString("addUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string cancel {
@@ -129,6 +138,15 @@ namespace GrubyKlient {
         public static string permissionsLevel {
             get {
                 return ResourceManager.GetString("permissionsLevel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quit.
+        /// </summary>
+        public static string quit {
+            get {
+                return ResourceManager.GetString("quit", resourceCulture);
             }
         }
         

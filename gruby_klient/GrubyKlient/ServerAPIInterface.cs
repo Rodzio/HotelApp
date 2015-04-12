@@ -105,6 +105,8 @@ namespace GrubyKlient
 
             wsRequests.Remove(jsonObj.requestId.ToString());
 
+            Console.WriteLine(jsonObj.command);
+
             switch ((string)jsonObj.command)
             {
                 case "hello":
@@ -151,7 +153,7 @@ namespace GrubyKlient
             dynamic jsonObj = new JObject();
             jsonObj.command = "login";
             jsonObj.requestId = Guid.NewGuid().ToString();
-            jsonObj.loginData = JObject.FromObject(new { userEmail = username, userPasswordHash = Hash.GetSHA512(pwd) });
+            jsonObj.loginData = JObject.FromObject(new { userEmail = username, userPasswordHash = (pwd) /* Hash.GetSHA512(pwd) */ });
             ws.Send(jsonObj.ToString());
 
             wsRequests.Add(jsonObj.requestId.ToString());
@@ -172,7 +174,7 @@ namespace GrubyKlient
                 userLastName = lastName, 
                 userEmail = email, 
                 userPasswordHash = Hash.GetSHA512(pwd),
-                userPremissionLevel = permissionLevel
+                userPermissionLevel = permissionLevel
             });
             ws.Send(jsonObj.ToString());
 
