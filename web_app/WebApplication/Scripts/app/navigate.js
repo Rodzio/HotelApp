@@ -17,6 +17,9 @@ function navPage(navButton) {
     for (var j = 0; j < act.length; j++) {
         act[j].className = "inactive";
     }
+    if (navButton === "new-form-button") {
+        this.showReservationForm();
+    }
     document.getElementById(navButton).className = "active";
     document.getElementById(con).className = "container";
 }
@@ -63,4 +66,17 @@ function viewGuestbookEntries() {
 
 function navigateReservations(group, value, next) {
     document.getElementById(group).textContent = document.getElementById(value).textContent;
+}
+
+function showReservationForm() {
+    if (window.innerWidth < 700) {
+        document.getElementById("new-form-content").style.width = "100%";
+    }
+    document.getElementById("new-form-content").className = "container";
+}
+
+function enableInvoice() {
+        document.getElementById("gb-input-cname").disabled = !document.getElementById("gb-input-cname").disabled;
+        document.getElementById("gb-input-cin").disabled = !document.getElementById("gb-input-cin").disabled;
+        document.getElementById("gb-input-caddr").disabled = !document.getElementById("gb-input-caddr").disabled;
 }
