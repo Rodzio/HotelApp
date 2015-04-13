@@ -4,7 +4,7 @@ require('./serverSettings'); //gives access to server settings like logging part
 function Client(ws)
 {
 	var client = {};
-	client.id = getRandomInt(1,5000);
+	client.id = clients.length;
 	client.info = null; //filled when user successfully logs in
 	client.confirmed = false; //set to yes if user sends 
 	client.socket = ws;
@@ -42,14 +42,14 @@ function messageHandler(msgString, client)
 	try
 	{
 		msg = JSON.parse(msgString);
-		if(msg.command === null) throw "Command is null";
+		if(msg.command == null) throw "Command is null";
 		if(serverSettings.clientMessagesLogging === true) 
-			console.log("Client " + client.id + " send message. ID: " + msg.command);
+			console.log("Client " + client.id + " sent message. ID: " + msg.command);
 	} 
 	catch(e) 
 	{
 		if(e == "Command is null") console.log("Client " + client.id + " send message, but there is no command field.");
-		else console.log("Client " + client.id + " send message, but it isn't proper JSON object.");
+		else console.log("Client " + client.id + " sent message, but it isn't proper JSON object.");
 		return false;
 	}
 
@@ -81,19 +81,20 @@ function messageHandler(msgString, client)
 						return false;
 					}
 
-					var loginQuery = "SELECT Users.UserPasswordHash FROM `idc hotel suite database`.Users WHERE Users.UserEmail = '" + msg.loginData.userEmail + "'";
-					console.log(loginQuery);
+					var loginQuery = "SELECT * FROM `idc hotel suite database`.Users WHERE Users.UserEmail = '" + msg.loginData.userEmail + "'";
 					
 					connection.query(loginQuery,function(err, rows, fields) {
-						connection.release();
+						connection.release();	
 						var loginStatus = false;
 						if(rows.length > 0)
 						{
-							//console.log("User found");
-							//console.log(rows[0].UserPasswordHash);
-							//console.log(msg.loginData.userPasswordHash);
-							if(rows[0].UserPasswordHash == msg.loginData.userPasswordHash) loginStatus = true;	
-							console.log("loginstatus - " + loginStatus);	
+							if(rows[0].UserPasswordHash == msg.loginData.userPasswordHash) 
+							{
+								loginStatus = true;
+								client.info = rows[0];
+								console.log("Client " + client.id + " successfully authorized as " + client.info.UserFirstName + " " + client.info.UserLastName + ". New client id: " + rows[0].UserId);
+								client.id = rows[0].UserId;
+							}
 						}
 						var loginResponse = {};
 						loginResponse.command = "login";
@@ -129,6 +130,7 @@ function messageHandler(msgString, client)
 							registerResponse.command = "register";
 							registerResponse.requestId = msg.requestId;
 							registerResponse.result = registerStatus;
+							registerResponse.message = "";
 							
 						client.socket.send(JSON.stringify(registerResponse));	
 					});
