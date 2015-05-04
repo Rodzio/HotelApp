@@ -146,13 +146,386 @@ function messageHandler(msgString, client)
 				*/
 				
 			}
-			if(msg.command == "test")
+
+			if(msg.command == "user")
 			{
-				var query = "SELECT * FROM `idc hotel suite database`.hotels";
-					database.query(query, function(err, rows, fields) {
-						console.log(rows[0]);
-						client.socket.send(JSON.stringify(rows[0]));
+				database.getConnection(function(err,connection)
+				{
+					if(err) 
+					{
+						connection.release();
+						return false;
+					}
+
+					var userResponse = {};
+					userResponse.command = "user";
+					userResponse.requestId = msg.requestId;
+
+					if(msg.action === "list")
+					{
+						var userQuery = "SELECT * FROM `idc hotel suite database`.Users;";
+					}
+					else if(msg.action === "update")
+					{
+						var userQuery = "SELECT * FROM `idc hotel suite database`.Users WHERE Users.UserEmail = '" + msg.loginData.userEmail + "'";
+						userResponse.result = false;
+						userResponse.message = "not_implemented";
+
+						client.socket.send(JSON.stringify(userResponse));
+						return false;
+					}
+					else if(msg.action === "delete")
+					{
+						var userQuery = "SELECT * FROM `idc hotel suite database`.Users WHERE Users.UserEmail = '" + msg.loginData.userEmail + "'";
+						userResponse.result = false;
+						userResponse.message = "not_implemented";
+
+						client.socket.send(JSON.stringify(userResponse));
+						return false;
+					}
+					else
+					{
+						userResponse.result = false;
+						userResponse.message = "invalid_action";
+
+						client.socket.send(JSON.stringify(userResponse));
+						return false;
+					}
+
+					connection.query(userQuery,function(err, rows, fields) {
+						connection.release();	
+
+						if(err !== null) 
+						{
+							userResponse.result = false;
+							userResponse.message = err;
+						}
+						else 
+						{
+							userResponse.result = true;
+
+							if(msg.action === "list")
+							{
+								userResponse.count = rows.length;
+								userResponse.usersList = rows;
+							}	
+						}
+
+						client.socket.send(JSON.stringify(userResponse));	
 					});
+				});
+			}
+
+			if(msg.command == "hotel")
+			{
+				database.getConnection(function(err,connection)
+				{
+					if(err) 
+					{
+						connection.release();
+						return false;
+					}
+
+					var hotelResponse = {};
+					hotelResponse.command = "hotel";
+					hotelResponse.requestId = msg.requestId;
+
+					if(msg.action === "list")
+					{
+						var userQuery = "SELECT * FROM `idc hotel suite database`.Hotels;";
+					}
+					else if(msg.action === "add")
+					{
+						var userQuery = "SELECT * FROM `idc hotel suite database`.Users WHERE Users.UserEmail = '" + msg.loginData.userEmail + "'";
+						hotelResponse.result = false;
+						hotelResponse.message = "not_implemented";
+
+						client.socket.send(JSON.stringify(hotelResponse));
+						return false;
+					}
+					else if(msg.action === "update")
+					{
+						var userQuery = "SELECT * FROM `idc hotel suite database`.Users WHERE Users.UserEmail = '" + msg.loginData.userEmail + "'";
+						hotelResponse.result = false;
+						hotelResponse.message = "not_implemented";
+
+						client.socket.send(JSON.stringify(hotelResponse));
+						return false;
+					}
+					else if(msg.action === "delete")
+					{
+						var userQuery = "SELECT * FROM `idc hotel suite database`.Users WHERE Users.UserEmail = '" + msg.loginData.userEmail + "'";
+						hotelResponse.result = false;
+						hotelResponse.message = "not_implemented";
+
+						client.socket.send(JSON.stringify(hotelResponse));
+						return false;
+					}
+					else
+					{
+						hotelResponse.result = false;
+						hotelResponse.message = "invalid_action";
+
+						client.socket.send(JSON.stringify(hotelResponse));
+						return false;
+					}
+
+					connection.query(userQuery,function(err, rows, fields) {
+						connection.release();	
+
+						if(err !== null) 
+						{
+							hotelResponse.result = false;
+							hotelResponse.message = err;
+						}
+						else 
+						{
+							hotelResponse.result = true;
+
+							if(msg.action === "list")
+							{
+								hotelResponse.count = rows.length;
+								hotelResponse.hotelsList = rows;
+							}	
+						}
+
+						client.socket.send(JSON.stringify(hotelResponse));	
+					});
+				});
+			}
+
+			if(msg.command == "preset")
+			{
+				database.getConnection(function(err,connection)
+				{
+					if(err) 
+					{
+						connection.release();
+						return false;
+					}
+
+					var presetResponse = {};
+					presetResponse.command = "preset";
+					presetResponse.requestId = msg.requestId;
+
+					if(msg.action === "list")
+					{
+						var userQuery = "SELECT * FROM `idc preset suite database`.presets;";
+					}
+					else if(msg.action === "add")
+					{
+						var userQuery = "SELECT * FROM `idc preset suite database`.Users WHERE Users.UserEmail = '" + msg.loginData.userEmail + "'";
+						presetResponse.result = false;
+						presetResponse.message = "not_implemented";
+
+						client.socket.send(JSON.stringify(presetResponse));
+						return false;
+					}
+					else if(msg.action === "update")
+					{
+						var userQuery = "SELECT * FROM `idc preset suite database`.Users WHERE Users.UserEmail = '" + msg.loginData.userEmail + "'";
+						presetResponse.result = false;
+						presetResponse.message = "not_implemented";
+
+						client.socket.send(JSON.stringify(presetResponse));
+						return false;
+					}
+					else if(msg.action === "delete")
+					{
+						var userQuery = "SELECT * FROM `idc preset suite database`.Users WHERE Users.UserEmail = '" + msg.loginData.userEmail + "'";
+						presetResponse.result = false;
+						presetResponse.message = "not_implemented";
+
+						client.socket.send(JSON.stringify(presetResponse));
+						return false;
+					}
+					else
+					{
+						presetResponse.result = false;
+						presetResponse.message = "invalid_action";
+
+						client.socket.send(JSON.stringify(presetResponse));
+						return false;
+					}
+
+					connection.query(userQuery,function(err, rows, fields) {
+						connection.release();	
+
+						if(err !== null) 
+						{
+							presetResponse.result = false;
+							presetResponse.message = err;
+						}
+						else 
+						{
+							presetResponse.result = true;
+
+							if(msg.action === "list")
+							{
+								presetResponse.count = rows.length;
+								presetResponse.presetsList = rows;
+							}	
+						}
+
+						client.socket.send(JSON.stringify(presetResponse));	
+					});
+				});
+			}
+
+			if(msg.command == "room")
+			{
+				database.getConnection(function(err,connection)
+				{
+					if(err) 
+					{
+						connection.release();
+						return false;
+					}
+
+					var roomResponse = {};
+					roomResponse.command = "room";
+					roomResponse.requestId = msg.requestId;
+
+					if(msg.action === "list")
+					{
+						var userQuery = "SELECT * FROM `idc room suite database`.rooms;";
+					}
+					else if(msg.action === "add")
+					{
+						var userQuery = "SELECT * FROM `idc room suite database`.Users WHERE Users.UserEmail = '" + msg.loginData.userEmail + "'";
+						roomResponse.result = false;
+						roomResponse.message = "not_implemented";
+
+						client.socket.send(JSON.stringify(roomResponse));
+						return false;
+					}
+					else if(msg.action === "update")
+					{
+						var userQuery = "SELECT * FROM `idc room suite database`.Users WHERE Users.UserEmail = '" + msg.loginData.userEmail + "'";
+						roomResponse.result = false;
+						roomResponse.message = "not_implemented";
+
+						client.socket.send(JSON.stringify(roomResponse));
+						return false;
+					}
+					else if(msg.action === "delete")
+					{
+						var userQuery = "SELECT * FROM `idc room suite database`.Users WHERE Users.UserEmail = '" + msg.loginData.userEmail + "'";
+						roomResponse.result = false;
+						roomResponse.message = "not_implemented";
+
+						client.socket.send(JSON.stringify(roomResponse));
+						return false;
+					}
+					else
+					{
+						roomResponse.result = false;
+						roomResponse.message = "invalid_action";
+
+						client.socket.send(JSON.stringify(roomResponse));
+						return false;
+					}
+
+					connection.query(userQuery,function(err, rows, fields) {
+						connection.release();	
+
+						if(err !== null) 
+						{
+							roomResponse.result = false;
+							roomResponse.message = err;
+						}
+						else 
+						{
+							roomResponse.result = true;
+
+							if(msg.action === "list")
+							{
+								roomResponse.count = rows.length;
+								roomResponse.roomsList = rows;
+							}	
+						}
+
+						client.socket.send(JSON.stringify(roomResponse));	
+					});
+				});
+			}
+
+			if(msg.command == "reservation")
+			{
+				database.getConnection(function(err,connection)
+				{
+					if(err) 
+					{
+						connection.release();
+						return false;
+					}
+
+					var reservationResponse = {};
+					reservationResponse.command = "reservation";
+					reservationResponse.requestId = msg.requestId;
+
+					if(msg.action === "list")
+					{
+						var userQuery = "SELECT * FROM `idc reservation suite database`.reservations;";
+					}
+					else if(msg.action === "add")
+					{
+						var userQuery = "SELECT * FROM `idc reservation suite database`.Users WHERE Users.UserEmail = '" + msg.loginData.userEmail + "'";
+						reservationResponse.result = false;
+						reservationResponse.message = "not_implemented";
+
+						client.socket.send(JSON.stringify(reservationResponse));
+						return false;
+					}
+					else if(msg.action === "update")
+					{
+						var userQuery = "SELECT * FROM `idc reservation suite database`.Users WHERE Users.UserEmail = '" + msg.loginData.userEmail + "'";
+						reservationResponse.result = false;
+						reservationResponse.message = "not_implemented";
+
+						client.socket.send(JSON.stringify(reservationResponse));
+						return false;
+					}
+					else if(msg.action === "delete")
+					{
+						var userQuery = "SELECT * FROM `idc reservation suite database`.Users WHERE Users.UserEmail = '" + msg.loginData.userEmail + "'";
+						reservationResponse.result = false;
+						reservationResponse.message = "not_implemented";
+
+						client.socket.send(JSON.stringify(reservationResponse));
+						return false;
+					}
+					else
+					{
+						reservationResponse.result = false;
+						reservationResponse.message = "invalid_action";
+
+						client.socket.send(JSON.stringify(reservationResponse));
+						return false;
+					}
+
+					connection.query(userQuery,function(err, rows, fields) {
+						connection.release();	
+
+						if(err !== null) 
+						{
+							reservationResponse.result = false;
+							reservationResponse.message = err;
+						}
+						else 
+						{
+							reservationResponse.result = true;
+
+							if(msg.action === "list")
+							{
+								reservationResponse.count = rows.length;
+								reservationResponse.reservationsList = rows;
+							}	
+						}
+
+						client.socket.send(JSON.stringify(reservationResponse));	
+					});
+				});
 			}
 	}
 }

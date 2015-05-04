@@ -1,0 +1,35 @@
+v0.1
+hello
+login
+register
+
+user:
+- list,
+- update,
+- delete, 
+
+v0.2
+hotel:
+- list,
+- add,
+- update,
+- delete,
+
+preset:
+- list,
+- add,
+- update,
+- delete,
+
+room:
+- list,
+- add,
+- update,
+- delete,
+
+v0.3
+reservation
+- list,
+- add,
+- update,
+- delete,
