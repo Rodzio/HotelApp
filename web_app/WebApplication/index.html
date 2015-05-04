@@ -212,87 +212,150 @@
 
             <div class="container hidden" id="new-reservation-content">
                 <div class="row">
-                    <div class="col-md-4" id="hotel-container" style="text-align: center;">
+                    <div class="col-md-6" id="hotel-container" style="text-align: center;">
                         <h3>Choose hotel</h3>
-                        <div class="btn-group-vertical">
-                            <div class="btn-group" style="width:100%">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="c-ctr">
-                                    Hotel detail 1 <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a id="ctr1" onclick="navigateReservations('c-ctr', 'ctr1', 'c-ct')">example one</a></li>
-                                    <li><a id="ctr2" onclick="navigateReservations('c-ctr', 'ctr2', 'c-ct')">example two</a></li>
-                                    <li><a id="ctr3" onclick="navigateReservations('c-ctr', 'ctr3', 'c-ct')">example three</a></li>
-                                    <li><a id="ctr4" onclick="navigateReservations('c-ctr', 'ctr4', 'c-ct')">example four</a></li>
-                                </ul>
-                            </div>
-
-                            <div class="btn-group" style="width:100%">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="c-ct">
-                                    Hotel detail 2<span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a id="ct1" onclick="navigateReservations('c-ct', 'ct1', 'c-h')">example one</a></li>
-                                    <li><a id="ct2" onclick="navigateReservations('c-ct', 'ct2', 'c-h')">example two</a></li>
-                                    <li><a id="ct3" onclick="navigateReservations('c-ct', 'ct3', 'c-h')">example three</a></li>
-                                    <li><a id="ct4" onclick="navigateReservations('c-ct', 'ct4', 'c-h')">example four</a></li>
-                                    <li><a id="ct5" onclick="navigateReservations('c-ct', 'ct5', 'c-h')">example five</a></li>
-                                    <li><a id="ct6" onclick="navigateReservations('c-ct', 'ct6', 'c-h')">example six</a></li>
-                                </ul>
-                            </div>
-
-                            <div class="btn-group" style="width:100%">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="c-h">
-                                    Hotel detail 3 <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a id="h1" onclick="navigateReservations('c-h', 'h1', '')">example one</a></li>
-                                    <li><a id="h2" onclick="navigateReservations('c-h', 'h2', '')">example two</a></li>
-                                </ul>
-                            </div>
+                        <div class="panel" id="region-container" target="none">
+                            <form id="region-form">
+                                <div class="btn-group col-md-12" data-toggle="buttons" id="region-radio">
+                                    <div>
+                                        <label class="btn btn-primary">
+                                            <input type="radio" name="options" id="region1" autocomplete="off"> Region 1
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label class="btn btn-primary">
+                                            <input type="radio" name="options" id="region2" autocomplete="off"> Region 2
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label class="btn btn-primary">
+                                            <input type="radio" name="options" id="region3" autocomplete="off"> Region 3
+                                        </label>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
+                        <div class="panel hidden" id="city-container" target="next">
+                            <form id="region-form">
+                                <div class="btn-group col-md-12" data-toggle="buttons" id="region-radio">
+                                    <div>
+                                        <label class="btn btn-primary">
+                                            <input type="radio" name="options" id="city1" autocomplete="off"> City 1
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label class="btn btn-primary">
+                                            <input type="radio" name="options" id="city2" autocomplete="off"> City 2
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label class="btn btn-primary">
+                                            <input type="radio" name="options" id="city3" autocomplete="off"> City 3
+                                        </label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <nav>
+                            <ul class="pager">
+                                <li><a href="#hotel-prev" onclick="navHotelDetail('prev')">Previous</a></li>
+                                <li><a href="#hotel-next" onclick="navHotelDetail('next')">Next</a></li>
+                            </ul>
+                        </nav>
                     </div>
-                    <div class="col-md-4" id="room-container" style="text-align: center;">
+                    <div class="col-md-6" id="room-container" style="text-align: center;">
                         <h3>Choose room details</h3>
-                        <div class="btn-group-vertical">
-                            <div class="btn-group" style="width:100%">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="c-rt">
-                                    Room detail type 1 <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a id="rt1" onclick="navigateReservations('c-rt', 'rt1', '')">one</a></li>
-                                    <li><a id="rt2" onclick="navigateReservations('c-rt', 'rt2', '')">two</a></li>
-                                    <li><a id="rt3" onclick="navigateReservations('c-rt', 'rt3', '')">three</a></li>
-                                    <li><a id="rt4" onclick="navigateReservations('c-rt', 'rt4', '')">four</a></li>
-                                </ul>
-                            </div>
-
-                            <div class="btn-group" style="width:100%">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="c-rs">
-                                    Room detail type 2 <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a id="rs1" onclick="navigateReservations('c-rs', 'rs1', '')">one</a></li>
-                                    <li><a id="rs2" onclick="navigateReservations('c-rs', 'rs2', '')">two</a></li>
-                                    <li><a id="rs3" onclick="navigateReservations('c-rs', 'rs3', '')">three</a></li>
-                                    <li><a id="rs4" onclick="navigateReservations('c-rs', 'rs4', '')">four</a></li>
-                                    <li><a id="rs5" onclick="navigateReservations('c-rs', 'rs5', '')">five</a></li>
-                                    <li><a id="rs6" onclick="navigateReservations('c-rs', 'rs6', '')">six</a></li>
-                                </ul>
-                            </div>
-
-                            <div class="btn-group" style="width:100%">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="c-r">
-                                    Room detail type 3 <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a id="r1" onclick="navigateReservations('c-r', 'r1', '')">one</a></li>
-                                    <li><a id="r2" onclick="navigateReservations('c-r', 'r2', '')">two</a></li>
-                                </ul>
-                            </div>
+                        <div class="panel" id="room-type" target="none">
+                            <form id="type-form">
+                                <div class="btn-group col-md-12" data-toggle="buttons" id="type-radio">
+                                    <div>
+                                        <label class="btn btn-primary">
+                                            <input type="radio" name="options" id="type1" autocomplete="off"> Type 1
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label class="btn btn-primary">
+                                            <input type="radio" name="options" id="type2" autocomplete="off"> Type 2
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label class="btn btn-primary">
+                                            <input type="radio" name="options" id="type3" autocomplete="off"> Type 3
+                                        </label>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
+                        <div class="panel hidden" id="room-size" target="next">
+                            <form id="size-form">
+                                <div class="btn-group col-md-12" data-toggle="buttons" id="type-radio">
+                                    <div>
+                                        <label class="btn btn-primary">
+                                            <input type="radio" name="options" id="size1" autocomplete="off"> Size 1
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label class="btn btn-primary">
+                                            <input type="radio" name="options" id="size2" autocomplete="off"> Size 2
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label class="btn btn-primary">
+                                            <input type="radio" name="options" id="size3" autocomplete="off"> Size 3
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label class="btn btn-primary">
+                                            <input type="radio" name="options" id="size4" autocomplete="off"> Size 4
+                                        </label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="panel hidden" id="room-additional" target="prev">
+                            <form id="additional-form">
+                                <div class="btn-group col-md-12" data-toggle="buttons" id="type-radio">
+                                    <div>
+                                        <label class="btn btn-primary">
+                                            <input type="checkbox" name="options" id="add1" autocomplete="off"> Additional 1
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label class="btn btn-primary">
+                                            <input type="checkbox" name="options" id="add2" autocomplete="off"> Additional 2
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label class="btn btn-primary">
+                                            <input type="checkbox" name="options" id="add3" autocomplete="off"> Additional 3
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label class="btn btn-primary">
+                                            <input type="checkbox" name="options" id="add4" autocomplete="off"> Additional 4
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label class="btn btn-primary">
+                                            <input type="checkbox" name="options" id="add5" autocomplete="off"> Additional 5
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label class="btn btn-primary">
+                                            <input type="checkbox" name="options" id="add6" autocomplete="off"> Additional 6
+                                        </label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <nav>
+                            <ul class="pager">
+                                <li><a href="#room-prev" onclick="navRoomDetail('prev')">Previous</a></li>
+                                <li><a href="#room-next" onclick="navRoomDetail('next')">Next</a></li>
+                            </ul>
+                        </nav>
                     </div>
-                    <div class="col-md-4" id="sandbox-container" style="text-align: center;">
+                    <!--<div class="col-md-4" id="sandbox-container" style="text-align: center;">
                         <h3>Choose reservation dates</h3>
                         <div class="input-group date">
                             <input type="text" class="form-control" id="from-date" placeholder="From"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
@@ -318,8 +381,7 @@
                                 });
                             </script>
                         </div>
-                    </div>
-
+                    </div>-->
                     <!-- /callendar -->
                 </div>
                 <div class="row" id="img-content">
@@ -355,9 +417,37 @@
                             </ul>
                         </div>
                     </div>
+                    <div id="sandbox-container" style="text-align: center;">
+                        <h3>Choose reservation dates</h3>
+                        <div class="input-group date">
+                            <input type="text" class="form-control" id="from-date" placeholder="From"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                            <script>
+                                $('#sandbox-container .input-group.date').datepicker({
+                                    format: "dd/mm/yyyy",
+                                    clearBtn: true,
+                                    orientation: "bottom auto",
+                                    multidate: false,
+                                    calendarWeeks: true
+                                });
+                            </script>
+                        </div>
+                        <div class="input-group date">
+                            <input type="text" class="form-control" id="to-date" placeholder="To"><span class=" input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                            <script>
+                                $('#sandbox-container .input-group.date').datepicker({
+                                    format: "dd/mm/yyyy",
+                                    clearBtn: true,
+                                    orientation: "bottom auto",
+                                    multidate: false,
+                                    calendarWeeks: true
+                                });
+                            </script>
+                        </div>
+                    </div>
                     <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="navPage('new-form-button')">Make a reservation</button>
                 </div> 
                 <!-- /hotel and room images -->
+                
             </div>
             <!-- /new-reservation -->
 
@@ -563,3 +653,80 @@
 </body>
 
 </html>
+
+
+<!--unused:
+<div class="btn-group-vertical">
+    <div class="btn-group" style="width:100%">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="c-ctr">
+            Hotel detail 1 <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+            <li><a id="ctr1" onclick="navigateReservations('c-ctr', 'ctr1', 'c-ct')">example one</a></li>
+            <li><a id="ctr2" onclick="navigateReservations('c-ctr', 'ctr2', 'c-ct')">example two</a></li>
+            <li><a id="ctr3" onclick="navigateReservations('c-ctr', 'ctr3', 'c-ct')">example three</a></li>
+            <li><a id="ctr4" onclick="navigateReservations('c-ctr', 'ctr4', 'c-ct')">example four</a></li>
+        </ul>
+    </div>
+
+    <div class="btn-group" style="width:100%">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="c-ct">
+            Hotel detail 2<span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+            <li><a id="ct1" onclick="navigateReservations('c-ct', 'ct1', 'c-h')">example one</a></li>
+            <li><a id="ct2" onclick="navigateReservations('c-ct', 'ct2', 'c-h')">example two</a></li>
+            <li><a id="ct3" onclick="navigateReservations('c-ct', 'ct3', 'c-h')">example three</a></li>
+            <li><a id="ct4" onclick="navigateReservations('c-ct', 'ct4', 'c-h')">example four</a></li>
+            <li><a id="ct5" onclick="navigateReservations('c-ct', 'ct5', 'c-h')">example five</a></li>
+            <li><a id="ct6" onclick="navigateReservations('c-ct', 'ct6', 'c-h')">example six</a></li>
+        </ul>
+    </div>
+
+    <div class="btn-group" style="width:100%">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="c-h">
+            Hotel detail 3 <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+            <li><a id="h1" onclick="navigateReservations('c-h', 'h1', '')">example one</a></li>
+            <li><a id="h2" onclick="navigateReservations('c-h', 'h2', '')">example two</a></li>
+        </ul>
+    </div>
+</div>
+<div class="btn-group-vertical">
+                            <div class="btn-group" style="width:100%">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="c-rt">
+                                    Room detail type 1 <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a id="rt1" onclick="navigateReservations('c-rt', 'rt1', '')">one</a></li>
+                                    <li><a id="rt2" onclick="navigateReservations('c-rt', 'rt2', '')">two</a></li>
+                                    <li><a id="rt3" onclick="navigateReservations('c-rt', 'rt3', '')">three</a></li>
+                                    <li><a id="rt4" onclick="navigateReservations('c-rt', 'rt4', '')">four</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="btn-group" style="width:100%">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="c-rs">
+                                    Room detail type 2 <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a id="rs1" onclick="navigateReservations('c-rs', 'rs1', '')">one</a></li>
+                                    <li><a id="rs2" onclick="navigateReservations('c-rs', 'rs2', '')">two</a></li>
+                                    <li><a id="rs3" onclick="navigateReservations('c-rs', 'rs3', '')">three</a></li>
+                                    <li><a id="rs4" onclick="navigateReservations('c-rs', 'rs4', '')">four</a></li>
+                                    <li><a id="rs5" onclick="navigateReservations('c-rs', 'rs5', '')">five</a></li>
+                                    <li><a id="rs6" onclick="navigateReservations('c-rs', 'rs6', '')">six</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="btn-group" style="width:100%">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="c-r">
+                                    Room detail type 3 <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a id="r1" onclick="navigateReservations('c-r', 'r1', '')">one</a></li>
+                                    <li><a id="r2" onclick="navigateReservations('c-r', 'r2', '')">two</a></li>
+                                </ul>
+                            </div>
+                        </div>-->

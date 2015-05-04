@@ -95,3 +95,61 @@ function appendCallendar() {
     $('#user-reservation-from').datepicker('update', '08-05-2015');
     $('#user-reservation-to').datepicker('update', '15-05-2015');
 }
+
+function navRoomDetail(button) {
+    var divs = document.getElementById("room-container").querySelectorAll("div[target]"),
+        j = 0,
+        i = 0;
+    if (button === "next") {
+        for (i = j; i < divs.length; i++) {
+            if (i === divs.length - 1) break;
+            if (divs[i].className === "panel") {
+                divs[i].className = "panel hidden";
+                divs[i + 1].className = "panel";
+                j = i;
+                break;
+            }
+        }
+    }
+    if (button === "prev") {
+        j = divs.length - 1;
+        for (var i = j; i > -1; i--) {
+            if (i === 0) break;
+            if (divs[i].className === "panel") {
+                divs[i].className = "panel hidden";
+                divs[i - 1].className = "panel";
+                j = i;
+                break;
+            }
+        }
+    }
+}
+
+function navHotelDetail(button) {
+    var divs = document.getElementById("hotel-container").querySelectorAll("div[target]")
+        j = 0,
+        i = 0;
+        if (button === "next") {
+            for (i = j; i < divs.length; i++) {
+                if (i === divs.length - 1) break;
+                if (divs[i].className === "panel") {
+                    divs[i].className = "panel hidden";
+                    divs[i + 1].className = "panel";
+                    j = i;
+                    break;
+                }
+            }
+        }
+        if (button === "prev") {
+            j = divs.length - 1;
+            for (var i = j; i > -1; i--) {
+                if (i === 0) break;
+                if (divs[i].className === "panel") {
+                    divs[i].className = "panel hidden";
+                    divs[i - 1].className = "panel";
+                    j = i;
+                    break;
+                }
+            }
+        }
+}
