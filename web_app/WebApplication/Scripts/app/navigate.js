@@ -20,7 +20,7 @@ function navPage(navButton) {
     if (navButton === "new-form-button") {
         this.showReservationForm();
     }
-    document.getElementById(navButton).className = "active";
+    if (document.getElementById(navButton) !== null) document.getElementById(navButton).className = "active";
     document.getElementById(con).className = "container";
 }
 
@@ -76,7 +76,16 @@ function showReservationForm() {
 }
 
 function enableInvoice() {
-        document.getElementById("gb-input-cname").disabled = !document.getElementById("gb-input-cname").disabled;
-        document.getElementById("gb-input-cin").disabled = !document.getElementById("gb-input-cin").disabled;
-        document.getElementById("gb-input-caddr").disabled = !document.getElementById("gb-input-caddr").disabled;
+    document.getElementById("gb-input-cname").disabled = !document.getElementById("gb-input-cname").disabled;
+    document.getElementById("gb-input-cin").disabled = !document.getElementById("gb-input-cin").disabled;
+    document.getElementById("gb-input-caddr").disabled = !document.getElementById("gb-input-caddr").disabled;
+    if (document.getElementById("gb-input-caddr").disabled && document.getElementById("gb-input-cin").disabled && document.getElementById("gb-input-cname").disabled) {
+        document.getElementById("gb-input-cname").style.cssText = "font-weight: bold; background-color: rgb(65, 65, 65); color: #FFFFFF;";
+        document.getElementById("gb-input-cin").style.cssText = "font-weight: bold; background-color: rgb(65, 65, 65); color: #FFFFFF;";
+        document.getElementById("gb-input-caddr").style.cssText = "font-weight: bold; background-color: rgb(65, 65, 65); color: #FFFFFF;";
+    } else {
+        document.getElementById("gb-input-cname").style.cssText = "";
+        document.getElementById("gb-input-cin").style.cssText = "";
+        document.getElementById("gb-input-caddr").style.cssText = "";
+    }
 }

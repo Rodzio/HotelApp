@@ -94,6 +94,8 @@
     <Content Include="index.html" />
     <Content Include="Scripts\app\modal.js" />
     <Content Include="Scripts\app\navigate.js" />
+    <Content Include="Scripts\packages\ext-all-debug.js" />
+    <Content Include="Scripts\packages\ext-all.js" />
     <Content Include="Styles\bootstrap-datepicker.css" />
     <Content Include="Scripts\packages\bootstrap-datepicker.js" />
     <Content Include="Scripts\packages\map.svg" />
