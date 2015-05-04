@@ -22,6 +22,7 @@ function navPage(navButton) {
     }
     if (document.getElementById(navButton) !== null) document.getElementById(navButton).className = "active";
     document.getElementById(con).className = "container";
+    if (con === "user-reservation-content") this.appendCallendar();
 }
 
 function reservationForm(button) {
@@ -88,4 +89,9 @@ function enableInvoice() {
         document.getElementById("gb-input-cin").style.cssText = "";
         document.getElementById("gb-input-caddr").style.cssText = "";
     }
+}
+
+function appendCallendar() {
+    $('#user-reservation-from').datepicker('update', '08-05-2015');
+    $('#user-reservation-to').datepicker('update', '15-05-2015');
 }

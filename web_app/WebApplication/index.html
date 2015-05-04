@@ -379,15 +379,15 @@
         <div class="jumbotron">
             <h1 style="text-align: center;">My reservation</h1>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-8">
                     <h2 style="text-align: center;">Hotel & room informations</h2>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <h2 style="text-align: center;">Reservation dates</h2>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6" id="user-hotel-info">
+                <div class="col-md-8" id="user-hotel-info">
                     <div class="row">
                         <h3>Hotel</h3>
                         <p>
@@ -396,6 +396,9 @@
                         </p>
                         <div class="well">
                             <ul class="x-ul row">
+                                <li class="x-li col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <img class="x-img img-responsive" src="http://placehold.it/400x300">
+                                </li>
                                 <li class="x-li col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <img class="x-img img-responsive" src="http://placehold.it/400x300">
                                 </li>
@@ -413,15 +416,19 @@
                                 <li class="x-li col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <img class="x-img img-responsive" src="http://placehold.it/400x300">
                                 </li>
+                                <li class="x-li col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <img class="x-img img-responsive" src="http://placehold.it/400x300">
+                                </li>
                             </ul>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6" id="user-date-info">
+                <div class="col-md-4" id="user-date-info">
                     <div class="panel panel-default">
-                        <div id="user-reservation-from">
+                        <h3 style="text-align: center;">From</h3>
+                        <div id="user-reservation-from" style="align-content: center;">
                             <script>
-                                $('#user-date-info div').datepicker({
+                                var from = $('#user-reservation-from').datepicker({
                                     format: "dd/mm/yyyy",
                                     calendarWeeks: true
                                 });
@@ -429,9 +436,10 @@
                         </div>
                     </div>
                     <div class="panel panel-default">
-                        <div id="user-reservation-to">
+                        <h3 style="text-align: center;">Until</h3>
+                        <div id="user-reservation-to" style="align-content: center;">
                             <script>
-                                $('#user-date-info div').datepicker({
+                                var to = $('#user-reservation-to').datepicker({
                                     format: "dd/mm/yyyy",
                                     calendarWeeks: true
                                 });
