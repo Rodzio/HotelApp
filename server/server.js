@@ -161,7 +161,7 @@ function messageHandler(msgString, client)
 					userResponse.command = "user";
 					userResponse.requestId = msg.requestId;
 
-					if(msg.action === "list")
+					if(msg.action === "get")
 					{
 						var userQuery = "SELECT * FROM `idc hotel suite database`.Users;";
 					}
@@ -204,7 +204,7 @@ function messageHandler(msgString, client)
 						{
 							userResponse.result = true;
 
-							if(msg.action === "list")
+							if(msg.action === "get")
 							{
 								userResponse.count = rows.length;
 								userResponse.usersList = rows;
@@ -230,7 +230,7 @@ function messageHandler(msgString, client)
 					hotelResponse.command = "hotel";
 					hotelResponse.requestId = msg.requestId;
 
-					if(msg.action === "list")
+					if(msg.action === "get")
 					{
 						var userQuery = "SELECT * FROM `idc hotel suite database`.Hotels;";
 					}
@@ -282,7 +282,7 @@ function messageHandler(msgString, client)
 						{
 							hotelResponse.result = true;
 
-							if(msg.action === "list")
+							if(msg.action === "get")
 							{
 								hotelResponse.count = rows.length;
 								hotelResponse.hotelsList = rows;
@@ -308,7 +308,7 @@ function messageHandler(msgString, client)
 					presetResponse.command = "preset";
 					presetResponse.requestId = msg.requestId;
 
-					if(msg.action === "list")
+					if(msg.action === "get")
 					{
 						var userQuery = "SELECT * FROM `idc preset suite database`.presets;";
 					}
@@ -360,7 +360,7 @@ function messageHandler(msgString, client)
 						{
 							presetResponse.result = true;
 
-							if(msg.action === "list")
+							if(msg.action === "get")
 							{
 								presetResponse.count = rows.length;
 								presetResponse.presetsList = rows;
@@ -386,7 +386,7 @@ function messageHandler(msgString, client)
 					roomResponse.command = "room";
 					roomResponse.requestId = msg.requestId;
 
-					if(msg.action === "list")
+					if(msg.action === "get")
 					{
 						var userQuery = "SELECT * FROM `idc room suite database`.rooms;";
 					}
@@ -438,7 +438,7 @@ function messageHandler(msgString, client)
 						{
 							roomResponse.result = true;
 
-							if(msg.action === "list")
+							if(msg.action === "get")
 							{
 								roomResponse.count = rows.length;
 								roomResponse.roomsList = rows;
@@ -464,7 +464,7 @@ function messageHandler(msgString, client)
 					reservationResponse.command = "reservation";
 					reservationResponse.requestId = msg.requestId;
 
-					if(msg.action === "list")
+					if(msg.action === "get")
 					{
 						var userQuery = "SELECT * FROM `idc reservation suite database`.reservations;";
 					}
@@ -516,7 +516,7 @@ function messageHandler(msgString, client)
 						{
 							reservationResponse.result = true;
 
-							if(msg.action === "list")
+							if(msg.action === "get")
 							{
 								reservationResponse.count = rows.length;
 								reservationResponse.reservationsList = rows;

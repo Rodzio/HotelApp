@@ -4,32 +4,32 @@ login
 register
 
 user:
-- list,
+- get,
 - update,
 - delete, 
 
 v0.2
 hotel:
-- list,
+- get,
 - add,
 - update,
 - delete,
 
 preset:
-- list,
+- get,
 - add,
 - update,
 - delete,
 
 room:
-- list,
+- get,
 - add,
 - update,
 - delete,
 
 v0.3
 reservation
-- list,
+- get,
 - add,
 - update,
 - delete,
