@@ -152,17 +152,7 @@ function messageHandler(msgString, client)
 							
 						client.socket.send(JSON.stringify(registerResponse));	
 					});
-				});
-				/*
-	registerData.UserId = "AUX12345"; //numer dowodu osobistego
-	registerData.UserFirstName = "Paweł";
-	registerData.UserSecondName = "Karol"; //not mandatory
-	registerData.UserLastName = "Majewski";
-	registerData.UserEmail = "pawel@majewski.pl";
-	registerData.UserPasswordHash = "abcd";
-	registerData.UserPermissionLevel = "superadmin"; //będzie pakiet dający listę dostępnych user permission leveli
-				*/
-				
+				});				
 			}
 
 			if(msg.command == "permissionLevel")
@@ -281,27 +271,18 @@ function messageHandler(msgString, client)
 					}
 					else if(msg.action === "update")
 					{
-						var permissionLevelQuery = "UPDATE `idc hotel suite database`.UserPermissionLevels SET " + 
-						+"ManageHotels = '"+ msg.ManageHotels
-						+"', ManageRooms = '"+ msg.ManageRooms
-						+"', ManageGuests = '"+ msg.ManageGuests
-						+"', ManageEmployees = '"+ msg.ManageEmployees
-						+"', ManageReservations = '"+ msg.ManageReservations
-						+"' WHERE UserPermissionLevelName = '" + msg.UserPermissionLevelName + "'";
-						userResponse.result = false;
-						userResponse.message = "not_implemented";
-
-						client.socket.send(JSON.stringify(userResponse));
-						return false;
+						var userQuery = "UPDATE `idc hotel suite database`.Users SET " + 
+						+ "UserPermissionLevelName = '" + msg.UserPermissionLevelName + "'," +
+						+ "UserFirstName = '" + msg.UserFirstName + "'," +
+						+ "UserSecondName = '" + msg.UserSecondName + "'," +
+						+ "UserLastName = '" + msg.UserLastName + "'," +
+						+ "UserEmail = '" + msg.UserEmail + "'," +
+						+ "UserPasswordHash = '" + msg.UserPasswordHash + "'," +
+						+ "' WHERE UserId = '" + msg.UserId + "';";
 					}
 					else if(msg.action === "delete")
 					{
-						var permissionLevelQuery = "DELETE FROM `idc hotel suite database`.UserPermissionLevels WHERE UserPermissionLevelName. = '" + msg.UserPermissionLevelName + "'";
-						userResponse.result = false;
-						userResponse.message = "not_implemented";
-
-						client.socket.send(JSON.stringify(userResponse));
-						return false;
+						var userQuery = "DELETE FROM `idc hotel suite database`.Users WHERE UserId = '" + msg.UserId + "'";
 					}
 					else
 					{
@@ -362,47 +343,35 @@ function messageHandler(msgString, client)
 
 					if(msg.action === "get")
 					{
-						var userQuery = "SELECT * FROM `idc hotel suite database`.Hotels;";
+						var hotelQuery = "SELECT * FROM `idc hotel suite database`.Hotels;";
 					}
 					else if(msg.action === "add")
 					{
-						var permissionLevelQuery = "INSERT INTO `idc hotel suite database`.UserPermissionLevels (ManageHotels, ManageRooms, ManageGuests, ManageEmployees, ManageReservations, UserPermissionLevelName) VALUES ("+
-							+"'"+msg.ManageHotels+"',"+
-							+"'"+msg.ManageRooms+"',"+
-							+"'"+msg.ManageGuests+"',"+
-							+"'"+msg.ManageEmployeess+"',"+
-							+"'"+msg.ManageReservations+"',"+
-							+"'"+msg.UserPermissionLevelName+"',"+
+						var hotelQuery = "INSERT INTO `idc hotel suite database`.Hotels (HotelName, HotelCountry, HotelCity, HotelStreet, HotelRating, HotelEmail, HotelPhone) VALUES ("+
+							+"'"+msg.HotelName+"',"+
+							+"'"+msg.HotelCountry+"',"+
+							+"'"+msg.HotelCity+"',"+
+							+"'"+msg.HotelStreet+"',"+
+							+"'"+msg.HotelRating+"',"+
+							+"'"+msg.HotelEmail+"',"+
+							+"'"+msg.HotelPhone+"',"+
 							+")";
-						hotelResponse.result = false;
-						hotelResponse.message = "not_implemented";
-
-						client.socket.send(JSON.stringify(hotelResponse));
-						return false;
 					}
 					else if(msg.action === "update")
 					{
-						var permissionLevelQuery = "UPDATE `idc hotel suite database`.UserPermissionLevels SET " + 
-						+"ManageHotels = '"+ msg.ManageHotels
-						+"', ManageRooms = '"+ msg.ManageRooms
-						+"', ManageGuests = '"+ msg.ManageGuests
-						+"', ManageEmployees = '"+ msg.ManageEmployees
-						+"', ManageReservations = '"+ msg.ManageReservations
-						+"' WHERE UserPermissionLevelName = '" + msg.UserPermissionLevelName + "'";
-						hotelResponse.result = false;
-						hotelResponse.message = "not_implemented";
-
-						client.socket.send(JSON.stringify(hotelResponse));
-						return false;
+						var hotelQuery = "UPDATE `idc hotel suite database`.Hotels SET " + 
+						+ "HotelName = '" + msg.HotelName + "'," +
+						+ "HotelCountry = '" + msg.HotelCountry + "'," +
+						+ "HotelCity = '" + msg.HotelCity + "'," +
+						+ "HotelStreet = '" + msg.HotelStreet + "'," +
+						+ "HotelRating = '" + msg.HotelRating + "'," +
+						+ "HotelEmail = '" + msg.HotelEmail + "'," +
+						+ "HotelPhone = '" + msg.HotelPhone + "'," +
+						+ "' WHERE HotelId = '" + msg.HotelId + "';";
 					}
 					else if(msg.action === "delete")
 					{
-						var permissionLevelQuery = "DELETE FROM `idc hotel suite database`.UserPermissionLevels WHERE UserPermissionLevelName. = '" + msg.UserPermissionLevelName + "'";
-						hotelResponse.result = false;
-						hotelResponse.message = "not_implemented";
-
-						client.socket.send(JSON.stringify(hotelResponse));
-						return false;
+						var hotelQuery = "DELETE FROM `idc hotel suite database`.Hotels WHERE HotelId. = '" + msg.HotelId + "'";
 					}
 					else
 					{
@@ -413,7 +382,7 @@ function messageHandler(msgString, client)
 						return false;
 					}
 
-					connection.query(userQuery,function(err, rows, fields) {
+					connection.query(hotelQuery,function(err, rows, fields) {
 						connection.release();	
 
 						if(err !== null) 
@@ -467,43 +436,24 @@ function messageHandler(msgString, client)
 					}
 					else if(msg.action === "add")
 					{
-						var permissionLevelQuery = "INSERT INTO `idc hotel suite database`.UserPermissionLevels (ManageHotels, ManageRooms, ManageGuests, ManageEmployees, ManageReservations, UserPermissionLevelName) VALUES ("+
-							+"'"+msg.ManageHotels+"',"+
-							+"'"+msg.ManageRooms+"',"+
-							+"'"+msg.ManageGuests+"',"+
-							+"'"+msg.ManageEmployeess+"',"+
-							+"'"+msg.ManageReservations+"',"+
-							+"'"+msg.UserPermissionLevelName+"',"+
+						var presetQuery = "INSERT INTO `idc hotel suite database`.RoomTemplates (TemplateId, RoomTemplateName, RoomTemplateCost, RoomTemplateDescription) VALUES ("+
+							+"'"+msg.TemplateId+"',"+
+							+"'"+msg.RoomTemplateName+"',"+
+							+"'"+msg.RoomTemplateCost+"',"+
+							+"'"+msg.RoomTemplateDescription+"',"+
 							+")";
-						presetResponse.result = false;
-						presetResponse.message = "not_implemented";
-
-						client.socket.send(JSON.stringify(presetResponse));
-						return false;
 					}
 					else if(msg.action === "update")
 					{
-						var permissionLevelQuery = "UPDATE `idc hotel suite database`.UserPermissionLevels SET " + 
-						+"ManageHotels = '"+ msg.ManageHotels
-						+"', ManageRooms = '"+ msg.ManageRooms
-						+"', ManageGuests = '"+ msg.ManageGuests
-						+"', ManageEmployees = '"+ msg.ManageEmployees
-						+"', ManageReservations = '"+ msg.ManageReservations
-						+"' WHERE UserPermissionLevelName = '" + msg.UserPermissionLevelName + "'";
-						presetResponse.result = false;
-						presetResponse.message = "not_implemented";
-
-						client.socket.send(JSON.stringify(presetResponse));
-						return false;
+						var presetQuery = "UPDATE `idc hotel suite database`.RoomTemplates SET " + 
+						+ "RoomTemplateName = '" + msg.RoomTemplateName + "'," +
+						+ "RoomTemplateCost = '" + msg.RoomTemplateCost + "'," +
+						+ "RoomTemplateDescription = '" + msg.RoomTemplateDescription + "'," +
+						+ "' WHERE TemplateId = '" + msg.TemplateId + "';";
 					}
 					else if(msg.action === "delete")
 					{
-						var permissionLevelQuery = "DELETE FROM `idc hotel suite database`.UserPermissionLevels WHERE UserPermissionLevelName. = '" + msg.UserPermissionLevelName + "'";
-						presetResponse.result = false;
-						presetResponse.message = "not_implemented";
-
-						client.socket.send(JSON.stringify(presetResponse));
-						return false;
+						var presetQuery = "DELETE FROM `idc hotel suite database`.RoomTemplates WHERE TemplateId = '" + msg.TemplateId + "'";
 					}
 					else
 					{
@@ -514,7 +464,7 @@ function messageHandler(msgString, client)
 						return false;
 					}
 
-					connection.query(userQuery,function(err, rows, fields) {
+					connection.query(presetQuery,function(err, rows, fields) {
 						connection.release();	
 
 						if(err !== null) 
@@ -564,47 +514,25 @@ function messageHandler(msgString, client)
 
 					if(msg.action === "get")
 					{
-						var userQuery = "SELECT * FROM `idc room suite database`.rooms;";
+						var roomQuery = "SELECT * FROM `idc room suite database`.rooms;";
 					}
 					else if(msg.action === "add")
 					{
-						var permissionLevelQuery = "INSERT INTO `idc hotel suite database`.UserPermissionLevels (ManageHotels, ManageRooms, ManageGuests, ManageEmployees, ManageReservations, UserPermissionLevelName) VALUES ("+
-							+"'"+msg.ManageHotels+"',"+
-							+"'"+msg.ManageRooms+"',"+
-							+"'"+msg.ManageGuests+"',"+
-							+"'"+msg.ManageEmployeess+"',"+
-							+"'"+msg.ManageReservations+"',"+
-							+"'"+msg.UserPermissionLevelName+"',"+
+						var roomQuery = "INSERT INTO `idc hotel suite database`.Rooms (HotelId, RoomNumber, TemplateId) VALUES ("+
+							+"'"+msg.HotelId+"',"+
+							+"'"+msg.RoomNumber+"',"+
+							+"'"+msg.TemplateId+"',"+
 							+")";
-						roomResponse.result = false;
-						roomResponse.message = "not_implemented";
-
-						client.socket.send(JSON.stringify(roomResponse));
-						return false;
 					}
 					else if(msg.action === "update")
 					{
-						var permissionLevelQuery = "UPDATE `idc hotel suite database`.UserPermissionLevels SET " + 
-						+"ManageHotels = '"+ msg.ManageHotels
-						+"', ManageRooms = '"+ msg.ManageRooms
-						+"', ManageGuests = '"+ msg.ManageGuests
-						+"', ManageEmployees = '"+ msg.ManageEmployees
-						+"', ManageReservations = '"+ msg.ManageReservations
-						+"' WHERE UserPermissionLevelName = '" + msg.UserPermissionLevelName + "'";
-						roomResponse.result = false;
-						roomResponse.message = "not_implemented";
-
-						client.socket.send(JSON.stringify(roomResponse));
-						return false;
+						var roomQuery = "UPDATE `idc hotel suite database`.Rooms SET " + 
+						+"TemplateId = '"+ TemplateId
+						+"' WHERE HotelId = '" + msg.HotelId + "' AND RoomNumber = '" + msg.RoomNumber + "'";
 					}
 					else if(msg.action === "delete")
 					{
-						var permissionLevelQuery = "DELETE FROM `idc hotel suite database`.UserPermissionLevels WHERE UserPermissionLevelName. = '" + msg.UserPermissionLevelName + "'";
-						roomResponse.result = false;
-						roomResponse.message = "not_implemented";
-
-						client.socket.send(JSON.stringify(roomResponse));
-						return false;
+						var roomQuery = "DELETE FROM `idc hotel suite database`.Rooms WHERE HotelId = '" + msg.HotelId + "' AND RoomNumber = '" + msg.RoomNumber + "'";
 					}
 					else
 					{
@@ -615,7 +543,7 @@ function messageHandler(msgString, client)
 						return false;
 					}
 
-					connection.query(userQuery,function(err, rows, fields) {
+					connection.query(roomQuery,function(err, rows, fields) {
 						connection.release();	
 
 						if(err !== null) 
@@ -665,47 +593,31 @@ function messageHandler(msgString, client)
 
 					if(msg.action === "get")
 					{
-						var userQuery = "SELECT * FROM `idc reservation suite database`.reservations;";
+						var reservationQuery = "SELECT * FROM `idc reservation suite database`.reservations;";
 					}
 					else if(msg.action === "add")
 					{
-						var permissionLevelQuery = "INSERT INTO `idc hotel suite database`.UserPermissionLevels (ManageHotels, ManageRooms, ManageGuests, ManageEmployees, ManageReservations, UserPermissionLevelName) VALUES ("+
-							+"'"+msg.ManageHotels+"',"+
-							+"'"+msg.ManageRooms+"',"+
-							+"'"+msg.ManageGuests+"',"+
-							+"'"+msg.ManageEmployeess+"',"+
-							+"'"+msg.ManageReservations+"',"+
-							+"'"+msg.UserPermissionLevelName+"',"+
+						var reservationQuery = "INSERT INTO `idc hotel suite database`.Reservations (HotelId, RoomNumber, UserId, ReservationCheckIn, ReservationCheckOut) VALUES ("+
+							+"'"+msg.HotelId+"',"+
+							+"'"+msg.RoomNumber+"',"+
+							+"'"+msg.UserId+"',"+
+							+"'"+msg.ReservationCheckIn+"',"+
+							+"'"+msg.ReservationCheckOut+"',"+
 							+")";
-						reservationResponse.result = false;
-						reservationResponse.message = "not_implemented";
-
-						client.socket.send(JSON.stringify(reservationResponse));
-						return false;
 					}
 					else if(msg.action === "update")
 					{
-						var permissionLevelQuery = "UPDATE `idc hotel suite database`.UserPermissionLevels SET " + 
-						+"ManageHotels = '"+ msg.ManageHotels
-						+"', ManageRooms = '"+ msg.ManageRooms
-						+"', ManageGuests = '"+ msg.ManageGuests
-						+"', ManageEmployees = '"+ msg.ManageEmployees
-						+"', ManageReservations = '"+ msg.ManageReservations
-						+"' WHERE UserPermissionLevelName = '" + msg.UserPermissionLevelName + "'";
-						reservationResponse.result = false;
-						reservationResponse.message = "not_implemented";
-
-						client.socket.send(JSON.stringify(reservationResponse));
-						return false;
+						var reservationQuery = "UPDATE `idc hotel suite database`.Reservations SET " + 
+						+ "HotelId = '" + msg.HotelId + "'," +
+						+ "RoomNumber = '" + msg.RoomNumber + "'," +
+						+ "UserId = '" + msg.UserId + "'," +
+						+ "ReservationCheckIn = '" + msg.ReservationCheckIn + "'," +
+						+ "ReservationCheckOut= '" + msg.ReservationCheckOut+ "'," +
+						+ "' WHERE ReservationId = '" + msg.ReservationId + "';";
 					}
 					else if(msg.action === "delete")
 					{
-						var permissionLevelQuery = "DELETE FROM `idc hotel suite database`.UserPermissionLevels WHERE UserPermissionLevelName. = '" + msg.UserPermissionLevelName + "'";
-						reservationResponse.result = false;
-						reservationResponse.message = "not_implemented";
-
-						client.socket.send(JSON.stringify(reservationResponse));
-						return false;
+						var reservationQuery = "DELETE FROM `idc hotel suite database`.Reservations WHERE ReservationId = '" + msg.ReservationId + "'";
 					}
 					else
 					{
@@ -716,7 +628,7 @@ function messageHandler(msgString, client)
 						return false;
 					}
 
-					connection.query(userQuery,function(err, rows, fields) {
+					connection.query(reservationQuery,function(err, rows, fields) {
 						connection.release();	
 
 						if(err !== null) 
