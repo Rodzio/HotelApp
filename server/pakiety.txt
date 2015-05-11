@@ -15,7 +15,7 @@ hotel:
 - update,
 - delete,
 
-preset:
+template:
 - get,
 - add,
 - update,

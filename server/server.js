@@ -134,7 +134,7 @@ function messageHandler(msgString, client)
 						return false;
 					}
 	
-					var registerQuery = "INSERT INTO `idc hotel suite database`.`users` VALUES ('" + msg.registerData.userId + "','" + msg.registerData.userPermissionLevel + "','" + msg.registerData.userFirstName + "','" + msg.registerData.userSecondName + "','" + msg.registerData.userLastName + "','" + msg.registerData.userEmail + "','" + msg.registerData.userPasswordHash + "');";
+					var registerQuery = "INSERT INTO `idc hotel suite database`.`users` VALUES ('" + msg.registerData.userId + "','" + msg.registerData.userPermissionLevel + "','" + msg.registerData.userFirstName + "','" + msg.registerData.userSecondName + "','" + msg.registerData.userLastName + "','" + msg.registerData.userEmail + "','" + msg.registerData.userPasswordHash + "','" + msg.registerData.userHotelId + "');";
 					console.log(registerQuery);
 					
 					connection.query(registerQuery,function(err, rows, fields) {
@@ -232,7 +232,7 @@ function messageHandler(msgString, client)
 							if(msg.action === "get")
 							{
 								permissionLevelResponse.count = rows.length;
-								permissionLevelResponse.permissionLevelsList = rows;
+								permissionLevelResponse.list = rows;
 							}	
 						}
 
@@ -241,7 +241,7 @@ function messageHandler(msgString, client)
 				});
 			}
 
-			if(msg.command == "user")
+			if(msg.command === "user")
 			{
 				database.getConnection(function(err,connection)
 				{
@@ -278,6 +278,7 @@ function messageHandler(msgString, client)
 						+ "UserLastName = '" + msg.UserLastName + "'," +
 						+ "UserEmail = '" + msg.UserEmail + "'," +
 						+ "UserPasswordHash = '" + msg.UserPasswordHash + "'," +
+						+ "UserHotelId = '" + msg.UserHotelId + "'," +
 						+ "' WHERE UserId = '" + msg.UserId + "';";
 					}
 					else if(msg.action === "delete")
@@ -308,7 +309,7 @@ function messageHandler(msgString, client)
 							if(msg.action === "get")
 							{
 								userResponse.count = rows.length;
-								userResponse.usersList = rows;
+								userResponse.list = rows;
 							}	
 						}
 
@@ -397,7 +398,7 @@ function messageHandler(msgString, client)
 							if(msg.action === "get")
 							{
 								hotelResponse.count = rows.length;
-								hotelResponse.hotelsList = rows;
+								hotelResponse.list = rows;
 							}	
 						}
 
@@ -406,7 +407,7 @@ function messageHandler(msgString, client)
 				});
 			}
 
-			if(msg.command == "preset")
+			if(msg.command == "template")
 			{
 				database.getConnection(function(err,connection)
 				{
@@ -426,17 +427,17 @@ function messageHandler(msgString, client)
 						return false;
 					}
 
-					var presetResponse = {};
-					presetResponse.command = "preset";
-					presetResponse.requestId = msg.requestId;
+					var templateResponse = {};
+					templateResponse.command = "template";
+					templateResponse.requestId = msg.requestId;
 
 					if(msg.action === "get")
 					{
-						var userQuery = "SELECT * FROM `idc preset suite database`.presets;";
+						var userQuery = "SELECT * FROM `idc template suite database`.RoomTemplates;";
 					}
 					else if(msg.action === "add")
 					{
-						var presetQuery = "INSERT INTO `idc hotel suite database`.RoomTemplates (TemplateId, RoomTemplateName, RoomTemplateCost, RoomTemplateDescription) VALUES ("+
+						var templateQuery = "INSERT INTO `idc hotel suite database`.RoomTemplates (TemplateId, RoomTemplateName, RoomTemplateCost, RoomTemplateDescription) VALUES ("+
 							+"'"+msg.TemplateId+"',"+
 							+"'"+msg.RoomTemplateName+"',"+
 							+"'"+msg.RoomTemplateCost+"',"+
@@ -445,7 +446,7 @@ function messageHandler(msgString, client)
 					}
 					else if(msg.action === "update")
 					{
-						var presetQuery = "UPDATE `idc hotel suite database`.RoomTemplates SET " + 
+						var templateQuery = "UPDATE `idc hotel suite database`.RoomTemplates SET " + 
 						+ "RoomTemplateName = '" + msg.RoomTemplateName + "'," +
 						+ "RoomTemplateCost = '" + msg.RoomTemplateCost + "'," +
 						+ "RoomTemplateDescription = '" + msg.RoomTemplateDescription + "'," +
@@ -453,37 +454,37 @@ function messageHandler(msgString, client)
 					}
 					else if(msg.action === "delete")
 					{
-						var presetQuery = "DELETE FROM `idc hotel suite database`.RoomTemplates WHERE TemplateId = '" + msg.TemplateId + "'";
+						var templateQuery = "DELETE FROM `idc hotel suite database`.RoomTemplates WHERE TemplateId = '" + msg.TemplateId + "'";
 					}
 					else
 					{
-						presetResponse.result = false;
-						presetResponse.message = "invalid_action";
+						templateResponse.result = false;
+						templateResponse.message = "invalid_action";
 
-						client.socket.send(JSON.stringify(presetResponse));
+						client.socket.send(JSON.stringify(templateResponse));
 						return false;
 					}
 
-					connection.query(presetQuery,function(err, rows, fields) {
+					connection.query(templateQuery,function(err, rows, fields) {
 						connection.release();	
 
 						if(err !== null) 
 						{
-							presetResponse.result = false;
-							presetResponse.message = err;
+							templateResponse.result = false;
+							templateResponse.message = err;
 						}
 						else 
 						{
-							presetResponse.result = true;
+							templateResponse.result = true;
 
 							if(msg.action === "get")
 							{
-								presetResponse.count = rows.length;
-								presetResponse.presetsList = rows;
+								templateResponse.count = rows.length;
+								templateResponse.list = rows;
 							}	
 						}
 
-						client.socket.send(JSON.stringify(presetResponse));	
+						client.socket.send(JSON.stringify(templateResponse));	
 					});
 				});
 			}
@@ -558,7 +559,7 @@ function messageHandler(msgString, client)
 							if(msg.action === "get")
 							{
 								roomResponse.count = rows.length;
-								roomResponse.roomsList = rows;
+								roomResponse.list = rows;
 							}	
 						}
 
@@ -643,7 +644,7 @@ function messageHandler(msgString, client)
 							if(msg.action === "get")
 							{
 								reservationResponse.count = rows.length;
-								reservationResponse.reservationsList = rows;
+								reservationResponse.list = rows;
 							}	
 						}
 
