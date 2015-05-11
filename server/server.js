@@ -44,7 +44,7 @@ function messageHandler(msgString, client)
 		msg = JSON.parse(msgString);
 		if(msg.command == null) throw "Command is null";
 		if(serverSettings.clientMessagesLogging === true) 
-			console.log("Client " + client.id + " sent message. Command: " + msg.command);
+			console.log("Client " + client.id + " sent message. Command: " + msg.command + ". Action: " + msg.action);
 	} 
 	catch(e) 
 	{
@@ -133,8 +133,11 @@ function messageHandler(msgString, client)
 						connection.release();
 						return false;
 					}
-	
-					var registerQuery = "INSERT INTO `idc hotel suite database`.`users` VALUES ('" + msg.registerData.userId + "','" + msg.registerData.userPermissionLevel + "','" + msg.registerData.userFirstName + "','" + msg.registerData.userSecondName + "','" + msg.registerData.userLastName + "','" + msg.registerData.userEmail + "','" + msg.registerData.userPasswordHash + "','" + msg.registerData.userHotelId + "');";
+					
+					//to avoid undefined
+					if(msg.registerData.userHotelId == null) msg.registerData.userHotelId = null;
+
+					var registerQuery = "INSERT INTO `idc hotel suite database`.`users` VALUES ('" + msg.registerData.userId + "','" + msg.registerData.userPermissionLevel + "','" + msg.registerData.userFirstName + "','" + msg.registerData.userSecondName + "','" + msg.registerData.userLastName + "','" + msg.registerData.userEmail + "','" + msg.registerData.userPasswordHash + "'," + msg.registerData.userHotelId + ");";
 					console.log(registerQuery);
 					
 					connection.query(registerQuery,function(err, rows, fields) {
@@ -178,6 +181,7 @@ function messageHandler(msgString, client)
 					var permissionLevelResponse = {};
 					permissionLevelResponse.command = "permissionLevel";
 					permissionLevelResponse.requestId = msg.requestId;
+					permissionLevelResponse.action = msg.action;
 
 					if(msg.action === "get")
 					{
@@ -185,28 +189,28 @@ function messageHandler(msgString, client)
 					}
 					else if(msg.action === "add")
 					{
-						var permissionLevelQuery = "INSERT INTO `idc hotel suite database`.UserPermissionLevels (ManageHotels, ManageRooms, ManageGuests, ManageEmployees, ManageReservations, UserPermissionLevelName) VALUES ("+
-							+"'"+msg.ManageHotels+"',"+
-							+"'"+msg.ManageRooms+"',"+
-							+"'"+msg.ManageGuests+"',"+
-							+"'"+msg.ManageEmployeess+"',"+
-							+"'"+msg.ManageReservations+"',"+
-							+"'"+msg.UserPermissionLevelName+"',"+
+						var permissionLevelQuery = "INSERT INTO `idc hotel suite database`.UserPermissionLevels (ManageHotels, ManageRooms, ManageGuests, ManageEmployees, ManageReservations, UserPermissionsLevelName) VALUES ("+
+							+""+msg.ManageHotels+","+
+							+""+msg.ManageRooms+","+
+							+""+msg.ManageGuests+","+
+							+""+msg.ManageEmployeess+","+
+							+""+msg.ManageReservations+","+
+							+"'"+msg.UserPermissionsLevelName+"',"+
 							+")";
 					}
 					else if(msg.action === "update")
 					{
 						var permissionLevelQuery = "UPDATE `idc hotel suite database`.UserPermissionLevels SET " + 
-						+"ManageHotels = '"+ msg.ManageHotels
-						+"', ManageRooms = '"+ msg.ManageRooms
-						+"', ManageGuests = '"+ msg.ManageGuests
-						+"', ManageEmployees = '"+ msg.ManageEmployees
-						+"', ManageReservations = '"+ msg.ManageReservations
-						+"' WHERE UserPermissionLevelName = '" + msg.UserPermissionLevelName + "'";
+						+"ManageHotels = "+ msg.ManageHotels
+						+", ManageRooms = "+ msg.ManageRooms
+						+", ManageGuests = "+ msg.ManageGuests
+						+", ManageEmployees = "+ msg.ManageEmployees
+						+", ManageReservations = "+ msg.ManageReservations
+						+" WHERE UserPermissionsLevelName = '" + msg.UserPermissionsLevelName + "'";
 					}
 					else if(msg.action === "delete")
 					{
-						var permissionLevelQuery = "DELETE FROM `idc hotel suite database`.UserPermissionLevels WHERE UserPermissionLevelName. = '" + msg.UserPermissionLevelName + "'";
+						var permissionLevelQuery = "DELETE FROM `idc hotel suite database`.UserPermissionLevels WHERE UserPermissionsLevelName. = '" + msg.UserPermissionsLevelName + "'";
 					}
 					else
 					{
@@ -264,6 +268,7 @@ function messageHandler(msgString, client)
 					var userResponse = {};
 					userResponse.command = "user";
 					userResponse.requestId = msg.requestId;
+					userReponse.action = msg.action;
 
 					if(msg.action === "get")
 					{
@@ -278,7 +283,7 @@ function messageHandler(msgString, client)
 						+ "UserLastName = '" + msg.UserLastName + "'," +
 						+ "UserEmail = '" + msg.UserEmail + "'," +
 						+ "UserPasswordHash = '" + msg.UserPasswordHash + "'," +
-						+ "UserHotelId = '" + msg.UserHotelId + "'," +
+						+ "UserHotelId = " + msg.UserHotelId + "," +
 						+ "' WHERE UserId = '" + msg.UserId + "';";
 					}
 					else if(msg.action === "delete")
@@ -341,6 +346,7 @@ function messageHandler(msgString, client)
 					var hotelResponse = {};
 					hotelResponse.command = "hotel";
 					hotelResponse.requestId = msg.requestId;
+					hotelResponse.action = msg.action;
 
 					if(msg.action === "get")
 					{
@@ -353,10 +359,11 @@ function messageHandler(msgString, client)
 							+"'"+msg.HotelCountry+"',"+
 							+"'"+msg.HotelCity+"',"+
 							+"'"+msg.HotelStreet+"',"+
-							+"'"+msg.HotelRating+"',"+
+							+""+msg.HotelRating+","+
 							+"'"+msg.HotelEmail+"',"+
-							+"'"+msg.HotelPhone+"',"+
+							+"'"+msg.HotelPhone+"'"+
 							+")";
+						console.log(hotelQuery);
 					}
 					else if(msg.action === "update")
 					{
@@ -365,14 +372,14 @@ function messageHandler(msgString, client)
 						+ "HotelCountry = '" + msg.HotelCountry + "'," +
 						+ "HotelCity = '" + msg.HotelCity + "'," +
 						+ "HotelStreet = '" + msg.HotelStreet + "'," +
-						+ "HotelRating = '" + msg.HotelRating + "'," +
+						+ "HotelRating = " + msg.HotelRating + "," +
 						+ "HotelEmail = '" + msg.HotelEmail + "'," +
 						+ "HotelPhone = '" + msg.HotelPhone + "'," +
-						+ "' WHERE HotelId = '" + msg.HotelId + "';";
+						+ "' WHERE HotelId = " + msg.HotelId + ";";
 					}
 					else if(msg.action === "delete")
 					{
-						var hotelQuery = "DELETE FROM `idc hotel suite database`.Hotels WHERE HotelId. = '" + msg.HotelId + "'";
+						var hotelQuery = "DELETE FROM `idc hotel suite database`.Hotels WHERE HotelId. = " + msg.HotelId + "";
 					}
 					else
 					{
@@ -388,6 +395,7 @@ function messageHandler(msgString, client)
 
 						if(err !== null) 
 						{
+							console.log(err);
 							hotelResponse.result = false;
 							hotelResponse.message = err;
 						}
@@ -430,6 +438,7 @@ function messageHandler(msgString, client)
 					var templateResponse = {};
 					templateResponse.command = "template";
 					templateResponse.requestId = msg.requestId;
+					templateResponse.action = msg.action;
 
 					if(msg.action === "get")
 					{
@@ -440,7 +449,7 @@ function messageHandler(msgString, client)
 						var templateQuery = "INSERT INTO `idc hotel suite database`.RoomTemplates (TemplateId, RoomTemplateName, RoomTemplateCost, RoomTemplateDescription) VALUES ("+
 							+"'"+msg.TemplateId+"',"+
 							+"'"+msg.RoomTemplateName+"',"+
-							+"'"+msg.RoomTemplateCost+"',"+
+							+""+msg.RoomTemplateCost+","+
 							+"'"+msg.RoomTemplateDescription+"',"+
 							+")";
 					}
@@ -448,7 +457,7 @@ function messageHandler(msgString, client)
 					{
 						var templateQuery = "UPDATE `idc hotel suite database`.RoomTemplates SET " + 
 						+ "RoomTemplateName = '" + msg.RoomTemplateName + "'," +
-						+ "RoomTemplateCost = '" + msg.RoomTemplateCost + "'," +
+						+ "RoomTemplateCost = " + msg.RoomTemplateCost + "," +
 						+ "RoomTemplateDescription = '" + msg.RoomTemplateDescription + "'," +
 						+ "' WHERE TemplateId = '" + msg.TemplateId + "';";
 					}
@@ -512,6 +521,7 @@ function messageHandler(msgString, client)
 					var roomResponse = {};
 					roomResponse.command = "room";
 					roomResponse.requestId = msg.requestId;
+					roomResponse.action = msg.action;
 
 					if(msg.action === "get")
 					{
@@ -520,8 +530,8 @@ function messageHandler(msgString, client)
 					else if(msg.action === "add")
 					{
 						var roomQuery = "INSERT INTO `idc hotel suite database`.Rooms (HotelId, RoomNumber, TemplateId) VALUES ("+
-							+"'"+msg.HotelId+"',"+
-							+"'"+msg.RoomNumber+"',"+
+							+""+msg.HotelId+","+
+							+""+msg.RoomNumber+","+
 							+"'"+msg.TemplateId+"',"+
 							+")";
 					}
@@ -529,11 +539,11 @@ function messageHandler(msgString, client)
 					{
 						var roomQuery = "UPDATE `idc hotel suite database`.Rooms SET " + 
 						+"TemplateId = '"+ TemplateId
-						+"' WHERE HotelId = '" + msg.HotelId + "' AND RoomNumber = '" + msg.RoomNumber + "'";
+						+"' WHERE HotelId = " + msg.HotelId + " AND RoomNumber = " + msg.RoomNumber + "";
 					}
 					else if(msg.action === "delete")
 					{
-						var roomQuery = "DELETE FROM `idc hotel suite database`.Rooms WHERE HotelId = '" + msg.HotelId + "' AND RoomNumber = '" + msg.RoomNumber + "'";
+						var roomQuery = "DELETE FROM `idc hotel suite database`.Rooms WHERE HotelId = " + msg.HotelId + " AND RoomNumber = " + msg.RoomNumber + "";
 					}
 					else
 					{
@@ -591,6 +601,7 @@ function messageHandler(msgString, client)
 					var reservationResponse = {};
 					reservationResponse.command = "reservation";
 					reservationResponse.requestId = msg.requestId;
+					reservationResponse.action = msg.action;
 
 					if(msg.action === "get")
 					{
@@ -599,8 +610,8 @@ function messageHandler(msgString, client)
 					else if(msg.action === "add")
 					{
 						var reservationQuery = "INSERT INTO `idc hotel suite database`.Reservations (HotelId, RoomNumber, UserId, ReservationCheckIn, ReservationCheckOut) VALUES ("+
-							+"'"+msg.HotelId+"',"+
-							+"'"+msg.RoomNumber+"',"+
+							+""+msg.HotelId+","+
+							+""+msg.RoomNumber+","+
 							+"'"+msg.UserId+"',"+
 							+"'"+msg.ReservationCheckIn+"',"+
 							+"'"+msg.ReservationCheckOut+"',"+
@@ -609,16 +620,16 @@ function messageHandler(msgString, client)
 					else if(msg.action === "update")
 					{
 						var reservationQuery = "UPDATE `idc hotel suite database`.Reservations SET " + 
-						+ "HotelId = '" + msg.HotelId + "'," +
-						+ "RoomNumber = '" + msg.RoomNumber + "'," +
+						+ "HotelId = " + msg.HotelId + "," +
+						+ "RoomNumber = " + msg.RoomNumber + "," +
 						+ "UserId = '" + msg.UserId + "'," +
 						+ "ReservationCheckIn = '" + msg.ReservationCheckIn + "'," +
 						+ "ReservationCheckOut= '" + msg.ReservationCheckOut+ "'," +
-						+ "' WHERE ReservationId = '" + msg.ReservationId + "';";
+						+ "' WHERE ReservationId = " + msg.ReservationId + ";";
 					}
 					else if(msg.action === "delete")
 					{
-						var reservationQuery = "DELETE FROM `idc hotel suite database`.Reservations WHERE ReservationId = '" + msg.ReservationId + "'";
+						var reservationQuery = "DELETE FROM `idc hotel suite database`.Reservations WHERE ReservationId = " + msg.ReservationId + "";
 					}
 					else
 					{
