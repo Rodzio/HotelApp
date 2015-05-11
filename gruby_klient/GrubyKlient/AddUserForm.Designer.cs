@@ -50,6 +50,7 @@
             // 
             // comboBoxPermissionsLevel
             // 
+            this.comboBoxPermissionsLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxPermissionsLevel.FormattingEnabled = true;
             this.comboBoxPermissionsLevel.Location = new System.Drawing.Point(156, 25);
             this.comboBoxPermissionsLevel.Name = "comboBoxPermissionsLevel";

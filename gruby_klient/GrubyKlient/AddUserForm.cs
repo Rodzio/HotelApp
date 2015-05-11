@@ -20,6 +20,11 @@ namespace GrubyKlient
             CenterToParent();
             InitializeComponent();
             LocalizeComponents();
+
+            foreach (var permission in HotelsData.Instance.PermissionLevels)
+                this.comboBoxPermissionsLevel.Items.Add(permission.Name);
+
+            this.comboBoxPermissionsLevel.SelectedIndex = 0;
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)

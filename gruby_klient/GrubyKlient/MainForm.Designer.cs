@@ -49,6 +49,13 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FirstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.secondName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Position = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.email = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Hotel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.buttonAddUser = new System.Windows.Forms.Button();
@@ -80,13 +87,6 @@
             this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.button10 = new System.Windows.Forms.Button();
             this.button11 = new System.Windows.Forms.Button();
-            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FirstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.secondName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.LastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Position = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.email = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Hotel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -285,6 +285,48 @@
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.Size = new System.Drawing.Size(945, 453);
             this.dataGridView1.TabIndex = 2;
+            // 
+            // ID
+            // 
+            this.ID.HeaderText = "ID";
+            this.ID.Name = "ID";
+            this.ID.ReadOnly = true;
+            // 
+            // FirstName
+            // 
+            this.FirstName.HeaderText = "First name";
+            this.FirstName.Name = "FirstName";
+            this.FirstName.ReadOnly = true;
+            // 
+            // secondName
+            // 
+            this.secondName.HeaderText = "Second name";
+            this.secondName.Name = "secondName";
+            this.secondName.ReadOnly = true;
+            // 
+            // LastName
+            // 
+            this.LastName.HeaderText = "Last name";
+            this.LastName.Name = "LastName";
+            this.LastName.ReadOnly = true;
+            // 
+            // Position
+            // 
+            this.Position.HeaderText = "Position";
+            this.Position.Name = "Position";
+            this.Position.ReadOnly = true;
+            // 
+            // email
+            // 
+            this.email.HeaderText = "E-mail";
+            this.email.Name = "email";
+            this.email.ReadOnly = true;
+            // 
+            // Hotel
+            // 
+            this.Hotel.HeaderText = "Hotel";
+            this.Hotel.Name = "Hotel";
+            this.Hotel.ReadOnly = true;
             // 
             // button3
             // 
@@ -583,48 +625,6 @@
             this.button11.TabIndex = 7;
             this.button11.Text = "Done";
             this.button11.UseVisualStyleBackColor = true;
-            // 
-            // ID
-            // 
-            this.ID.HeaderText = "ID";
-            this.ID.Name = "ID";
-            this.ID.ReadOnly = true;
-            // 
-            // FirstName
-            // 
-            this.FirstName.HeaderText = "First name";
-            this.FirstName.Name = "FirstName";
-            this.FirstName.ReadOnly = true;
-            // 
-            // secondName
-            // 
-            this.secondName.HeaderText = "Second name";
-            this.secondName.Name = "secondName";
-            this.secondName.ReadOnly = true;
-            // 
-            // LastName
-            // 
-            this.LastName.HeaderText = "Last name";
-            this.LastName.Name = "LastName";
-            this.LastName.ReadOnly = true;
-            // 
-            // Position
-            // 
-            this.Position.HeaderText = "Position";
-            this.Position.Name = "Position";
-            this.Position.ReadOnly = true;
-            // 
-            // email
-            // 
-            this.email.HeaderText = "E-mail";
-            this.email.Name = "email";
-            this.email.ReadOnly = true;
-            // 
-            // Hotel
-            // 
-            this.Hotel.HeaderText = "Hotel";
-            this.Hotel.Name = "Hotel";
-            this.Hotel.ReadOnly = true;
             // 
             // MainForm
             // 
