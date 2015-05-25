@@ -61,6 +61,15 @@ namespace GrubyKlient {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add hotel.
+        /// </summary>
+        public static string addHotel {
+            get {
+                return ResourceManager.GetString("addHotel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add user.
         /// </summary>
         public static string addUser {
@@ -79,11 +88,38 @@ namespace GrubyKlient {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to City.
+        /// </summary>
+        public static string city {
+            get {
+                return ResourceManager.GetString("city", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Country.
+        /// </summary>
+        public static string country {
+            get {
+                return ResourceManager.GetString("country", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to First name.
         /// </summary>
         public static string firstName {
             get {
                 return ResourceManager.GetString("firstName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hotel ID.
+        /// </summary>
+        public static string hotelid {
+            get {
+                return ResourceManager.GetString("hotelid", resourceCulture);
             }
         }
         
@@ -115,6 +151,15 @@ namespace GrubyKlient {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string name {
+            get {
+                return ResourceManager.GetString("name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
         public static string password {
@@ -138,6 +183,15 @@ namespace GrubyKlient {
         public static string permissionsLevel {
             get {
                 return ResourceManager.GetString("permissionsLevel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phone number.
+        /// </summary>
+        public static string phone {
+            get {
+                return ResourceManager.GetString("phone", resourceCulture);
             }
         }
         
@@ -174,6 +228,15 @@ namespace GrubyKlient {
         public static string signin {
             get {
                 return ResourceManager.GetString("signin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Street.
+        /// </summary>
+        public static string street {
+            get {
+                return ResourceManager.GetString("street", resourceCulture);
             }
         }
         

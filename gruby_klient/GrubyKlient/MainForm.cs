@@ -14,6 +14,7 @@ namespace GrubyKlient
     {
         private Login login;
         private AddUserForm addUserForm;
+        private AddHotelForm addHotelForm;
 
         public MainForm()
         {
@@ -60,6 +61,17 @@ namespace GrubyKlient
         {
             addUserForm = new AddUserForm();
             addUserForm.ShowDialog(this);
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonAddHotel_Click(object sender, EventArgs e)
+        {
+            addHotelForm = new AddHotelForm();
+            addHotelForm.ShowDialog(this);
         }
     }
 }

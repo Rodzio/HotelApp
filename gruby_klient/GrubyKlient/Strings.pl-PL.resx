@@ -117,14 +117,26 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="addHotel" xml:space="preserve">
+    <value>Dodaj hotel</value>
+  </data>
   <data name="addUser" xml:space="preserve">
     <value>Dodaj użytkownika</value>
   </data>
   <data name="cancel" xml:space="preserve">
     <value>Anuluj</value>
   </data>
+  <data name="city" xml:space="preserve">
+    <value>Miejscowość</value>
+  </data>
+  <data name="country" xml:space="preserve">
+    <value>Kraj</value>
+  </data>
   <data name="firstName" xml:space="preserve">
     <value>Imię</value>
+  </data>
+  <data name="hotelid" xml:space="preserve">
+    <value>ID hotelu</value>
   </data>
   <data name="lastName" xml:space="preserve">
     <value>Nazwisko</value>
@@ -135,6 +147,9 @@
   <data name="loginError" xml:space="preserve">
     <value>Błąd: niepowodzenie logowania</value>
   </data>
+  <data name="name" xml:space="preserve">
+    <value>Nazwa</value>
+  </data>
   <data name="password" xml:space="preserve">
     <value>Hasło</value>
   </data>
@@ -143,6 +158,9 @@
   </data>
   <data name="permissionsLevel" xml:space="preserve">
     <value>Poziom uprawnień</value>
+  </data>
+  <data name="phone" xml:space="preserve">
+    <value>Numer telefonu</value>
   </data>
   <data name="quit" xml:space="preserve">
     <value>Wyjdź</value>
@@ -155,6 +173,9 @@
   </data>
   <data name="signin" xml:space="preserve">
     <value>Zaloguj</value>
+  </data>
+  <data name="street" xml:space="preserve">
+    <value>Ulica</value>
   </data>
   <data name="username" xml:space="preserve">
     <value>Nazwa użytkownika</value>
