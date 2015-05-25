@@ -65,7 +65,7 @@ namespace GrubyKlient
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            Console.WriteLine(tabControl1.SelectedIndex);
         }
 
         private void buttonAddHotel_Click(object sender, EventArgs e)

@@ -88,7 +88,7 @@
             this.button10 = new System.Windows.Forms.Button();
             this.button11 = new System.Windows.Forms.Button();
             this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.dataGridView5 = new System.Windows.Forms.DataGridView();
+            this.dataGridViewHotels = new System.Windows.Forms.DataGridView();
             this.buttonAddHotel = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -102,7 +102,7 @@
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).BeginInit();
             this.tabPage5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewHotels)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -635,7 +635,7 @@
             // 
             // tabPage5
             // 
-            this.tabPage5.Controls.Add(this.dataGridView5);
+            this.tabPage5.Controls.Add(this.dataGridViewHotels);
             this.tabPage5.Controls.Add(this.buttonAddHotel);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
@@ -644,13 +644,13 @@
             this.tabPage5.Text = "Hotels";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
-            // dataGridView5
+            // dataGridViewHotels
             // 
-            this.dataGridView5.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView5.Location = new System.Drawing.Point(8, 8);
-            this.dataGridView5.Name = "dataGridView5";
-            this.dataGridView5.Size = new System.Drawing.Size(945, 451);
-            this.dataGridView5.TabIndex = 3;
+            this.dataGridViewHotels.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewHotels.Location = new System.Drawing.Point(8, 8);
+            this.dataGridViewHotels.Name = "dataGridViewHotels";
+            this.dataGridViewHotels.Size = new System.Drawing.Size(945, 451);
+            this.dataGridViewHotels.TabIndex = 3;
             // 
             // buttonAddHotel
             // 
@@ -688,7 +688,7 @@
             this.tabPage4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).EndInit();
             this.tabPage5.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewHotels)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -756,6 +756,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Hotel;
         private System.Windows.Forms.TabPage tabPage5;
         private System.Windows.Forms.Button buttonAddHotel;
-        private System.Windows.Forms.DataGridView dataGridView5;
+        private System.Windows.Forms.DataGridView dataGridViewHotels;
     }
 }
