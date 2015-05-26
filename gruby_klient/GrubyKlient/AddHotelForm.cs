@@ -20,6 +20,13 @@ namespace GrubyKlient
             CenterToParent();
             InitializeComponent();
             LocalizeComponents();
+
+            ServerAPIInterface.Instance.onHotelAddPacketReceiveHandler += API_onHotelAddPacketReceiveHandler;
+        }
+
+        private void API_onHotelAddPacketReceiveHandler(object sender, ServerAPIInterface.GenericResponseEventArgs e)
+        {
+            this.Close();
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)

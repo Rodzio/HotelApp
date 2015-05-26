@@ -49,6 +49,34 @@ namespace GrubyKlient
                 ServerAPIInterface.Instance.RequestPermissionLevels();
                 ServerAPIInterface.Instance.RequestHotels();
                 //ServerAPIInterface.Instance.RequestAddHotel("as", "edrf", "ertr", "erret", 3, "erf", "esdrfg");
+
+                //initHotelsList();
+                if (dataGridViewHotels.Columns.Count == 0)
+                {
+                    dataGridViewHotels.Columns.Add("hotelId", "ID");
+                    dataGridViewHotels.Columns.Add("hotelName", "Name");
+                    dataGridViewHotels.Columns.Add("hotelCountry", "Country");
+                    dataGridViewHotels.Columns.Add("hotelCity", "City");
+                    dataGridViewHotels.Columns.Add("hotelStreet", "Street");
+                    dataGridViewHotels.Columns.Add("hotelRating", "Rating");
+                    dataGridViewHotels.Columns.Add("hotelEmail", "E-mail");
+                    dataGridViewHotels.Columns.Add("hotelPhone", "Phone number");
+                }
+
+                foreach (var hotel in HotelsData.Instance.Hotels)
+                {
+                    string[] row = new string[] {
+                    hotel.HotelId.ToString(),
+                    hotel.HotelName,
+                    hotel.HotelCountry,
+                    hotel.HotelCity,
+                    hotel.HotelStreet,
+                    hotel.HotelRating.ToString(),
+                    hotel.HotelEmail,
+                    hotel.HotelPhone
+                };
+                    dataGridViewHotels.Rows.Add(row);
+                }
             }
         }
 
@@ -65,13 +93,72 @@ namespace GrubyKlient
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Console.WriteLine(tabControl1.SelectedIndex);
+            if (tabControl1.SelectedIndex == 4)
+                updateHotelsList();
         }
 
         private void buttonAddHotel_Click(object sender, EventArgs e)
         {
             addHotelForm = new AddHotelForm();
             addHotelForm.ShowDialog(this);
+        }
+
+        //nightly; placeholder functions
+        public void initHotelsList()
+        {
+            if (dataGridViewHotels.Columns.Count == 0)
+            {
+                dataGridViewHotels.Columns.Add("hotelId", "ID");
+                dataGridViewHotels.Columns.Add("hotelName", "Name");
+                dataGridViewHotels.Columns.Add("hotelCountry", "Country");
+                dataGridViewHotels.Columns.Add("hotelCity", "City");
+                dataGridViewHotels.Columns.Add("hotelStreet", "Street");
+                dataGridViewHotels.Columns.Add("hotelRating", "Rating");
+                dataGridViewHotels.Columns.Add("hotelEmail", "E-mail");
+                dataGridViewHotels.Columns.Add("hotelPhone", "Phone number");
+            }
+
+            foreach (var hotel in HotelsData.Instance.Hotels)
+            {
+                string[] row = new string[] {
+                    hotel.HotelId.ToString(),
+                    hotel.HotelName,
+                    hotel.HotelCountry,
+                    hotel.HotelCity,
+                    hotel.HotelStreet,
+                    hotel.HotelRating.ToString(),
+                    hotel.HotelEmail,
+                    hotel.HotelPhone
+                };
+                dataGridViewHotels.Rows.Add(row);
+            }
+        }
+
+        public void updateHotelsList()
+        {
+            // look for changes
+            List<Hotel> temp = HotelsData.Instance.Hotels;
+            ServerAPIInterface.Instance.RequestHotels();
+
+            if (temp != HotelsData.Instance.Hotels)
+            {
+                dataGridViewHotels.Rows.Clear();
+
+                foreach (var hotel in HotelsData.Instance.Hotels)
+                {
+                    string[] row = new string[] {
+                        hotel.HotelId.ToString(),
+                        hotel.HotelName,
+                        hotel.HotelCountry,
+                        hotel.HotelCity,
+                        hotel.HotelStreet,
+                        hotel.HotelRating.ToString(),
+                        hotel.HotelEmail,
+                        hotel.HotelPhone
+                    };
+                    dataGridViewHotels.Rows.Add(row);
+                }
+            }
         }
     }
 }
