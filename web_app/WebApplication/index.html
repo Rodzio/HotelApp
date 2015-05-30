@@ -385,6 +385,35 @@
                     <!-- /callendar -->
                 </div>
                 <div class="row" id="img-content">
+                    <div id="sandbox-container" style="text-align: center;">
+                        <h3>Choose reservation dates</h3>
+                        <div class="input-group date">
+                            <input type="text" class="form-control" id="from-date" placeholder="From"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                            <script>
+                                $('#sandbox-container .input-group.date').datepicker({
+                                    format: "dd/mm/yyyy",
+                                    clearBtn: true,
+                                    orientation: "bottom auto",
+                                    multidate: false,
+                                    calendarWeeks: true
+                                });
+                            </script>
+                        </div>
+                        <div class="input-group date">
+                            <input type="text" class="form-control" id="to-date" placeholder="To"><span class=" input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                            <script>
+                                $('#sandbox-container .input-group.date').datepicker({
+                                    format: "dd/mm/yyyy",
+                                    clearBtn: true,
+                                    orientation: "bottom auto",
+                                    multidate: false,
+                                    calendarWeeks: true
+                                });
+                            </script>
+                        </div>
+                    </div>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="navPage('new-form-button')">Make a reservation</button>
+
                     <div id="hotel-imgs" class="col-md-6">
                         <h3 style ="text-align: center;">Hotel images</h3>
                         <div class="well">
@@ -417,34 +446,6 @@
                             </ul>
                         </div>
                     </div>
-                    <div id="sandbox-container" style="text-align: center;">
-                        <h3>Choose reservation dates</h3>
-                        <div class="input-group date">
-                            <input type="text" class="form-control" id="from-date" placeholder="From"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
-                            <script>
-                                $('#sandbox-container .input-group.date').datepicker({
-                                    format: "dd/mm/yyyy",
-                                    clearBtn: true,
-                                    orientation: "bottom auto",
-                                    multidate: false,
-                                    calendarWeeks: true
-                                });
-                            </script>
-                        </div>
-                        <div class="input-group date">
-                            <input type="text" class="form-control" id="to-date" placeholder="To"><span class=" input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
-                            <script>
-                                $('#sandbox-container .input-group.date').datepicker({
-                                    format: "dd/mm/yyyy",
-                                    clearBtn: true,
-                                    orientation: "bottom auto",
-                                    multidate: false,
-                                    calendarWeeks: true
-                                });
-                            </script>
-                        </div>
-                    </div>
-                    <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="navPage('new-form-button')">Make a reservation</button>
                 </div> 
                 <!-- /hotel and room images -->
                 
