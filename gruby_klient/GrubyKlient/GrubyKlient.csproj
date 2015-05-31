@@ -80,6 +80,7 @@
     <Compile Include="PermissionLevel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reservation.cs" />
     <Compile Include="Room.cs" />
     <Compile Include="ServerAPIInterface.cs" />
     <Compile Include="Strings.Designer.cs">
@@ -92,6 +93,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.pl-PL.resx</DependentUpon>
     </Compile>
+    <Compile Include="Template.cs" />
     <Compile Include="WindowsFormsControlExtensions.cs" />
     <EmbeddedResource Include="AddHotelForm.resx">
       <DependentUpon>AddHotelForm.cs</DependentUpon>

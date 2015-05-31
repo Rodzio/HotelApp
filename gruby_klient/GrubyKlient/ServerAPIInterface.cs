@@ -53,6 +53,26 @@ namespace GrubyKlient
                 this.hotels = hotels;
             }
         }
+        public class TemplateGetPacketEventArgs : EventArgs
+        {
+            private readonly List<Template> templates;
+
+            public List<Template> Templates { get { return templates; } }
+            public TemplateGetPacketEventArgs(List<Template> templates)
+            {
+                this.templates = templates;
+            }
+        }
+        public class ReservationGetPacketEventArgs : EventArgs
+        {
+            private readonly List<Reservation> reservations;
+
+            public List<Reservation> Reservations { get { return reservations; } }
+            public ReservationGetPacketEventArgs(List<Reservation> reservations)
+            {
+                this.reservations = reservations;
+            }
+        }
         public class RoomGetPacketEventArgs : EventArgs
         {
             private readonly List<Room> rooms;
@@ -138,6 +158,34 @@ namespace GrubyKlient
 
         public delegate void permissionLevelsGetPacketReceiveHandler(object sender, PermissionLevelsGetPacketEventArgs e);
         public event permissionLevelsGetPacketReceiveHandler onPermissionLevelsGetPacketReceiveHandler;
+        #endregion
+
+        #region ReservationPackets
+        public delegate void reservationAddPacketReceiveHandler(object sender, GenericResponseEventArgs e);
+        public event reservationAddPacketReceiveHandler onReservationAddPacketReceiveHandler;
+
+        public delegate void reservationUpdatePacketReceiveHandler(object sender, GenericResponseEventArgs e);
+        public event reservationUpdatePacketReceiveHandler onReservationUpdatePacketReceiveHandler;
+
+        public delegate void reservationDeletePacketReceiveHandler(object sender, GenericResponseEventArgs e);
+        public event reservationDeletePacketReceiveHandler onReservationDeletePacketReceiveHandler;
+
+        public delegate void reservationGetPacketReceiveHandler(object sender, ReservationGetPacketEventArgs e);
+        public event reservationGetPacketReceiveHandler onReservationGetPacketReceiveHandler;
+        #endregion
+
+        #region TemplatePackets
+        public delegate void templateAddPacketReceiveHandler(object sender, GenericResponseEventArgs e);
+        public event templateAddPacketReceiveHandler onTemplateAddPacketReceiveHandler;
+
+        public delegate void templateUpdatePacketReceiveHandler(object sender, GenericResponseEventArgs e);
+        public event templateUpdatePacketReceiveHandler onTemplateUpdatePacketReceiveHandler;
+
+        public delegate void templateDeletePacketReceiveHandler(object sender, GenericResponseEventArgs e);
+        public event templateDeletePacketReceiveHandler onTemplateDeletePacketReceiveHandler;
+
+        public delegate void templateGetPacketReceiveHandler(object sender, TemplateGetPacketEventArgs e);
+        public event templateGetPacketReceiveHandler onTemplateGetPacketReceiveHandler;
         #endregion
 
         #region OtherPackets
@@ -332,6 +380,119 @@ namespace GrubyKlient
 
                         if (onHotelDeletePacketReceiveHandler != null)
                             onHotelDeletePacketReceiveHandler(this, new GenericResponseEventArgs(result, error));
+
+                    }
+                }
+                break;
+
+
+                case "template":
+                {
+                    bool result = jsonObj.result;
+                    if (jsonObj.action == "get")
+                    {
+                        if (result)
+                        {
+                            List<Template> templates = new List<Template>();
+
+                            int count = jsonObj.count;
+                            for (int i = 0; i < count; i++)
+                            {
+                                templates.Add(new Template((string)jsonObj.list[i].TemplateId,
+                                    (string)jsonObj.list[i].RoomTemplateName,
+                                    (float)jsonObj.list[i].RoomTemplateCost,
+                                    (string)jsonObj.list[i].RoomTemplateDescription));
+                            }
+
+                            if (onTemplateGetPacketReceiveHandler != null)
+                                onTemplateGetPacketReceiveHandler(this, new TemplateGetPacketEventArgs(templates));
+                        }
+                    }
+                    else if (jsonObj.action == "add")
+                    {
+                        string error = "";
+                        if (result)
+                            error = jsonObj.error;
+
+                        if (onTemplateAddPacketReceiveHandler != null)
+                            onTemplateAddPacketReceiveHandler(this, new GenericResponseEventArgs(result, error));
+
+                    }
+                    else if (jsonObj.action == "update")
+                    {
+                        string error = "";
+                        if (result)
+                            error = jsonObj.error;
+
+                        if (onTemplateUpdatePacketReceiveHandler != null)
+                            onTemplateUpdatePacketReceiveHandler(this, new GenericResponseEventArgs(result, error));
+
+                    }
+                    else if (jsonObj.action == "delete")
+                    {
+                        string error = "";
+                        if (result)
+                            error = jsonObj.error;
+
+                        if (onTemplateDeletePacketReceiveHandler != null)
+                            onTemplateDeletePacketReceiveHandler(this, new GenericResponseEventArgs(result, error));
+
+                    }
+                }
+                break;
+
+                case "reservation":
+                {
+                    bool result = jsonObj.result;
+                    if (jsonObj.action == "get")
+                    {
+                        if (result)
+                        {
+                            List<Reservation> reservations = new List<Reservation>();
+
+                            int count = jsonObj.count;
+                            for (int i = 0; i < count; i++)
+                            {
+                                reservations.Add(new Reservation((int)jsonObj.list[i].ReservationId,
+                                    (int)jsonObj.list[i].HotelId,
+                                    (int)jsonObj.list[i].RoomNumber,
+                                    (string)jsonObj.list[i].UserId,
+                                    (string)jsonObj.list[i].ReservationCheckIn,
+                                    (string)jsonObj.list[i].ReservationCheckOut));
+                            }
+
+                            if (onReservationGetPacketReceiveHandler != null)
+                                onReservationGetPacketReceiveHandler(this, new ReservationGetPacketEventArgs(reservations));
+                        }
+                    }
+                    else if (jsonObj.action == "add")
+                    {
+                        string error = "";
+                        if (result)
+                            error = jsonObj.error;
+
+                        if (onReservationAddPacketReceiveHandler != null)
+                            onReservationAddPacketReceiveHandler(this, new GenericResponseEventArgs(result, error));
+
+                    }
+                    else if (jsonObj.action == "update")
+                    {
+                        string error = "";
+                        if (result)
+                            error = jsonObj.error;
+
+                        if (onReservationUpdatePacketReceiveHandler != null)
+                            onReservationUpdatePacketReceiveHandler(this, new GenericResponseEventArgs(result, error));
+
+                    }
+                    else if (jsonObj.action == "delete")
+                    {
+                        string error = "";
+                        if (result)
+                            error = jsonObj.error;
+
+                        if (onReservationDeletePacketReceiveHandler != null)
+                            onReservationDeletePacketReceiveHandler(this, new GenericResponseEventArgs(result, error));
 
                     }
                 }
@@ -642,6 +803,142 @@ namespace GrubyKlient
             jsonObj.action = "delete";
             jsonObj.HotelId = hotelId;
             jsonObj.RoomNumber = roomNumber;
+            ws.Send(jsonObj.ToString());
+
+            wsRequests.Add(jsonObj.requestId.ToString());
+        }
+
+        public void RequestReservations()
+        {
+            if (!connectionEstablished)
+                return;
+
+            dynamic jsonObj = new JObject();
+            jsonObj.command = "reservation";
+            jsonObj.requestId = Guid.NewGuid().ToString();
+            jsonObj.action = "get";
+            ws.Send(jsonObj.ToString());
+
+            wsRequests.Add(jsonObj.requestId.ToString());
+        }
+
+        public void RequestAddReservation(int hotelId, int roomNumber, string userId, string reservationCheckIn, string reservationCheckOut)
+        {
+            if (!connectionEstablished)
+                return;
+
+            dynamic jsonObj = new JObject();
+            jsonObj.command = "reservation";
+            jsonObj.requestId = Guid.NewGuid().ToString();
+            jsonObj.action = "add";
+            jsonObj.HotelId = hotelId;
+            jsonObj.RoomNumber = roomNumber;
+            jsonObj.UserId = userId;
+            jsonObj.ReservationCheckIn = reservationCheckIn;
+            jsonObj.ReservationCheckOut = reservationCheckOut;
+            ws.Send(jsonObj.ToString());
+
+            wsRequests.Add(jsonObj.requestId.ToString());
+        }
+
+        public void RequestUpdateReservation(int reservationId, int hotelId, int roomNumber, string userId, string reservationCheckIn, string reservationCheckOut)
+        {
+            if (!connectionEstablished)
+                return;
+
+            dynamic jsonObj = new JObject();
+            jsonObj.command = "reservation";
+            jsonObj.requestId = Guid.NewGuid().ToString();
+            jsonObj.action = "update";
+            jsonObj.ReservationId = reservationId;
+            jsonObj.HotelId = hotelId;
+            jsonObj.RoomNumber = roomNumber;
+            jsonObj.UserId = userId;
+            jsonObj.ReservationCheckIn = reservationCheckIn;
+            jsonObj.ReservationCheckOut = reservationCheckOut;
+            ws.Send(jsonObj.ToString());
+
+            wsRequests.Add(jsonObj.requestId.ToString());
+        }
+
+
+        public void RequestDeleteReservation(int reservationId)
+        {
+            if (!connectionEstablished)
+                return;
+
+            dynamic jsonObj = new JObject();
+            jsonObj.command = "reservation";
+            jsonObj.requestId = Guid.NewGuid().ToString();
+            jsonObj.action = "delete";
+            jsonObj.ReservationId = reservationId;
+            ws.Send(jsonObj.ToString());
+
+            wsRequests.Add(jsonObj.requestId.ToString());
+        }
+
+
+        public void RequestTemplates()
+        {
+            if (!connectionEstablished)
+                return;
+
+            dynamic jsonObj = new JObject();
+            jsonObj.command = "template";
+            jsonObj.requestId = Guid.NewGuid().ToString();
+            jsonObj.action = "get";
+            ws.Send(jsonObj.ToString());
+
+            wsRequests.Add(jsonObj.requestId.ToString());
+        }
+
+        public void RequestAddTemplate(string templateId, string roomTemplateName, float roomTemplateCost, string roomTemplateDescription)
+        {
+            if (!connectionEstablished)
+                return;
+
+            dynamic jsonObj = new JObject();
+            jsonObj.command = "template";
+            jsonObj.requestId = Guid.NewGuid().ToString();
+            jsonObj.action = "add";
+            jsonObj.TemplateId = templateId;
+            jsonObj.RoomTemplateName = roomTemplateName;
+            jsonObj.RoomTemplateCost = roomTemplateCost;
+            jsonObj.RoomTemplateDescription = roomTemplateDescription;
+            ws.Send(jsonObj.ToString());
+
+            wsRequests.Add(jsonObj.requestId.ToString());
+        }
+
+        public void RequestUpdateTemplate(string templateId, string roomTemplateName, float roomTemplateCost, string roomTemplateDescription)
+        {
+            if (!connectionEstablished)
+                return;
+
+            dynamic jsonObj = new JObject();
+            jsonObj.command = "template";
+            jsonObj.requestId = Guid.NewGuid().ToString();
+            jsonObj.action = "update";
+            jsonObj.TemplateId = templateId;
+            jsonObj.RoomTemplateName = roomTemplateName;
+            jsonObj.RoomTemplateCost = roomTemplateCost;
+            jsonObj.RoomTemplateDescription = roomTemplateDescription;
+            ws.Send(jsonObj.ToString());
+
+            wsRequests.Add(jsonObj.requestId.ToString());
+        }
+
+
+        public void RequestDeleteTemplate(string templateId)
+        {
+            if (!connectionEstablished)
+                return;
+
+            dynamic jsonObj = new JObject();
+            jsonObj.command = "template";
+            jsonObj.requestId = Guid.NewGuid().ToString();
+            jsonObj.action = "delete";
+            jsonObj.TemplateId = templateId;
             ws.Send(jsonObj.ToString());
 
             wsRequests.Add(jsonObj.requestId.ToString());
