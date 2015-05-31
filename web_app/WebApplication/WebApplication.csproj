@@ -92,6 +92,7 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="index.html" />
+    <Content Include="Scripts\app\requests.js" />
     <Content Include="Scripts\app\modal.js" />
     <Content Include="Scripts\app\navigate.js" />
     <Content Include="Scripts\packages\ext-all-debug.js" />
