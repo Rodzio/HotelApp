@@ -64,5 +64,11 @@ namespace GrubyKlient
         {
             Dispose();
         }
+
+        private void textBoxPwd_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                buttonLogin_Click(sender, e);
+        }
     }
 }

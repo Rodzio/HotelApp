@@ -15,6 +15,8 @@ namespace GrubyKlient
 {
     public partial class AddHotelForm : Form
     {
+        private bool update;
+        private int id;
         public AddHotelForm()
         {
             CenterToParent();
@@ -22,11 +24,46 @@ namespace GrubyKlient
             LocalizeComponents();
 
             ServerAPIInterface.Instance.onHotelAddPacketReceiveHandler += API_onHotelAddPacketReceiveHandler;
+            ServerAPIInterface.Instance.onHotelUpdatePacketReceiveHandler += API_onHotelUpdatePacketReceiveHandler;
+
+            update = false;
+        }
+
+        private void API_onHotelUpdatePacketReceiveHandler(object sender, ServerAPIInterface.GenericResponseEventArgs e)
+        {
+            this.Invoke(() =>
+            {
+                this.Close();
+            });
+        }
+
+        public AddHotelForm(int id, string hotelname, string country, string city, string street, int rating, string email, string phone)
+        {
+            CenterToParent();
+            InitializeComponent();
+            LocalizeComponents();
+
+            ServerAPIInterface.Instance.onHotelAddPacketReceiveHandler += API_onHotelAddPacketReceiveHandler;
+            ServerAPIInterface.Instance.onHotelUpdatePacketReceiveHandler += API_onHotelUpdatePacketReceiveHandler;
+
+            textBoxHotelName.Text = hotelname;
+            textBoxCountry.Text = country;
+            textBoxCity.Text = city;
+            textBoxStreet.Text = street;
+            textBoxRating.Text = rating.ToString();
+            textBoxHotelEmail.Text = email;
+            textBoxPhone.Text = phone;
+            this.id = id;
+
+            update = true;
         }
 
         private void API_onHotelAddPacketReceiveHandler(object sender, ServerAPIInterface.GenericResponseEventArgs e)
         {
-            this.Close();
+            this.Invoke(() =>
+            {
+                this.Close();
+            });
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)
@@ -50,16 +87,33 @@ namespace GrubyKlient
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            ServerAPIInterface.Instance.RequestAddHotel(
-                textBoxHotelName.Text,
-                textBoxCountry.Text,
-                textBoxCity.Text,
-                textBoxStreet.Text,
-                int.Parse(textBoxRating.Text),
-                textBoxHotelEmail.Text,
-                textBoxPhone.Text
-            );
-            this.buttonSave.Enabled = false;
+            if (!update)
+            {
+                ServerAPIInterface.Instance.RequestAddHotel(
+                    textBoxHotelName.Text,
+                    textBoxCountry.Text,
+                    textBoxCity.Text,
+                    textBoxStreet.Text,
+                    int.Parse(textBoxRating.Text),
+                    textBoxHotelEmail.Text,
+                    textBoxPhone.Text
+                );
+                this.buttonSave.Enabled = false;
+            }
+            else
+            {
+                ServerAPIInterface.Instance.RequestUpdateHotel(
+                    this.id,
+                    textBoxHotelName.Text,
+                    textBoxCountry.Text,
+                    textBoxCity.Text,
+                    textBoxStreet.Text,
+                    int.Parse(textBoxRating.Text),
+                    textBoxHotelEmail.Text,
+                    textBoxPhone.Text
+                );
+                this.buttonSave.Enabled = false;
+            }
         }
     }
 }

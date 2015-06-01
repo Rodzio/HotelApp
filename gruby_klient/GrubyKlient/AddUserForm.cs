@@ -25,6 +25,16 @@ namespace GrubyKlient
                 this.comboBoxPermissionsLevel.Items.Add(permission.Name);
 
             this.comboBoxPermissionsLevel.SelectedIndex = 0;
+
+            ServerAPIInterface.Instance.onRegisterPacketReceiveHandler += API_onRegisterPacketReceiveHandler;
+        }
+
+        private void API_onRegisterPacketReceiveHandler(object sender, ServerAPIInterface.RegisterPacketEventArgs e)
+        {
+            this.Invoke(() =>
+            {
+                this.Close();
+            });
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)

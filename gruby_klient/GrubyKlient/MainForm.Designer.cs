@@ -66,7 +66,7 @@
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.button5 = new System.Windows.Forms.Button();
+            this.buttonAddRoom = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.dataGridView3 = new System.Windows.Forms.DataGridView();
@@ -90,6 +90,9 @@
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.dataGridViewHotels = new System.Windows.Forms.DataGridView();
             this.buttonAddHotel = new System.Windows.Forms.Button();
+            this.buttonEditRoom = new System.Windows.Forms.Button();
+            this.buttonEditHotel = new System.Windows.Forms.Button();
+            this.buttonDeleteHotel = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -369,7 +372,8 @@
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.dataGridView2);
-            this.tabPage2.Controls.Add(this.button5);
+            this.tabPage2.Controls.Add(this.buttonEditRoom);
+            this.tabPage2.Controls.Add(this.buttonAddRoom);
             this.tabPage2.Controls.Add(this.button6);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
@@ -432,15 +436,15 @@
             this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
             this.dataGridViewTextBoxColumn5.ReadOnly = true;
             // 
-            // button5
+            // buttonAddRoom
             // 
-            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button5.Location = new System.Drawing.Point(124, 465);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(110, 33);
-            this.button5.TabIndex = 3;
-            this.button5.Text = "Edit...";
-            this.button5.UseVisualStyleBackColor = true;
+            this.buttonAddRoom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonAddRoom.Location = new System.Drawing.Point(124, 465);
+            this.buttonAddRoom.Name = "buttonAddRoom";
+            this.buttonAddRoom.Size = new System.Drawing.Size(110, 33);
+            this.buttonAddRoom.TabIndex = 3;
+            this.buttonAddRoom.Text = "Add...";
+            this.buttonAddRoom.UseVisualStyleBackColor = true;
             // 
             // button6
             // 
@@ -636,6 +640,8 @@
             // tabPage5
             // 
             this.tabPage5.Controls.Add(this.dataGridViewHotels);
+            this.tabPage5.Controls.Add(this.buttonDeleteHotel);
+            this.tabPage5.Controls.Add(this.buttonEditHotel);
             this.tabPage5.Controls.Add(this.buttonAddHotel);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
@@ -646,9 +652,16 @@
             // 
             // dataGridViewHotels
             // 
+            this.dataGridViewHotels.AllowUserToAddRows = false;
+            this.dataGridViewHotels.AllowUserToDeleteRows = false;
+            this.dataGridViewHotels.AllowUserToResizeRows = false;
+            this.dataGridViewHotels.BackgroundColor = System.Drawing.Color.White;
             this.dataGridViewHotels.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewHotels.Location = new System.Drawing.Point(8, 8);
+            this.dataGridViewHotels.MultiSelect = false;
             this.dataGridViewHotels.Name = "dataGridViewHotels";
+            this.dataGridViewHotels.ReadOnly = true;
+            this.dataGridViewHotels.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewHotels.Size = new System.Drawing.Size(945, 451);
             this.dataGridViewHotels.TabIndex = 3;
             // 
@@ -662,6 +675,38 @@
             this.buttonAddHotel.Text = "Add...";
             this.buttonAddHotel.UseVisualStyleBackColor = true;
             this.buttonAddHotel.Click += new System.EventHandler(this.buttonAddHotel_Click);
+            // 
+            // buttonEditRoom
+            // 
+            this.buttonEditRoom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonEditRoom.Location = new System.Drawing.Point(240, 465);
+            this.buttonEditRoom.Name = "buttonEditRoom";
+            this.buttonEditRoom.Size = new System.Drawing.Size(110, 33);
+            this.buttonEditRoom.TabIndex = 3;
+            this.buttonEditRoom.Text = "Edit...";
+            this.buttonEditRoom.UseVisualStyleBackColor = true;
+            // 
+            // buttonEditHotel
+            // 
+            this.buttonEditHotel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonEditHotel.Location = new System.Drawing.Point(124, 465);
+            this.buttonEditHotel.Name = "buttonEditHotel";
+            this.buttonEditHotel.Size = new System.Drawing.Size(110, 33);
+            this.buttonEditHotel.TabIndex = 2;
+            this.buttonEditHotel.Text = "Edit...";
+            this.buttonEditHotel.UseVisualStyleBackColor = true;
+            this.buttonEditHotel.Click += new System.EventHandler(this.buttonEditHotel_Click);
+            // 
+            // buttonDeleteHotel
+            // 
+            this.buttonDeleteHotel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonDeleteHotel.Location = new System.Drawing.Point(240, 465);
+            this.buttonDeleteHotel.Name = "buttonDeleteHotel";
+            this.buttonDeleteHotel.Size = new System.Drawing.Size(110, 33);
+            this.buttonDeleteHotel.TabIndex = 2;
+            this.buttonDeleteHotel.Text = "Delete";
+            this.buttonDeleteHotel.UseVisualStyleBackColor = true;
+            this.buttonDeleteHotel.Click += new System.EventHandler(this.buttonDeleteHotel_Click);
             // 
             // MainForm
             // 
@@ -728,7 +773,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button buttonAddRoom;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.DataGridView dataGridView3;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
@@ -757,5 +802,8 @@
         private System.Windows.Forms.TabPage tabPage5;
         private System.Windows.Forms.Button buttonAddHotel;
         private System.Windows.Forms.DataGridView dataGridViewHotels;
+        private System.Windows.Forms.Button buttonEditRoom;
+        private System.Windows.Forms.Button buttonDeleteHotel;
+        private System.Windows.Forms.Button buttonEditHotel;
     }
 }
