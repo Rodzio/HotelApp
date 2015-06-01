@@ -1,3 +1,11 @@
+var containers = [
+    "hotels-content",
+    "user-reservation-content"
+];
+var data;
+var me = this;
+var navigateData;
+
 function navPage(navButton) {
     var act = document.getElementsByClassName("active"),
         hcon = document.getElementsByClassName("container"),
@@ -22,6 +30,9 @@ function navPage(navButton) {
     }
     if (document.getElementById(navButton) !== null) document.getElementById(navButton).className = "active";
     document.getElementById(con).className = "container";
+    for (var k = 0; k < containers.length; k++) {
+        if (con === (containers[k])) this.prepareRequest(containers[k]);
+    }
     if (con === "user-reservation-content") this.appendCallendar();
 }
 
@@ -32,6 +43,7 @@ function reservationForm(button) {
     var prefix = button.split("-");
     document.getElementById(button.replace("button","content")).className = "container";
     document.getElementById(button.replace("-button","").replace(prefix[0],"container")).className = "container hidden";
+    this.prepareRequest("new-reservation-content");
 }
 
 function guestbookForm(button) {
@@ -107,6 +119,7 @@ function navRoomDetail(button) {
                 divs[i].className = "panel hidden";
                 divs[i + 1].className = "panel";
                 j = i;
+                if (i === 0) this.doRequest("room", "get");
                 break;
             }
         }
@@ -114,7 +127,11 @@ function navRoomDetail(button) {
     if (button === "prev") {
         j = divs.length - 1;
         for (var i = j; i > -1; i--) {
-            if (i === 0) break;
+            if (i === 0) {
+                document.getElementById("hotel-container").className = "col-md-12";
+                document.getElementById("room-container").className = "col-md-12 hidden";
+                break;
+            }
             if (divs[i].className === "panel") {
                 divs[i].className = "panel hidden";
                 divs[i - 1].className = "panel";
@@ -131,7 +148,12 @@ function navHotelDetail(button) {
         i = 0;
         if (button === "next") {
             for (i = j; i < divs.length; i++) {
-                if (i === divs.length - 1) break;
+                if (i === divs.length - 1) {
+                    document.getElementById("room-container").className = "col-md-12";
+                    document.getElementById("hotel-container").className = "col-md-12 hidden";
+                    this.doRequest("template", "get");
+                    break;
+                }
                 if (divs[i].className === "panel") {
                     divs[i].className = "panel hidden";
                     divs[i + 1].className = "panel";
@@ -153,3 +175,85 @@ function navHotelDetail(button) {
             }
         }
 }
+
+function reservationFormSubmit() {
+    var request = "reservation";
+    var action = "add";
+    this.doRequest(request, action);
+}
+
+function prepareRequest(container) {
+    var request;
+    var action = "get";
+    if (container === "hotels-content") request = "hotel";
+    if (container === "new-reservation-content") request = "hotel";
+    if (container === "user-reservation-content") request = "reservation";
+    this.doRequest(request, action);
+}
+
+function doRequest(request, action) {
+    if (action === "add" || action === "update") {
+
+    } else {
+        var connection = new WebSocket("ws://83.145.169.112:9009");
+        var string = '{"command":"' + request + '","action":"' + action + '"}';
+
+        connection.onerror = function (error) {
+            console.log('WebSocket Error ' + error);
+        };
+
+        connection.onopen = function () {
+            connection.send(string);
+        };
+
+        connection.onmessage = function (e) {
+            var u = JSON.stringify(eval('(' + e.data + ')'))
+            json = JSON.parse(u);
+            data = json;
+            me.navigateSetData(data, request);
+        };
+    }
+}
+
+function navigateSetData(data, request) {
+    console.log(data, request);
+    if (request === "hotel") {
+        this.setCountry(data);
+        this.setCity(data);
+    }
+    if (request === "template") {
+        this.setTemplate(data);
+    }
+    if (request === "room") {
+        this.setSize(data);
+    }
+}
+
+function setCountry(data) {
+    for (var i = 0; i < data.count; i++){
+        var string = '<div><label class="btn btn-primary  btn-block"><input type="radio" name="options" id="' + data.list[i].HotelCountry + '" autocomplete="off">' + data.list[i].HotelCountry + '</label></div>';
+        document.getElementById("region-radio").innerHTML += string;
+    }
+}
+
+function setCity(data) {
+    for (var i = 0; i < data.count; i++) {
+        var string = '<div><label class="btn btn-primary  btn-block"><input type="radio" name="options" id="' + data.list[i].HotelCity + '" autocomplete="off">' + data.list[i].HotelCity + '</label></div>'
+        document.getElementById("city-radio").innerHTML += string;
+    }
+}
+
+function setTemplate(data) {
+    for (var i = 0; i < data.count; i++) {
+        var string = '<div><label class="btn btn-primary  btn-block"><input type="radio" name="options" id="' + data.list[i].TemplateId + '" autocomplete="off">' + data.list[i].RoomTemplateName + '</label></div>'
+        document.getElementById("type-radio").innerHTML += string;
+    }
+}
+
+function setSize(data) {
+    for (var i = 0; i < data.count; i++) {
+        var string = '<div><label class="btn btn-primary  btn-block"><input type="radio" name="options" id="size' + data.list[i].RoomNumber + '" autocomplete="off">' + data.list[i].RoomNumber + '. osobowy</label></div>'
+        document.getElementById("size-radio").innerHTML += string;
+    }
+}
+
