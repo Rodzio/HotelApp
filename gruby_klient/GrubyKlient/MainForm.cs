@@ -15,22 +15,48 @@ namespace GrubyKlient
         private Login login;
         private AddUserForm addUserForm;
         private AddHotelForm addHotelForm, updateHotelForm;
-        private bool init;
+        private AddRoomForm addRoomForm, updateRoomForm;
+        private bool initUsers, initHotels, initRooms;
 
         public MainForm()
         {
             this.StartPosition = FormStartPosition.CenterScreen;
             InitializeComponent();
-
+            
             ServerAPIInterface.Instance.onPermissionLevelsGetPacketReceiveHandler += API_onPermissionLevelsGetPacketReceiveHandler;
-            ServerAPIInterface.Instance.onHotelGetPacketReceiveHandler += API_onHotelGetPacketReceiveHandler;
+            ServerAPIInterface.Instance.onTemplateGetPacketReceiveHandler += API_onTemplateGetPacketReceiveHandler;
+                        
             ServerAPIInterface.Instance.onHotelAddPacketReceiveHandler += API_onHotelAddPacketReceiveHandler;
             ServerAPIInterface.Instance.onHotelDeletePacketReceiveHandler += API_onHotelDeletePacketReceiveHandler;
+            ServerAPIInterface.Instance.onRoomGetPacketReceiveHandler += API_onRoomGetPacketReceiveHandler;
+            ServerAPIInterface.Instance.onHotelGetPacketReceiveHandler += API_onHotelGetPacketReceiveHandler;
 
             login = new Login();
             login.FormClosed += login_FormClosed;
             login.ShowDialog(this);
-            init = true;
+            initHotels = true;
+            
+        }
+
+        private void API_onTemplateGetPacketReceiveHandler(object sender, ServerAPIInterface.TemplateGetPacketEventArgs e)
+        {
+            HotelsData.Instance.Templates = e.Templates;
+        }
+
+        private void API_onRoomGetPacketReceiveHandler(object sender, ServerAPIInterface.RoomGetPacketEventArgs e)
+        {
+            HotelsData.Instance.Rooms = e.Rooms;
+            this.Invoke(() =>
+            {
+                try
+                {
+                    initRoomsList();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+            });
         }
 
         private void API_onHotelDeletePacketReceiveHandler(object sender, ServerAPIInterface.GenericResponseEventArgs e)
@@ -68,9 +94,9 @@ namespace GrubyKlient
             {
                 // Requesting data
                 ServerAPIInterface.Instance.RequestPermissionLevels();
-                ServerAPIInterface.Instance.RequestHotels();
-                ServerAPIInterface.Instance.RequestRooms();
                 ServerAPIInterface.Instance.RequestTemplates();
+                ServerAPIInterface.Instance.RequestHotels();
+                ServerAPIInterface.Instance.RequestRooms();               
 
             }
         }
@@ -88,8 +114,7 @@ namespace GrubyKlient
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (tabControl1.SelectedIndex == 4)
-                updateHotelsList();
+           
         }
 
         private void buttonAddHotel_Click(object sender, EventArgs e)
@@ -113,7 +138,7 @@ namespace GrubyKlient
                 dataGridViewHotels.Columns.Add("hotelPhone", "Phone number");
             }
 
-            if (init)
+            if (initHotels)
             {
                 foreach (var hotel in HotelsData.Instance.Hotels)
                 {
@@ -130,7 +155,7 @@ namespace GrubyKlient
                     dataGridViewHotels.Rows.Add(row);
                 }
 
-                init = false;
+                initHotels = false;
             }
         }
 
@@ -190,6 +215,72 @@ namespace GrubyKlient
                 dataGridViewHotels.SelectedRows[0].Cells[6].Value.ToString(),
                 dataGridViewHotels.SelectedRows[0].Cells[7].Value.ToString());
             updateHotelForm.ShowDialog(this);
+        }
+
+        private void buttonRefresh_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                updateHotelsList();
+                updateRoomsList();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+        }
+
+        private void buttonAddRoom_Click(object sender, EventArgs e)
+        {
+            addRoomForm = new AddRoomForm();
+            addRoomForm.ShowDialog(this);
+        }
+
+        private void buttonEditRoom_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        public void initRoomsList()
+        {
+            if (dataGridViewRooms.Columns.Count == 0)
+            {
+                dataGridViewRooms.Columns.Add("roomHotel", "Hotel");
+                dataGridViewRooms.Columns.Add("roomNumber", "Number");
+                dataGridViewRooms.Columns.Add("roomType", "Type");
+            }
+
+            if (initRooms)
+            {
+                foreach (var room in HotelsData.Instance.Rooms)
+                {
+                    string[] row = new string[] {
+                    room.HotelId.ToString(),
+                    room.RoomNumber.ToString(),
+                    room.TemplateId
+                };
+                    dataGridViewRooms.Rows.Add(row);
+                }
+
+                initRooms = false;
+            }
+        }
+
+        public void updateRoomsList()
+        {
+            ServerAPIInterface.Instance.RequestRooms();
+
+            dataGridViewRooms.Rows.Clear();
+
+            foreach (var room in HotelsData.Instance.Rooms)
+            {
+                string[] row = new string[] {
+                    room.HotelId.ToString(),
+                    room.RoomNumber.ToString(),
+                    room.TemplateId
+                };
+                dataGridViewRooms.Rows.Add(row);
+            }
         }
     }
 }

@@ -57,6 +57,12 @@
     <Compile Include="AddHotelForm.Designer.cs">
       <DependentUpon>AddHotelForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="AddRoomForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddRoomForm.Designer.cs">
+      <DependentUpon>AddRoomForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="AddUserForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -104,6 +110,9 @@
     <Compile Include="WindowsFormsControlExtensions.cs" />
     <EmbeddedResource Include="AddHotelForm.resx">
       <DependentUpon>AddHotelForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddRoomForm.resx">
+      <DependentUpon>AddRoomForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AddUserForm.resx">
       <DependentUpon>AddUserForm.cs</DependentUpon>

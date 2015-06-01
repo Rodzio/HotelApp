@@ -25,6 +25,8 @@ namespace GrubyKlient
         // --
 
         public List<PermissionLevel> PermissionLevels { get; set; }
+        public List<Template> Templates { get; set; }
         public List<Hotel> Hotels { get; set; }
+        public List<Room> Rooms { get; set; }
     }
 }
