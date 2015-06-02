@@ -210,7 +210,7 @@ namespace GrubyKlient
             else
                 return;
 
-            ws = new WebSocket("ws://127.0.0.1:9009");
+            ws = new WebSocket("ws://31.25.250.23:9009");
             //ws = new WebSocket("ws://83.145.169.112:9009");
             ws.OnMessage += ws_OnMessage;
             ws.Connect();
