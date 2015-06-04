@@ -6,7 +6,8 @@ function Client(ws)
 	var client = {};
 	client.id = clients.length;
 	client.info = null; //filled when user successfully logs in
-	client.confirmed = false; //set to yes if user sends 
+	client.permissions = null;
+	client.confirmed = true; //set to yes if user sends hello packet
 	client.socket = ws;
 	client.socket.on('message', function(msg)
 		{
@@ -59,9 +60,12 @@ function messageHandler(msgString, client)
 	else if(serverSettings.mode == "default")
 	{
 		if(client.confirmed === false)
+		{
 			if(msg.command == "hello")
 			{
+				console.log("client conf przed: " + client.confirmed);
 				client.confirmed = true;
+				console.log("client conf po: " + client.confirmed);
 
 				var helloResponse = {};
 				helloResponse.command = "hello";
@@ -70,8 +74,10 @@ function messageHandler(msgString, client)
 				client.socket.send(JSON.stringify(helloResponse));
 			}
 			//ignore other cases, as communication hasn't been fully established
-		//else if(client.confirmed === true)
-			if(msg.command == "login")
+		}
+
+		{
+			if(msg.command == "login" && client.info == null)
 			{
 				database.getConnection(function(err,connection)
 				{
@@ -94,7 +100,7 @@ function messageHandler(msgString, client)
 					var loginQuery = "SELECT * FROM `idc hotel suite database`.Users WHERE Users.UserEmail = '" + msg.loginData.userEmail + "'";
 					
 					connection.query(loginQuery,function(err, rows, fields) {
-						connection.release();	
+						//connection.release();	
 						var loginStatus = false;
 						if(rows.length > 0)
 						{
@@ -112,9 +118,28 @@ function messageHandler(msgString, client)
 						loginResponse.result = loginStatus;
 							
 						client.socket.send(JSON.stringify(loginResponse));	
+
+						if(loginStatus == true)
+						{
+							var loginQuery = "SELECT * FROM `userpermissionlevels` WHERE UserPermissionsLevelName = " + client.info.UserPermissionsLevelName;
+							connection.query(loginQuery,function(err, rows, fields) {
+							connection.release();	
+							if(rows.length > 0)
+								client.permissions = rows[0];
+	 						});
+						}
 					});
 				});
 			}
+			/*else if(client.info == null)
+			{
+				var loginResponse = {};
+				loginResponse.command = "login";
+				loginResponse.requestId = msg.requestId;
+				loginResponse.result = false;
+						
+				client.socket.send(JSON.stringify(loginResponse));
+			}*/
 
 			if(msg.command == "register")
 			{
@@ -198,6 +223,15 @@ function messageHandler(msgString, client)
 							""+msg.ManageReservations+","+
 							"'"+msg.UserPermissionsLevelName+"'"+
 							")";
+
+						if(client.info == null)
+						{
+							permissionLevelResponse.result = false;
+							permissionLevelResponse.message = "not_logged";
+
+							client.socket.send(JSON.stringify(permissionLevelResponse));
+							return false;
+						}
 					}
 					else if(msg.action === "update")
 					{
@@ -208,10 +242,28 @@ function messageHandler(msgString, client)
 						", ManageEmployees = "+ msg.ManageEmployees + 
 						", ManageReservations = "+ msg.ManageReservations +
 						" WHERE UserPermissionsLevelName = '" + msg.UserPermissionsLevelName + "'";
+
+						if(client.info == null)
+						{
+							permissionLevelResponse.result = false;
+							permissionLevelResponse.message = "not_logged";
+
+							client.socket.send(JSON.stringify(permissionLevelResponse));
+							return false;
+						}
 					}
 					else if(msg.action === "delete")
 					{
 						var permissionLevelQuery = "DELETE FROM `idc hotel suite database`.UserPermissionLevels WHERE UserPermissionsLevelName. = '" + msg.UserPermissionsLevelName + "'";
+
+						if(client.info == null)
+						{
+							permissionLevelResponse.result = false;
+							permissionLevelResponse.message = "not_logged";
+
+							client.socket.send(JSON.stringify(permissionLevelResponse));
+							return false;
+						}
 					}
 					else
 					{
@@ -286,10 +338,46 @@ function messageHandler(msgString, client)
 						 "UserPasswordHash = '" + msg.UserPasswordHash + "'," +
 						 "UserHotelId = " + msg.UserHotelId + "" +
 						 " WHERE UserId = '" + msg.UserId + "';";
+
+						if(client.info == null)
+						{
+							userResponse.result = false;
+							userResponse.message = "not_logged";
+
+							client.socket.send(JSON.stringify(userResponse));
+							return false;
+						}
+
+						else if((msg.UserHotelId == null && client.permissions.ManageGuests == false) || (msg.UserHotelId != null && client.permissions.ManageHotel == false))
+						{
+							userResponse.result = false;
+							userResponse.message = "permission_denied";
+
+							client.socket.send(JSON.stringify(userResponse));
+							return false;
+						} 
 					}
 					else if(msg.action === "delete")
 					{
 						var userQuery = "DELETE FROM `idc hotel suite database`.Users WHERE UserId = '" + msg.UserId + "'";
+
+						if(client.info == null)
+						{
+							userResponse.result = false;
+							userResponse.message = "not_logged";
+
+							client.socket.send(JSON.stringify(userResponse));
+							return false;
+						}
+
+						else if((msg.UserHotelId == null && client.permissions.ManageGuests == false) || (msg.UserHotelId != null && client.permissions.ManageHotel == false))
+						{
+							userResponse.result = false;
+							userResponse.message = "permission_denied";
+
+							client.socket.send(JSON.stringify(userResponse));
+							return false;
+						} 
 					}
 					else
 					{
@@ -364,7 +452,24 @@ function messageHandler(msgString, client)
 							"'"+msg.HotelEmail+"',"+
 							"'"+msg.HotelPhone+"'"+
 							")";
-						console.log(hotelQuery);
+
+						if(client.info == null)
+						{
+							hotelResponse.result = false;
+							hotelResponse.message = "not_logged";
+
+							client.socket.send(JSON.stringify(hotelResponse));
+							return false;
+						}
+
+						else if(client.permissions.ManageHotels == false)
+						{
+							hotelResponse.result = false;
+							hotelResponse.message = "permission_denied";
+
+							client.socket.send(JSON.stringify(hotelResponse));
+							return false;
+						} 
 					}
 					else if(msg.action === "update")
 					{
@@ -377,10 +482,46 @@ function messageHandler(msgString, client)
 						 "HotelEmail = '" + msg.HotelEmail + "'," +
 						 "HotelPhone = '" + msg.HotelPhone + "'" +
 						 " WHERE HotelId = " + msg.HotelId + ";";
+
+						if(client.info == null)
+						{
+							hotelResponse.result = false;
+							hotelResponse.message = "not_logged";
+
+							client.socket.send(JSON.stringify(hotelResponse));
+							return false;
+						}
+
+						else if(client.permissions.ManageHotels == false)
+						{
+							hotelResponse.result = false;
+							hotelResponse.message = "permission_denied";
+
+							client.socket.send(JSON.stringify(hotelResponse));
+							return false;
+						}
 					}
 					else if(msg.action === "delete")
 					{
-						var hotelQuery = "DELETE FROM `idc hotel suite database`.Hotels WHERE HotelId. = " + msg.HotelId + "";
+						var hotelQuery = "DELETE FROM `idc hotel suite database`.Hotels WHERE HotelId = " + msg.HotelId + "";
+
+						if(client.info == null)
+						{
+							hotelResponse.result = false;
+							hotelResponse.message = "not_logged";
+
+							client.socket.send(JSON.stringify(hotelResponse));
+							return false;
+						}
+
+						else if(client.permissions.ManageHotels == false)
+						{
+							hotelResponse.result = false;
+							hotelResponse.message = "permission_denied";
+
+							client.socket.send(JSON.stringify(hotelResponse));
+							return false;
+						}
 					}
 					else
 					{
@@ -453,6 +594,24 @@ function messageHandler(msgString, client)
 							""+msg.RoomTemplateCost+","+
 							"'"+msg.RoomTemplateDescription+"'"+
 							")";
+
+						if(client.info == null)
+						{
+							templateResponse.result = false;
+							templateResponse.message = "not_logged";
+
+							client.socket.send(JSON.stringify(templateResponse));
+							return false;
+						}
+
+						else if(client.permissions.ManageRooms == false)
+						{
+							templateResponse.result = false;
+							templateResponse.message = "permission_denied";
+
+							client.socket.send(JSON.stringify(templateResponse));
+							return false;
+						}
 					}
 					else if(msg.action === "update")
 					{
@@ -461,10 +620,46 @@ function messageHandler(msgString, client)
 						 "RoomTemplateCost = " + msg.RoomTemplateCost + "," +
 						 "RoomTemplateDescription = '" + msg.RoomTemplateDescription + "'" +
 						 "' WHERE TemplateId = '" + msg.TemplateId + "';";
+
+						if(client.info == null)
+						{
+							templateResponse.result = false;
+							templateResponse.message = "not_logged";
+
+							client.socket.send(JSON.stringify(templateResponse));
+							return false;
+						}
+
+						else if(client.permissions.ManageRooms == false)
+						{
+							templateResponse.result = false;
+							templateResponse.message = "permission_denied";
+
+							client.socket.send(JSON.stringify(templateResponse));
+							return false;
+						}
 					}
 					else if(msg.action === "delete")
 					{
 						var templateQuery = "DELETE FROM `idc hotel suite database`.RoomTemplates WHERE TemplateId = '" + msg.TemplateId + "'";
+
+						if(client.info == null)
+						{
+							templateResponse.result = false;
+							templateResponse.message = "not_logged";
+
+							client.socket.send(JSON.stringify(templateResponse));
+							return false;
+						}
+
+						else if(client.permissions.ManageRooms == false)
+						{
+							templateResponse.result = false;
+							templateResponse.message = "permission_denied";
+
+							client.socket.send(JSON.stringify(templateResponse));
+							return false;
+						}
 					}
 					else
 					{
@@ -535,16 +730,70 @@ function messageHandler(msgString, client)
 							""+msg.RoomNumber+","+
 							"'"+msg.TemplateId+"'"+
 							")";
+
+						if(client.info == null)
+						{
+							roomResponse.result = false;
+							roomResponse.message = "not_logged";
+
+							client.socket.send(JSON.stringify(roomResponse));
+							return false;
+						}
+
+						else if(client.permissions.ManageRooms == false)
+						{
+							roomResponse.result = false;
+							roomResponse.message = "permission_denied";
+
+							client.socket.send(JSON.stringify(roomResponse));
+							return false;
+						}
 					}
 					else if(msg.action === "update")
 					{
 						var roomQuery = "UPDATE `idc hotel suite database`.Rooms SET " + 
 						"TemplateId = '"+ TemplateId +
 						"' WHERE HotelId = " + msg.HotelId + " AND RoomNumber = " + msg.RoomNumber + "";
+
+						if(client.info == null)
+						{
+							roomResponse.result = false;
+							roomResponse.message = "not_logged";
+
+							client.socket.send(JSON.stringify(roomResponse));
+							return false;
+						}
+
+						else if(client.permissions.ManageRooms == false)
+						{
+							roomResponse.result = false;
+							roomResponse.message = "permission_denied";
+
+							client.socket.send(JSON.stringify(roomResponse));
+							return false;
+						}
 					}
 					else if(msg.action === "delete")
 					{
 						var roomQuery = "DELETE FROM `idc hotel suite database`.Rooms WHERE HotelId = " + msg.HotelId + " AND RoomNumber = " + msg.RoomNumber + "";
+
+						if(client.info == null)
+						{
+							roomResponse.result = false;
+							roomResponse.message = "not_logged";
+
+							client.socket.send(JSON.stringify(roomResponse));
+							return false;
+						}
+
+						else if(client.permissions.ManageRooms == false)
+						{
+							roomResponse.result = false;
+							roomResponse.message = "permission_denied";
+
+							client.socket.send(JSON.stringify(roomResponse));
+							return false;
+						}
 					}
 					else
 					{
@@ -617,6 +866,24 @@ function messageHandler(msgString, client)
 							"'"+msg.ReservationCheckIn+"',"+
 							"'"+msg.ReservationCheckOut+"'"+
 							")";
+
+						if(client.info == null)
+						{
+							reservationResponse.result = false;
+							reservationResponse.message = "not_logged";
+
+							client.socket.send(JSON.stringify(reservationResponse));
+							return false;
+						}
+
+						else if(msg.UserId != client.id && client.permissions.ManageReservations == false)
+						{
+							reservationResponse.result = false;
+							reservationResponse.message = "permission_denied";
+
+							client.socket.send(JSON.stringify(reservationResponse));
+							return false;
+						}
 					}
 					else if(msg.action === "update")
 					{
@@ -628,10 +895,46 @@ function messageHandler(msgString, client)
 						 "ReservationCheckOut= '" + msg.ReservationCheckOut+ "'" +
 						 "WHERE ReservationId = " + msg.ReservationId + ";";
 						console.log(reservationQuery);
+
+						if(client.info == null)
+						{
+							reservationResponse.result = false;
+							reservationResponse.message = "not_logged";
+
+							client.socket.send(JSON.stringify(reservationResponse));
+							return false;
+						}
+
+						else if(msg.UserId != client.id && client.permissions.ManageReservations == false)
+						{
+							reservationResponse.result = false;
+							reservationResponse.message = "permission_denied";
+
+							client.socket.send(JSON.stringify(reservationResponse));
+							return false;
+						}
 					}
 					else if(msg.action === "delete")
 					{
 						var reservationQuery = "DELETE FROM `idc hotel suite database`.Reservations WHERE ReservationId = " + msg.ReservationId + "";
+
+						if(client.info == null)
+						{
+							reservationResponse.result = false;
+							reservationResponse.message = "not_logged";
+
+							client.socket.send(JSON.stringify(reservationResponse));
+							return false;
+						}
+
+						else if(msg.UserId != client.id && client.permissions.ManageReservations == false)
+						{
+							reservationResponse.result = false;
+							reservationResponse.message = "permission_denied";
+
+							client.socket.send(JSON.stringify(reservationResponse));
+							return false;
+						}
 					}
 					else
 					{
@@ -665,6 +968,7 @@ function messageHandler(msgString, client)
 					});
 				});
 			}
+		}
 	}
 }
 
