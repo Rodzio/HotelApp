@@ -77,6 +77,7 @@ function messageHandler(msgString, client)
 				{
 					if(connection == null)
 					{
+						var response = {};
 						response.result = false;
 						response.message = "database_offline";
 
@@ -442,7 +443,7 @@ function messageHandler(msgString, client)
 
 					if(msg.action === "get")
 					{
-						var userQuery = "SELECT * FROM `idc hotel suite database`.RoomTemplates;";
+						var templateQuery = "SELECT * FROM `idc hotel suite database`.RoomTemplates;";
 					}
 					else if(msg.action === "add")
 					{
