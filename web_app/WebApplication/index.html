@@ -11,7 +11,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="https://code.angularjs.org/1.4.0-beta.5/angular.js"></script>
-    <script src="Scripts/packages/ext-all-debug.js"></script>
+    <!--<script src="Scripts/packages/ext-all-debug.js"></script>-->
     <script src="Scripts/app/navigate.js"></script>
     <script src="Scripts/app/modal.js"></script>
     <script src="Scripts/packages/bootstrap-datepicker.js"></script>
@@ -231,8 +231,8 @@
                         </div>
                         <nav>
                             <ul class="pager">
-                                <li><a href="#hotel-prev" onclick="navHotelDetail('prev')">Previous</a></li>
-                                <li><a href="#hotel-next" onclick="navHotelDetail('next')">Next</a></li>
+                                <li><a id="hotelPrev" class="hidden" href="#hotel-prev" onclick="navHotelDetail('prev')">Previous</a></li>
+                                <li><a id="hotelNext" class="" href="#hotel-next" onclick="navHotelDetail('next')">Next</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -285,13 +285,18 @@
                                             <input type="checkbox" name="options" id="add6" autocomplete="off"> Kolacja
                                         </label>
                                     </div>
+                                    <div>
+                                        <label class="btn btn-primary btn-block">
+                                            <input type="checkbox" name="options" id="add7" autocomplete="off"> Żelazko
+                                        </label>
+                                    </div>
                                 </div>
                             </form>
                         </div>
                         <nav>
                             <ul class="pager">
-                                <li><a href="#room-prev" onclick="navRoomDetail('prev')">Previous</a></li>
-                                <li><a href="#room-next" onclick="navRoomDetail('next')">Next</a></li>
+                                <li><a id="roomPrev" class="" href="#room-prev" onclick="navRoomDetail('prev')">Previous</a></li>
+                                <li><a id="roomNext" class="" href="#room-next" onclick="navRoomDetail('next')">Next</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -303,11 +308,12 @@
                             <input type="text" class="form-control" id="from-date" placeholder="From"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
                             <script>
                                 $('#sandbox-container .input-group.date').datepicker({
-                                    format: "dd/mm/yyyy",
+                                    format: "yyyy/mm/dd",
                                     clearBtn: true,
                                     orientation: "bottom auto",
                                     multidate: false,
-                                    calendarWeeks: true
+                                    calendarWeeks: true,
+                                    startDate: "Today"
                                 });
                             </script>
                         </div>
@@ -315,11 +321,12 @@
                             <input type="text" class="form-control" id="to-date" placeholder="To"><span class=" input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
                             <script>
                                 $('#sandbox-container .input-group.date').datepicker({
-                                    format: "dd/mm/yyyy",
+                                    format: "yyyy/mm/dd",
                                     clearBtn: true,
                                     orientation: "bottom auto",
                                     multidate: false,
-                                    calendarWeeks: true
+                                    calendarWeeks: true,
+                                    startDate: "Today"
                                 });
                             </script>
                         </div>
@@ -369,8 +376,8 @@
                     <label for="input-email" class="sr-only">Email address</label>
                     <input type="email" id="r-input-email" class="form-control" placeholder="Email address" required autofocus>
                     <label for="input-password" class="sr-only">Password</label>
-                    <input type="password" id="r-input-password" class="form-control" placeholder="Password" required="">
-                    <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="navPage('user-reservation-button')">Sign in</button>
+                    <input type="password" id="r-input-password" class="form-control" placeholder="Password" required>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="login('','')">Sign in</button>
                 </form>
             </div>
             <!-- /have-reservation -->
@@ -391,54 +398,19 @@
             </div>
             <div class="row">
                 <div class="col-md-8" id="user-hotel-info">
-                    <div class="row">
-                        <h3>Hotel</h3>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed, lacinia in, mi.
-                            Cras vel lorem. Etiam pellentesque aliquet tellus.
-                        </p>
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d4668.79358188565!2d16.177627470281145!3d54.19075807292114!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1spl!2spl!4v1433103712152" width="400" height="300" frameborder="0" style="border:0"></iframe>
+                    <div id="hotel-info" class="row">
+                        
                     </div>
-                    <div class="row">
-                        <h3>Room</h3>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed, lacinia in, mi.
-                            Cras vel lorem. Etiam pellentesque aliquet tellus.
-                        </p>
-                        <div class="well">
-                            <ul class="x-ul row">
-                                <li class="x-li col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                    <img class="x-img img-responsive" src="http://placehold.it/400x300">
-                                </li>
-                                <li class="x-li col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                    <img class="x-img img-responsive" src="http://placehold.it/400x300">
-                                </li>
-                            </ul>
-                        </div>
+                    <div id="room-info" class="row">
+                        
                     </div>
                 </div>
                 <div class="col-md-4" id="user-date-info">
-                    <div class="panel panel-default">
-                        <h3 style="text-align: center;">From</h3>
-                        <div id="user-reservation-from" style="align-content: center;">
-                            <script>
-                                var from = $('#user-reservation-from').datepicker({
-                                    format: "dd/mm/yyyy",
-                                    calendarWeeks: true
-                                });
-                            </script>
-                        </div>
+                    <div id="date-from" class="panel panel-default">
+                        
                     </div>
-                    <div class="panel panel-default">
-                        <h3 style="text-align: center;">Until</h3>
-                        <div id="user-reservation-to" style="align-content: center;">
-                            <script>
-                                var to = $('#user-reservation-to').datepicker({
-                                    format: "dd/mm/yyyy",
-                                    calendarWeeks: true
-                                });
-                            </script>
-                        </div>
+                    <div id="date-to" class="panel panel-default">
+                        
                     </div>
                 </div>
             </div>
@@ -469,9 +441,13 @@
                     <input type="text" id="gb-input-fname" class="form-control" placeholder="First name" required>
                     <label for="input-lname" class="sr-only">Last name</label>
                     <input type="text" id="gb-input-lname" class="form-control" placeholder="Last name" required>
-                    <label for="input-lname" class="sr-only">Phone number</label>
-                    <input type="text" id="gb-input-lname" class="form-control" placeholder="Phone number">
-                    <label>
+                    <label for="input-phone" class="sr-only">Phone number</label>
+                    <input type="text" id="gb-input-phone" class="form-control" placeholder="Phone number">
+                    <label for="input-id" class="sr-only">ID Number</label>
+                    <input type="text" id="gb-input-id" class="form-control" placeholder="ID number">
+                    <label for="input-psswd" class="sr-only">Password (for checking and editing reservation info)</label>
+                    <input type="password" id="gb-input-psswd" class="form-control" placeholder="Password (for checking and editing reservation info)">
+                    <!--<label>
                         <input type="checkbox" id="invoice-check" onchange="enableInvoice()"/> I'd like to receive an invoice
                     </label>
                     <label for="input-cname" class="sr-only">Company name</label>
@@ -479,9 +455,9 @@
                     <label for="input-cin" class="sr-only">CIN</label>
                     <input type="text" id="gb-input-cin" class="form-control" placeholder="CIN" style="background-color: #414141; font-weight: bold; color: #FFFFFF; " disabled>
                     <label for="input-caddr" class="sr-only">Company address</label>
-                    <input type="text" id="gb-input-caddr" class="form-control" placeholder="Company address" style="background-color: #414141; font-weight: bold; color: #FFFFFF; " disabled>
+                    <input type="text" id="gb-input-caddr" class="form-control" placeholder="Company address" style="background-color: #414141; font-weight: bold; color: #FFFFFF; " disabled>-->
                 </div>
-                <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="reservationFormSubmit()">Send reservation form</button>
+                <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="register()">Send reservation form</button>
             </form>
         </div>
     </div> 
