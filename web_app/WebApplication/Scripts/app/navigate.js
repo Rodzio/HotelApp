@@ -644,7 +644,12 @@ function dropReservation(number) {
 
 function updateReservation(number) {
     changing = true;
-    //this.showChangeForm();
+    var hide = document.getElementsByClassName("container");
+    for (var i = 0; i < hide.length; i++) {
+        if (hide[i].className !== "container hidden") hide[i].className += " hidden";
+    }
+    document.getElementById("new-reservation-content").className = "container";
+    document.getElementById("reservations-content").className = "container";
     this.reservationForm("new-reservation-button");
     var newbut = document.getElementById("make-button");
     var chabut = newbut;
@@ -653,6 +658,41 @@ function updateReservation(number) {
     var div = newbut.parentNode;
     div.removeChild(newbut);
     div.appendChild(chabut);
+}
+
+function changeReservation(number) {
+    if (changing) {
+        var dates = this.parseDate(document.getElementById("from-date").value, document.getElementById("to-date").value);
+        var updateData = {
+            ReservationId: reservations[number].ReservationId,
+            UserId: user,
+            HotelId: reservations[number].HotelId,
+            RoomNumber: reservations[number].RoomNumber,
+            ReservationCheckIn: dates.from,
+            ReservationCheckOut: dates.to
+        };
+        var temp = JSON.stringify(updateData);
+        temp = temp.replace('{', ',');
+        var updateString = '{"command":"reservation","action":"update",' + temp + '}';
+
+        var uconnection = new WebSocket("ws://83.145.169.112:9009");
+
+        uconnection.onerror = function (error) {
+            console.log('WebSocket Error ' + error);
+        };
+
+        uconnection.onopen = function () {
+            uconnection.send(string);
+        };
+
+        uconnection.onmessage = function (e) {
+            var u = JSON.stringify(eval('(' + e.data + ')'))
+            json = JSON.parse(u);
+            data = json;
+            me.navigateSetData(data, request);
+        };
+    }
+    changing = false;
 }
 
 function templateStringJumbo(index) {
@@ -689,9 +729,6 @@ function templateStringJumbo(index) {
                     '<div class="btn-group" role="group">' +
                         '<button type="button" class="btn btn-lg btn-primary btn-block" id="drop-reservation-button" onclick="dropReservation(' + index + ')">Drop this reservation</button>' +
                 '</div>' +
-                    '<div class="btn-group" role="group">' +
-                        '<button type="button" class="btn btn-lg btn-primary btn-block" id="change-reservation-button" onclick="updateReservation(' + index + ')">Change this reservation</button>' +
-                    '</div>' +
                 '</div>'+
             '</div>';
     return string;
