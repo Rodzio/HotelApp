@@ -76,7 +76,7 @@ function login(mail, psswd) {
         };
         var temp = JSON.stringify(loginData);
         logString = '{"command":"login","loginData":' + temp + '}';
-        var connection = new WebSocket("ws://83.145.169.112:9009");
+        var connection = new WebSocket("ws://83.145.184.80:9009");
         connection.onerror = function (error) {
             console.log('WebSocket Error ' + error);
         };
@@ -110,7 +110,7 @@ function login(mail, psswd) {
             };
             var temp = JSON.stringify(loginData);
             var logString = '{"command":"login","loginData":' + temp + '}';
-            var connection = new WebSocket("ws://83.145.169.112:9009");
+            var connection = new WebSocket("ws://83.145.184.80:9009");
             connection.onerror = function (error) {
                 console.log('WebSocket Error ' + error);
             };
@@ -154,7 +154,7 @@ function register() {
         userHotelId: ""
     };
     user = document.getElementById("gb-input-id").value;
-    var connection = new WebSocket("ws://83.145.169.112:9009");
+    var connection = new WebSocket("ws://83.145.184.80:9009");
     var temp = JSON.stringify(registerData);
     var regString = '{"command":"register","registerData":' + temp + '}';
     connection.onerror = function (error) {
@@ -331,7 +331,7 @@ function reservationFormSubmit() {
         ReservationCheckIn: dates.from,
         ReservationCheckOut: dates.to
     };
-    var connection = new WebSocket("ws://83.145.169.112:9009");
+    var connection = new WebSocket("ws://83.145.184.80:9009");
     var temp = JSON.stringify(newReservationData);
     temp = temp.replace('{', ',');
     reserving = true;
@@ -351,7 +351,7 @@ function parseDate(f, t) {
 }
 
 function getReservation() {
-    var connection = new WebSocket("ws://83.145.169.112:9009");
+    var connection = new WebSocket("ws://83.145.184.80:9009");
     var string = '{"command":"reservation","action":"get"}';
     connection.onerror = function (error) {
         console.log('WebSocket Error ' + error);
@@ -474,7 +474,7 @@ function prepareRequest(container) {
 function doRequest(request, action, data) {
     if (typeof request !== 'undefined' && !changing) {
         if (action === "add" || action === "update") {
-            var connection = new WebSocket("ws://83.145.169.112:9009");
+            var connection = new WebSocket("ws://83.145.184.80:9009");
             if (data !== "") {
                 var temp = data;
                 temp = temp.replace('{', ',');
@@ -496,7 +496,7 @@ function doRequest(request, action, data) {
                 me.navigateSetData(data, request);
             };
         } else {
-            var connection = new WebSocket("ws://83.145.169.112:9009");
+            var connection = new WebSocket("ws://83.145.184.80:9009");
             if (data !== "") {
                 var temp = data;
                 temp = temp.replace('{', ',');
@@ -618,7 +618,7 @@ function dropReservation(number) {
         res: reservations[number].ReservationId,
         id: reservations[number].UserId
     };
-    var connectionD = new WebSocket("ws://83.145.169.112:9009");
+    var connectionD = new WebSocket("ws://83.145.184.80:9009");
     var dropString = '{"command":"reservation","action":"delete","ReservationId":"' + toDrop.res + '","UserId":"' + toDrop.id + '"}';
     var loginString = '{"command":"login","loginData":{"userEmail":"' + loginData.userEmail + '","userPasswordHash":"' + loginData.userPasswordHash + '"}}';
     connectionD.onerror = function (error) {
@@ -675,7 +675,7 @@ function changeReservation(number) {
         temp = temp.replace('{', ',');
         var updateString = '{"command":"reservation","action":"update",' + temp + '}';
 
-        var uconnection = new WebSocket("ws://83.145.169.112:9009");
+        var uconnection = new WebSocket("ws://83.145.184.80:9009");
 
         uconnection.onerror = function (error) {
             console.log('WebSocket Error ' + error);
