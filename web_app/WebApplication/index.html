@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="Styles/bootstrap-datepicker.css">
     <link rel="stylesheet" href="Styles/extended-sheet.css">
-    <script src="Scripts/app/requests.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="https://code.angularjs.org/1.4.0-beta.5/angular.js"></script>
@@ -15,6 +14,7 @@
     <script src="Scripts/app/navigate.js"></script>
     <script src="Scripts/app/modal.js"></script>
     <script src="Scripts/packages/bootstrap-datepicker.js"></script>
+    <script src="Scripts/app/requests.js"></script>
 </head>
 
 <body>
@@ -252,47 +252,6 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="panel hidden" id="room-additional" target="prev">
-                            <form id="additional-form">
-                                <div class="btn-group btn-group-checkbox btn-group-justified" data-toggle="buttons" id="add-check">
-                                    <div>
-                                        <label class="btn btn-primary btn-block">
-                                            <input type="checkbox" name="options" id="add1" autocomplete="off"> Lodówka
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <label class="btn btn-primary btn-block">
-                                            <input type="checkbox" name="options" id="add2" autocomplete="off"> Suszarka
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <label class="btn btn-primary btn-block">
-                                            <input type="checkbox" name="options" id="add3" autocomplete="off"> Barek
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <label class="btn btn-primary btn-block">
-                                            <input type="checkbox" name="options" id="add4" autocomplete="off"> Śniadanie
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <label class="btn btn-primary btn-block">
-                                            <input type="checkbox" name="options" id="add5" autocomplete="off"> Obiad
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <label class="btn btn-primary btn-block">
-                                            <input type="checkbox" name="options" id="add6" autocomplete="off"> Kolacja
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <label class="btn btn-primary btn-block">
-                                            <input type="checkbox" name="options" id="add7" autocomplete="off"> Żelazko
-                                        </label>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
                         <nav>
                             <ul class="pager">
                                 <li><a id="roomPrev" class="" href="#room-prev" onclick="navRoomDetail('prev')">Previous</a></li>
@@ -313,7 +272,8 @@
                                     orientation: "bottom auto",
                                     multidate: false,
                                     calendarWeeks: true,
-                                    startDate: "Today"
+                                    startDate: "Today",
+                                    todayHighlight: true
                                 });
                             </script>
                         </div>
@@ -326,12 +286,13 @@
                                     orientation: "bottom auto",
                                     multidate: false,
                                     calendarWeeks: true,
-                                    startDate: "Today"
+                                    startDate: "+1d",
+                                    todayHighlight: true
                                 });
                             </script>
                         </div>
                     </div>
-                    <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="navPage('new-form-button')">Make a reservation</button>
+                    <button id="make-button" class="btn btn-lg btn-primary btn-block" type="submit" onclick="navPage('new-form-button')">Make a reservation</button>
 
                     <div id="hotel-imgs" class="col-md-6">
                         <h3 style ="text-align: center;">Hotel images</h3>
@@ -386,47 +347,7 @@
     <!-- /reservations -->
 
     <div id="user-reservation-content" class="container hidden">
-        <div class="jumbotron">
-            <h1 style="text-align: center;">My reservation</h1>
-            <div class="row">
-                <div class="col-md-8">
-                    <h2 style="text-align: center;">Hotel & room informations</h2>
-                </div>
-                <div class="col-md-4">
-                    <h2 style="text-align: center;">Reservation dates</h2>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-8" id="user-hotel-info">
-                    <div id="hotel-info" class="row">
-                        
-                    </div>
-                    <div id="room-info" class="row">
-                        
-                    </div>
-                </div>
-                <div class="col-md-4" id="user-date-info">
-                    <div id="date-from" class="panel panel-default">
-                        
-                    </div>
-                    <div id="date-to" class="panel panel-default">
-                        
-                    </div>
-                </div>
-            </div>
-            <div class="btn-group btn-group-justified" role="group" aria-label="Justified button group">
-                <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-lg btn-primary btn-block" id="drop-reservation-button">
-                        Drop my reservation
-                    </button>
-                </div>
-                <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-lg btn-primary btn-block" id="change-reservation-button">
-                        Change my reservation
-                    </button>
-                </div>
-            </div>
-        </div>
+        
     </div>
     <!-- /user-reservation -->
 

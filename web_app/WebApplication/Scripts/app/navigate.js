@@ -8,9 +8,12 @@ var hotelData;
 var templateData;
 var roomData;
 var reservationData;
+var room, template, hotel;
 var newReservationData;
 var user;
 var reserving = false;
+var reserved = false;
+var changing = false;
 var me = this;
 var registerData;
 var loginData;
@@ -20,15 +23,17 @@ var templateCount = 0;
 var sizeCount = 0;
 var co, ho, ro;
 var resString;
+var reservationCount = 0;
+var reservations = [];
 
 function navPage(navButton) {
     var act = document.getElementsByClassName("active"),
         hcon = document.getElementsByClassName("container"),
-        con = navButton.replace("button","content");
-        
+        con = navButton.replace("button", "content");
+
     document.getElementById("container-reservation").className = "container";    
-    document.getElementById("container-guestbook").className = "container";    
-        
+    document.getElementById("container-guestbook").className = "container";
+
     for (var i = 0; i < hcon.length; i++) {
         if (hcon[i].className === "container") {
             hcon[i].className = "container hidden";
@@ -41,6 +46,9 @@ function navPage(navButton) {
         act[j].className = "inactive";
     }
     if (navButton === "new-form-button") {
+        if (changing) {
+            this.showChangeForm();
+        }
         this.showReservationForm();
     }
     if (document.getElementById(navButton) !== null) document.getElementById(navButton).className = "active";
@@ -75,10 +83,10 @@ function login(mail, psswd) {
 
         connection.onopen = function () {
             connection.send(logString);
-            if (reserving) connection.send(me.reservationFormSubmit());
         };
 
         connection.onmessage = function (e) {
+            if (reserving) connection.send(me.reservationFormSubmit());
             reserving = false;
             console.log(e.data);
             var u = JSON.stringify(eval('(' + e.data + ')'))
@@ -109,22 +117,25 @@ function login(mail, psswd) {
 
             connection.onopen = function () {
                 connection.send(logString);
-                if (reserving) connection.send(me.reservationFormSubmit());
             };
 
             connection.onmessage = function (e) {
-                reserving = false;
-                console.log(e.data);
-                var u = JSON.stringify(eval('(' + e.data + ')'))
-                json = JSON.parse(u);
-                data = json;
-                if (data.result) {
+                if (!reserved) {
+                    if (reserving) connection.send(me.reservationFormSubmit());
+                    reserving = false;
+                    console.log(e.data);
                     var u = JSON.stringify(eval('(' + e.data + ')'))
                     json = JSON.parse(u);
                     data = json;
-                    if (data.info.UserId !== "undefined") user = data.info.UserId;
-                } else {
-                    me.register();
+                    if (data.result) {
+                        var u = JSON.stringify(eval('(' + e.data + ')'))
+                        json = JSON.parse(u);
+                        data = json;
+                        if (data.command === "login") user = data.info.UserId;
+                        reserved = true;
+                    } else {
+                        me.register();
+                    }
                 }
             };
         }
@@ -142,6 +153,7 @@ function register() {
         userPasswordHash: document.getElementById("gb-input-psswd").value,
         userHotelId: ""
     };
+    user = document.getElementById("gb-input-id").value;
     var connection = new WebSocket("ws://83.145.169.112:9009");
     var temp = JSON.stringify(registerData);
     var regString = '{"command":"register","registerData":' + temp + '}';
@@ -158,7 +170,9 @@ function register() {
         json = JSON.parse(u);
         data = json;
         reserving = true;
+        console.log(data);
         me.login(document.getElementById("gb-input-email").value, document.getElementById("gb-input-psswd").value);
+        me.navPage('user-reservation-button');
     };
 }
 
@@ -204,9 +218,16 @@ function showReservationForm() {
     document.getElementById("new-form-content").className = "container";
 }
 
-function appendCallendar(userDates) {
-    $('#user-reservation-from').datepicker('update', userDates.from);
-    $('#user-reservation-to').datepicker('update', userDates.to);
+function showChangeForm() {
+    if (window.innerWidth < 700) {
+        document.getElementById("new-form-content").style.width = "100%";
+    }
+    document.getElementById("new-form-content").className = "container";
+}
+
+function appendCallendar(userDates, index) {
+    $('#user-reservation-from-'+index).datepicker('update', userDates.from);
+    $('#user-reservation-to-'+index).datepicker('update', userDates.to);
 }
 
 function navRoomDetail(button) {
@@ -297,6 +318,9 @@ function navHotelDetail(button) {
 }
 
 function reservationFormSubmit() {
+    for (var h = 0; h < document.getElementsByName("options size").length; h++) {
+        if (document.getElementsByName("options size")[h].checked) ro = document.getElementsByName("options size")[h].id
+    }
     var request = "reservation";
     var action = "add";
     var dates = this.parseDate(document.getElementById("from-date").value, document.getElementById("to-date").value);
@@ -312,23 +336,6 @@ function reservationFormSubmit() {
     temp = temp.replace('{', ',');
     reserving = true;
     return resString = '{"command":"' + request + '","action":"' + action + '"' + temp;
-
-    //connection.onerror = function (error) {
-    //    console.log('WebSocket Error ' + error);
-    //};
-
-    //connection.onopen = function () {
-    //    connection.send(resString);
-    //};
-
-    //connection.onmessage = function (e) {
-    //    var u = JSON.stringify(eval('(' + e.data + ')'))
-    //    json = JSON.parse(u);
-    //    data = json;
-    //    if (data.result) {
-    //        me.getReservation();
-    //    }
-    //};
 }
 
 function parseDate(f, t) {
@@ -363,7 +370,6 @@ function getReservation() {
 }
 
 function filterReservationInfo(data) {
-    var reservations = [];
     var temp = 0;
     for (var i = 0; i < data.count; i++) {
         for (var j = temp; j < data.count; j++) {
@@ -379,49 +385,56 @@ function filterReservationInfo(data) {
 }
 
 function setReservationData(reservations) {
-
-    var hotelString = '<h3>Hotel</h3>' +
-                        '<p>' +
-                            'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed, lacinia in, mi.' +
-                            'Cras vel lorem. Etiam pellentesque aliquet tellus.' +
-                        '</p>';
-    document.getElementById("hotel-info").innerHTML += hotelString;
-    var roomString = '<h3>Room</h3>' +
-                        '<p>' +
-                            'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed, lacinia in, mi.' +
-                            'Cras vel lorem. Etiam pellentesque aliquet tellus.' +
-                        '</p>' +
-                        '<div class="well">' +
-                            '<ul class="x-ul row">' +
-                                '<li class="x-li col-lg-6 col-md-6 col-sm-6 col-xs-12">' +
-                                    '<img class="x-img img-responsive" src="http://placehold.it/400x300">' +
-                                '</li>' +
-                                '<li class="x-li col-lg-6 col-md-6 col-sm-6 col-xs-12">' +
-                                    '<img class="x-img img-responsive" src="http://placehold.it/400x300">' +
-                                '</li>' +
-                            '</ul>' +
-                        '</div>';
-    document.getElementById("room-info").innerHTML += roomString;
-    var dateToString = '<h3 style="text-align: center;">Until</h3>'+
-                        '<div id="user-reservation-to" style="align-content: center;">'+
-                        '<script>' +
-                        'var to = $("#user-reservation-to").datepicker({format: "dd/mm/yyyy",calendarWeeks: true});' +
-                        '</script>'+
-                        '</div>';
-    var dateFromString = '<h3 style="text-align: center;">From</h3>' +
-                        '<div id="user-reservation-from" style="align-content: center;">' +
-                        '<script>' +
-                        'var from = $("#user-reservation-from").datepicker({format: "dd/mm/yyyy",calendarWeeks: true});' +
-                        '</script>' +
-                        '</div>';
-    document.getElementById("date-from").innerHTML = dateFromString;
-    document.getElementById("date-to").innerHTML = dateToString;
-    var dateFrom = this.splitDate(reservations[0].ReservationCheckIn);
-    var dateTo = this.splitDate(reservations[0].ReservationCheckOut);
-    var d = this.parseDate(dateFrom, dateTo);
-    var dates = this.switchDates(d);
+    var jumbos = document.getElementsByName("reservation-jumbo");
+    for (var j = 0; j < jumbos.length; j++) {
+        jumbos[j].parentNode.removeChild(jumbos[j]);
+    }
+    for (var i = 0; i < reservations.length; i++) {
+        var jumbo = this.templateStringJumbo(i);
+        document.getElementById("user-reservation-content").innerHTML += jumbo;
+        var hotelString = '<h3>Hotel</h3>' +
+                            '<p>' +
+                                'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed, lacinia in, mi.' +
+                                'Cras vel lorem. Etiam pellentesque aliquet tellus.' +
+                            '</p>';
+        document.getElementById("hotel-info-"+i).innerHTML += hotelString;
+        var roomString = '<h3>Room</h3>' +
+                            '<p>' +
+                                'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed, lacinia in, mi.' +
+                                'Cras vel lorem. Etiam pellentesque aliquet tellus.' +
+                            '</p>' +
+                            '<div class="well">' +
+                                '<ul class="x-ul row">' +
+                                    '<li class="x-li col-lg-6 col-md-6 col-sm-6 col-xs-12">' +
+                                        '<img class="x-img img-responsive" src="http://placehold.it/400x300">' +
+                                    '</li>' +
+                                    '<li class="x-li col-lg-6 col-md-6 col-sm-6 col-xs-12">' +
+                                        '<img class="x-img img-responsive" src="http://placehold.it/400x300">' +
+                                    '</li>' +
+                                '</ul>' +
+                            '</div>';
+        document.getElementById("room-info-"+i).innerHTML += roomString;
+        var dateToString = '<h3 style="text-align: center;">Until</h3>' +
+                            '<div id="user-reservation-to-' + i + '" style="align-content: center;">' +
+                            '<script>' +
+                            'var to = $("#user-reservation-to-' + i + '").datepicker({format: "dd/mm/yyyy",calendarWeeks: true});' +
+                            '</script>' +
+                            '</div>';
+        var dateFromString = '<h3 style="text-align: center;">From</h3>' +
+                            '<div id="user-reservation-from-' + i + '" style="align-content: center;">' +
+                            '<script>' +
+                            'var from = $("#user-reservation-from-' + i + '").datepicker({format: "dd/mm/yyyy",calendarWeeks: true});' +
+                            '</script>' +
+                            '</div>';
+        document.getElementById("date-from-" + i).innerHTML = dateFromString;
+        document.getElementById("date-to-" + i).innerHTML = dateToString;
+        var dateFrom = this.splitDate(reservations[i].ReservationCheckIn);
+        var dateTo = this.splitDate(reservations[i].ReservationCheckOut);
+        var d = this.parseDate(dateFrom, dateTo);
+        var dates = this.switchDates(d);
+        this.appendCallendar(dates, i);
+    }
     this.navPage('user-reservation-button');
-    this.appendCallendar(dates);
 }
 
 function switchDates(d) {
@@ -459,50 +472,52 @@ function prepareRequest(container) {
 }
 
 function doRequest(request, action, data) {
-    if (action === "add" || action === "update") {
-        var connection = new WebSocket("ws://83.145.169.112:9009");
-        if (data !== "") {
-            var temp = data;
-            temp = temp.replace('{', ',');
-            var string = '{"command":"' + request + '","action":"' + action + '"' + temp;
-        } else var string = '{"command":"' + request + '","action":"' + action + '"}';
+    if (typeof request !== 'undefined' && !changing) {
+        if (action === "add" || action === "update") {
+            var connection = new WebSocket("ws://83.145.169.112:9009");
+            if (data !== "") {
+                var temp = data;
+                temp = temp.replace('{', ',');
+                var string = '{"command":"' + request + '","action":"' + action + '"' + temp;
+            } else var string = '{"command":"' + request + '","action":"' + action + '"}';
 
-        connection.onerror = function (error) {
-            console.log('WebSocket Error ' + error);
-        };
+            connection.onerror = function (error) {
+                console.log('WebSocket Error ' + error);
+            };
 
-        connection.onopen = function () {
-            connection.send(string);
-        };
+            connection.onopen = function () {
+                connection.send(string);
+            };
 
-        connection.onmessage = function (e) {
-            var u = JSON.stringify(eval('(' + e.data + ')'))
-            json = JSON.parse(u);
-            data = json;
-            me.navigateSetData(data, request);
-        };
-    } else {
-        var connection = new WebSocket("ws://83.145.169.112:9009");
-        if (data !== "") {
-            var temp = data;
-            temp = temp.replace('{', ',');
-            var string = '{"command":"' + request + '","action":"' + action + '"' + temp;
-        } else var string = '{"command":"' + request + '","action":"' + action + '"}';
+            connection.onmessage = function (e) {
+                var u = JSON.stringify(eval('(' + e.data + ')'))
+                json = JSON.parse(u);
+                data = json;
+                me.navigateSetData(data, request);
+            };
+        } else {
+            var connection = new WebSocket("ws://83.145.169.112:9009");
+            if (data !== "") {
+                var temp = data;
+                temp = temp.replace('{', ',');
+                var string = '{"command":"' + request + '","action":"' + action + '"' + temp;
+            } else var string = '{"command":"' + request + '","action":"' + action + '"}';
 
-        connection.onerror = function (error) {
-            console.log('WebSocket Error ' + error);
-        };
+            connection.onerror = function (error) {
+                console.log('WebSocket Error ' + error);
+            };
 
-        connection.onopen = function () {
-            connection.send(string);
-        };
+            connection.onopen = function () {
+                connection.send(string);
+            };
 
-        connection.onmessage = function (e) {
-            var u = JSON.stringify(eval('(' + e.data + ')'))
-            json = JSON.parse(u);
-            data = json;
-            me.navigateSetData(data, request);
-        };
+            connection.onmessage = function (e) {
+                var u = JSON.stringify(eval('(' + e.data + ')'))
+                json = JSON.parse(u);
+                data = json;
+                me.navigateSetData(data, request);
+            };
+        }
     }
 }
 
@@ -510,12 +525,18 @@ function navigateSetData(data, request) {
     console.log(data, request);
     if (request === "hotel") {
         this.setCountry(data);
+        hotelData = data;
     }
     if (request === "template") {
         this.setTemplate(data);
+        templateData = data;
     }
     if (request === "room") {
         this.setSize(data);
+        roomData = data;
+    }
+    if (request === "reservation") {
+        reservationData = data;
     }
 }
 
@@ -590,4 +611,88 @@ function setSize(data) {
         var string = '<div><label class="btn btn-primary  btn-block"><input type="radio" name="options size" id="' + data.list[i].RoomNumber + '" autocomplete="off">' + data.list[i].RoomNumber + '. osobowy</label></div>'
         document.getElementById("size-radio").innerHTML += string;
     }
+}
+
+function dropReservation(number) {
+    var toDrop = {
+        res: reservations[number].ReservationId,
+        id: reservations[number].UserId
+    };
+    var connectionD = new WebSocket("ws://83.145.169.112:9009");
+    var dropString = '{"command":"reservation","action":"delete","ReservationId":"' + toDrop.res + '","UserId":"' + toDrop.id + '"}';
+    var loginString = '{"command":"login","loginData":{"userEmail":"' + loginData.userEmail + '","userPasswordHash":"' + loginData.userPasswordHash + '"}}';
+    connectionD.onerror = function (error) {
+        console.log('WebSocket Error ' + error);
+    };
+
+    connectionD.onopen = function () {
+        connectionD.send(loginString);
+    };
+
+    connectionD.onmessage = function (e) {
+        var u = JSON.stringify(eval('(' + e.data + ')'))
+        json = JSON.parse(u);
+        data = json;
+        reserving = true;
+        console.log(data);
+        if (data.command === "login") {
+            connectionD.send(dropString);
+        }
+        if (data.result) me.navPage('user-reservation-button');
+    };
+}
+
+function updateReservation(number) {
+    changing = true;
+    //this.showChangeForm();
+    this.reservationForm("new-reservation-button");
+    var newbut = document.getElementById("make-button");
+    var chabut = newbut;
+    chabut.setAttribute("id", "change-button");
+    chabut.setAttribute("onclick", "changeReservation('" + number + "')");
+    var div = newbut.parentNode;
+    div.removeChild(newbut);
+    div.appendChild(chabut);
+}
+
+function templateStringJumbo(index) {
+    var j = index + 1;
+    var string = '<div class="jumbotron" name="reservation-jumbo">' +
+                '<h1 style="text-align: center;">My reservation number ' + j + '</h1>' +
+                '<div class="row">' +
+                    '<div class="col-md-8">' +
+                        '<h2 style="text-align: center;">Hotel & room informations</h2>' +
+                    '</div>' +
+                    '<div class="col-md-4">' +
+                        '<h2 style="text-align: center;">Reservation dates</h2>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="row">' +
+                    '<div class="col-md-8" id="user-hotel-info">' +
+                        '<div id="hotel-info-'+index+'" class="row">' +
+                        
+                        '</div>' +
+                        '<div id="room-info-' + index + '" class="row">' +
+                        
+                        '</div>' +
+                    '</div>' +
+                    '<div class="col-md-4" id="user-date-info">' +
+                        '<div id="date-from-' + index + '" class="panel panel-default">' +
+                        
+                        '</div>' +
+                        '<div id="date-to-' + index + '" class="panel panel-default">' +
+                        
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="btn-group btn-group-justified" role="group" aria-label="Justified button group">' +
+                    '<div class="btn-group" role="group">' +
+                        '<button type="button" class="btn btn-lg btn-primary btn-block" id="drop-reservation-button" onclick="dropReservation(' + index + ')">Drop this reservation</button>' +
+                '</div>' +
+                    '<div class="btn-group" role="group">' +
+                        '<button type="button" class="btn btn-lg btn-primary btn-block" id="change-reservation-button" onclick="updateReservation(' + index + ')">Change this reservation</button>' +
+                    '</div>' +
+                '</div>'+
+            '</div>';
+    return string;
 }
