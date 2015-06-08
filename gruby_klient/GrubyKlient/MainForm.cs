@@ -249,6 +249,8 @@ namespace GrubyKlient
             updateHotelForm.ShowDialog(this);
         }
 
+        
+
         private void buttonRefresh_Click(object sender, EventArgs e)
         {
             try
@@ -271,7 +273,12 @@ namespace GrubyKlient
 
         private void buttonEditRoom_Click(object sender, EventArgs e)
         {
-            
+            updateRoomForm = new AddRoomForm(
+                int.Parse((string)dataGridViewRooms.SelectedRows[0].Cells[0].Value),
+                int.Parse((string)dataGridViewRooms.SelectedRows[0].Cells[1].Value),
+                dataGridViewRooms.SelectedRows[0].Cells[2].Value.ToString()
+            );
+            updateRoomForm.ShowDialog(this);
         }
 
         public void initRoomsList()

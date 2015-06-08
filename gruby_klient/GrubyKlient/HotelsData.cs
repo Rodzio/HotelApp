@@ -29,5 +29,6 @@ namespace GrubyKlient
         public List<Hotel> Hotels { get; set; }
         public List<Room> Rooms { get; set; }
         public List<Reservation> Reservations { get; set; }
+        public List<User> Users { get; set; }
     }
 }
