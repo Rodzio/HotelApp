@@ -66,7 +66,7 @@ create table Hotels
 /*==============================================================*/
 create table Reservations
 (
-   ReservationId        varchar(36) not null,
+   ReservationId        int not null AUTO_INCREMENT,
    HotelId              smallint not null,
    RoomNumber           smallint not null,
    UserId               varchar(30),

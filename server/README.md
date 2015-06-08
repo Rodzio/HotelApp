@@ -1,29 +1,22 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+## Serwer IDC Hotel Suite v0.02 ##
 
-### What is this repository for? ###
+### Jaką rolę pełni ten komponent? ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+Serwer ma za zadanie utworzyć API dostępowe do bazy danych. Izoluje to bazę danych od użytkowników i pozwala na stworzenie wygodniejszego w użyciu systemu komunikacji z nią.
 
-### How do I get set up? ###
+### Jakie funkcjonalności sa obecnie dostępne? ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+* Wstępna wersja komponentu, nie oferująca jeszcze żadnych planowanych funkcjonalności
 
-### Contribution guidelines ###
+### Instalacja i konfiguracja ###
 
-* Writing tests
-* Code review
-* Other guidelines
+Serwer należy uruchomić za pomocą node.js z zainstalowanymi poniższymi modułami:
+* ws - rdzeń aplikacji, serwer WebSocket
+* mysql - wykorzystywany do łączenia się z bazą danych
+* nodemailer - wykorzystywany przy wysyłani maili potwierdzających rejestrację
 
-### Who do I talk to? ###
+### Autor ###
 
-* Repo owner or admin
-* Other community or team contact
+Michał Łuniewski

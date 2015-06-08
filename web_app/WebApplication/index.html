@@ -1,0 +1,456 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="Styles/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="Styles/extended-sheet.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="https://code.angularjs.org/1.4.0-beta.5/angular.js"></script>
+    <!--<script src="Scripts/packages/ext-all-debug.js"></script>-->
+    <script src="Scripts/app/navigate.js"></script>
+    <script src="Scripts/app/modal.js"></script>
+    <script src="Scripts/packages/bootstrap-datepicker.js"></script>
+    <script src="Scripts/app/requests.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-default navbar-static-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#hotel-navbar-top">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#home">The Company</a>
+            </div>
+            <!-- /navbar header end -->
+
+            <div class="collapse navbar-collapse" id="hotel-navbar-top">
+                <ul class="nav navbar-nav">
+                    <li class="active" id="home-button" onclick="navPage('home-button')">
+                        <a href="#home">
+                            Home
+                            <span class="sr-only">
+                            </span>
+                        </a>
+                    </li>
+                    <li class="inactive" id="hotels-button" onclick="navPage('hotels-button')">
+                        <a href="#hotels">
+                            Hotels
+                            <span class="sr-only">
+                            </span>
+                        </a>
+                    </li>
+                    <li class="inactive" id="gallery-button" onclick="navPage('gallery-button')">
+                        <a href="#gallery">
+                            Gallery
+                            <span class="sr-only">
+                            </span>
+                        </a>
+                    </li>
+                    <li class="inactive" id="reservations-button" onclick="navPage('reservations-button')">
+                        <a href="#reservations">
+                            Reservations
+                            <span class="sr-only">
+                            </span>
+                        </a>
+                    </li>
+                    <li class="inactive" id="guestbook-button" onclick="navPage('guestbook-button')">
+                        <a href="#guestbook">
+                            Guestbook
+                            <span class="sr-only">
+                            </span>
+                        </a>
+                    </li>
+                    <li class="inactive" id="contact-button" onclick="navPage('contact-button')">
+                        <a href="#contact">
+                            Contact
+                            <span class="sr-only">
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /navbar collapse end -->
+        </div>
+        <!-- /container end -->
+    </nav>
+    <!-- /navbar -->
+
+    <div class="container" id="home-content">
+        <div class="jumbotron">
+            <img src="Resources/hotel-logo.png" class="img-thumbnail" style="background-color:transparent; border: none;">
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed, lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam. Quisque semper justo at risus. Donec venenatis,
+                turpis vel hendrerit interdum, dui ligula ultricies purus, sed posuere libero dui id orci. Nam congue, pede vitae dapibus aliquet, elit magna vulputate arcu, vel tempus metus leo non est. Etiam sit amet lectus quis est congue mollis. Phasellus
+                congue lacus eget neque. Phasellus ornare, ante vitae consectetuer consequat, purus sapien ultricies dolor, et mollis pede metus eget nisi. Praesent sodales velit quis augue. Cras suscipit, urna at aliquam rhoncus, urna quam viverra nisi,
+                in interdum massa nibh nec erat.
+            </p>
+        </div>
+    </div>
+    <!-- /home -->
+
+    <div class="container hidden" id="hotels-content">
+        <div class="jumbotron">
+            <h2 style="text-align: center;">Our Hotels</h2>
+            <div class="row">
+                <div class="col-md-4" id="map-container">
+                    <object type="image/svg+xml" data="Scripts/packages/map.svg" width="100%" height="100%"></object>
+                </div>
+                <div class="col-md-6" id="hotel-region">
+                    <img src="http://placehold.it/600x250" />
+                    <h2>Hotel</h2>
+                    <p>
+                        Information about hotels in this region will be displayed here.
+                        They will contain address, facade picture, general informations.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /hotels -->
+
+    <div class="container hidden" id="gallery-content">
+        <div class="jumbotron">
+            <h2 style="text-align: center;">Gallery</h2>
+            <div class="well">
+                <h3 style="text-align: center;">Hotel 1</h3>
+                <ul class="x-ul row">
+                    <li class="x-li col-lg-2 col-md-2 col-sm-3 col-xs-4">
+                        <img class="x-img img-responsive" src="http://placehold.it/400x300">
+                    </li>
+                    <li class="x-li col-lg-2 col-md-2 col-sm-3 col-xs-4">
+                        <img class="x-img img-responsive" src="http://placehold.it/1150x850">
+                    </li>
+                    <li class="x-li col-lg-2 col-md-2 col-sm-3 col-xs-4">
+                        <img class="x-img img-responsive" src="http://placehold.it/400x300">
+                    </li>
+                    <li class="x-li col-lg-2 col-md-2 col-sm-3 col-xs-4">
+                        <img class="x-img img-responsive" src="http://placehold.it/400x300">
+                    </li>
+                    <li class="x-li col-lg-2 col-md-2 col-sm-3 col-xs-4">
+                        <img class="x-img img-responsive" src="http://placehold.it/500x500">
+                    </li>
+                    <li class="x-li col-lg-2 col-md-2 col-sm-3 col-xs-4">
+                        <img class="x-img img-responsive" src="http://placehold.it/400x300">
+                    </li>
+                </ul>
+                <h3 style="text-align: center;">Hotel 2</h3>
+                <ul class="x-ul row">
+                    <li class="x-li col-lg-2 col-md-2 col-sm-3 col-xs-4">
+                        <img class="x-img img-responsive" src="http://placehold.it/400x300">
+                    </li>
+                    <li class="x-li col-lg-2 col-md-2 col-sm-3 col-xs-4">
+                        <img class="x-img img-responsive" src="http://placehold.it/500x500">
+                    </li>
+                    <li class="x-li col-lg-2 col-md-2 col-sm-3 col-xs-4">
+                        <img class="x-img img-responsive" src="http://placehold.it/400x300">
+                    </li>
+                    <li class="x-li col-lg-2 col-md-2 col-sm-3 col-xs-4">
+                        <img class="x-img img-responsive" src="http://placehold.it/500x500">
+                    </li>
+                    <li class="x-li col-lg-2 col-md-2 col-sm-3 col-xs-4">
+                        <img class="x-img img-responsive" src="http://placehold.it/1150x850">
+                    </li>
+                </ul>
+                <h3 style="text-align: center;">Hotel 3</h3>
+                <ul class="x-ul row">
+                    <li class="x-li col-lg-2 col-md-2 col-sm-3 col-xs-4">
+                        <img class="x-img img-responsive" src="http://placehold.it/550x250">
+                    </li>
+                    <li class="x-li col-lg-2 col-md-2 col-sm-3 col-xs-4">
+                        <img class="x-img img-responsive" src="http://placehold.it/400x300">
+                    </li>
+                    <li class="x-li col-lg-2 col-md-2 col-sm-3 col-xs-4">
+                        <img class="x-img img-responsive" src="http://placehold.it/1150x850">
+                    </li>
+                    <li class="x-li col-lg-2 col-md-2 col-sm-3 col-xs-4">
+                        <img class="x-img img-responsive" src="http://placehold.it/400x300">
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /gallery -->
+
+    <div class="modal fade" id="modal-window" tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                </div>
+            </div>
+            <!-- /modal-content -->
+        </div>
+        <!-- /modal-dialog -->
+    </div>
+    <!-- /modal -->
+
+    <div class="container hidden" id="reservations-content">
+        <div class="jumbotron">
+            <h2 style="text-align: center;">Reservations</h2>
+
+            <div class="container hidden" id="container-reservation">
+                <div class="btn-group btn-group-justified" role="group" aria-label="Justified button group">
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-lg btn-primary btn-block" id="new-reservation-button" onclick="reservationForm('new-reservation-button')">
+                            New reservation
+                        </button>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-lg btn-primary btn-block" id="have-reservation-button" onclick="reservationForm('have-reservation-button')">
+                            View my reservation
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- /buttons-reservation -->
+
+            <div class="container hidden" id="new-reservation-content">
+                <div class="row">
+                    <div class="col-md-12" id="hotel-container" style="text-align: center;">
+                        <h3>Choose hotel</h3>
+                        <div class="panel" id="region-container" target="none">
+                            <form id="region-form">
+                                <div class="btn-group btn-group-radio btn-group-justified" data-toggle="buttons" id="region-radio">
+                                    
+                                </div>
+                            </form>
+                        </div>
+                        <div class="panel hidden" id="city-container" target="next">
+                            <form id="region-form">
+                                <div class="btn-group btn-group-radio btn-group-justified" data-toggle="buttons" id="city-radio">
+                                    
+                                </div>
+                            </form>
+                        </div>
+                        <nav>
+                            <ul class="pager">
+                                <li><a id="hotelPrev" class="hidden" href="#hotel-prev" onclick="navHotelDetail('prev')">Previous</a></li>
+                                <li><a id="hotelNext" class="" href="#hotel-next" onclick="navHotelDetail('next')">Next</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="col-md-12 hidden" id="room-container" style="text-align: center;">
+                        <h3>Choose room details</h3>
+                        <div class="panel" id="room-type" target="none">
+                            <form id="type-form">
+                                <div class="btn-group btn-group-radio btn-group-justified" data-toggle="buttons" id="type-radio">
+                                    
+                                </div>
+                            </form>
+                        </div>
+                        <div class="panel hidden" id="room-size" target="next">
+                            <form id="size-form">
+                                <div class="btn-group btn-group-radio btn-group-justified" data-toggle="buttons" id="size-radio">
+                                    
+                                </div>
+                            </form>
+                        </div>
+                        <nav>
+                            <ul class="pager">
+                                <li><a id="roomPrev" class="" href="#room-prev" onclick="navRoomDetail('prev')">Previous</a></li>
+                                <li><a id="roomNext" class="" href="#room-next" onclick="navRoomDetail('next')">Next</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="row" id="img-content">
+                    <div id="sandbox-container" style="text-align: center;">
+                        <h3>Choose reservation dates</h3>
+                        <div class="input-group date">
+                            <input type="text" class="form-control" id="from-date" placeholder="From"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                            <script>
+                                $('#sandbox-container .input-group.date').datepicker({
+                                    format: "yyyy/mm/dd",
+                                    clearBtn: true,
+                                    orientation: "bottom auto",
+                                    multidate: false,
+                                    calendarWeeks: true,
+                                    startDate: "Today",
+                                    todayHighlight: true
+                                });
+                            </script>
+                        </div>
+                        <div class="input-group date">
+                            <input type="text" class="form-control" id="to-date" placeholder="To"><span class=" input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                            <script>
+                                $('#sandbox-container .input-group.date').datepicker({
+                                    format: "yyyy/mm/dd",
+                                    clearBtn: true,
+                                    orientation: "bottom auto",
+                                    multidate: false,
+                                    calendarWeeks: true,
+                                    startDate: "+1d",
+                                    todayHighlight: true
+                                });
+                            </script>
+                        </div>
+                    </div>
+                    <button id="make-button" class="btn btn-lg btn-primary btn-block" type="submit" onclick="navPage('new-form-button')">Make a reservation</button>
+
+                    <div id="hotel-imgs" class="col-md-6">
+                        <h3 style ="text-align: center;">Hotel images</h3>
+                        <div class="well">
+                            <ul class="x-ul row">
+                                <li class="x-li col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <img class="x-img img-responsive" src="http://placehold.it/400x300">
+                                </li>
+                                <li class="x-li col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <img class="x-img img-responsive" src="http://placehold.it/400x300">
+                                </li>
+                                <li class="x-li col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <img class="x-img img-responsive" src="http://placehold.it/400x300">
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="rooms-imgs" class="col-md-6">
+                        <h3 style="text-align: center;">Room images</h3>
+                        <div class="well">
+                            <ul class="x-ul row">
+                                <li class="x-li col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <img class="x-img img-responsive" src="http://placehold.it/400x300">
+                                </li>
+                                <li class="x-li col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <img class="x-img img-responsive" src="http://placehold.it/400x300">
+                                </li>
+                                <li class="x-li col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <img class="x-img img-responsive" src="http://placehold.it/400x300">
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div> 
+                <!-- /hotel and room images -->
+                
+            </div>
+            <!-- /new-reservation -->
+
+            <div class="container hidden" id="have-reservation-content" style="width: 30%;">
+                <form class="form-signin">
+                    <label for="input-email" class="sr-only">Email address</label>
+                    <input type="email" id="r-input-email" class="form-control" placeholder="Email address" required autofocus>
+                    <label for="input-password" class="sr-only">Password</label>
+                    <input type="password" id="r-input-password" class="form-control" placeholder="Password" required>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="login('','')">Sign in</button>
+                </form>
+            </div>
+            <!-- /have-reservation -->
+        </div>
+    </div>
+    <!-- /reservations -->
+
+    <div id="user-reservation-content" class="container hidden">
+        
+    </div>
+    <!-- /user-reservation -->
+
+    <div id="new-form-content" class="container hidden" style="width: 50%">
+        <div class="jumbotron">
+            <h2 style="text-align:center;">Fill reservation form</h2>
+            <form role="form">
+                <div class="form-signin">
+                    <label for="input-email" class="sr-only">Email address</label>
+                    <input type="email" id="gb-input-email" class="form-control" placeholder="Email address" required>
+                    <label for="input-fname" class="sr-only">First name</label>
+                    <input type="text" id="gb-input-fname" class="form-control" placeholder="First name" required>
+                    <label for="input-lname" class="sr-only">Last name</label>
+                    <input type="text" id="gb-input-lname" class="form-control" placeholder="Last name" required>
+                    <label for="input-phone" class="sr-only">Phone number</label>
+                    <input type="text" id="gb-input-phone" class="form-control" placeholder="Phone number">
+                    <label for="input-id" class="sr-only">ID Number</label>
+                    <input type="text" id="gb-input-id" class="form-control" placeholder="ID number">
+                    <label for="input-psswd" class="sr-only">Password (for checking and editing reservation info)</label>
+                    <input type="password" id="gb-input-psswd" class="form-control" placeholder="Password (for checking and editing reservation info)">
+                    <!--<label>
+                        <input type="checkbox" id="invoice-check" onchange="enableInvoice()"/> I'd like to receive an invoice
+                    </label>
+                    <label for="input-cname" class="sr-only">Company name</label>
+                    <input type="text" id="gb-input-cname" class="form-control" placeholder="Company name" style="background-color: #414141; font-weight: bold; color: #FFFFFF; " disabled>
+                    <label for="input-cin" class="sr-only">CIN</label>
+                    <input type="text" id="gb-input-cin" class="form-control" placeholder="CIN" style="background-color: #414141; font-weight: bold; color: #FFFFFF; " disabled>
+                    <label for="input-caddr" class="sr-only">Company address</label>
+                    <input type="text" id="gb-input-caddr" class="form-control" placeholder="Company address" style="background-color: #414141; font-weight: bold; color: #FFFFFF; " disabled>-->
+                </div>
+                <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="register()">Send reservation form</button>
+            </form>
+        </div>
+    </div> 
+    <!-- /new-reservation-form -->
+
+    <div class="container hidden" id="guestbook-content">
+        <div class="jumbotron">
+            <h2 style="text-align: center;">Guestbook</h2>
+
+            <div class="container hidden" id="container-guestbook">
+                <div class="btn-group btn-group-justified" role="group" aria-label="Justified button group">
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-lg btn-primary btn-block" id="new-guestbook-button" onclick="guestbookForm('new-guestbook-button')">
+                            New entry
+                        </button>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-lg btn-primary btn-block" id="view-guestbook-button" onclick="guestbookForm('view-guestbook-button')">
+                            View entries
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- /buttons-guestbook -->
+
+            <div class="container" id="new-guestbook-content" style="width: 70%">
+                <form role="form">
+                    <div class="form-signin">
+                        <label for="input-email" class="sr-only">Email address</label>
+                        <input type="email" id="gb-input-email" class="form-control" placeholder="Email address" required>
+                        <label for="input-fname" class="sr-only">First name</label>
+                        <input type="text" id="gb-input-fname" class="form-control" placeholder="First name" required>
+                        <label for="input-lname" class="sr-only">Last name</label>
+                        <input type="text" id="gb-input-lname" class="form-control" placeholder="Last name" required>
+                        <textarea class="form-control" id="gb-input-entry" rows="10" placeholder="Your guestbook entry"></textarea>
+                    </div>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="guestbookEntrySubmit()">Submit</button>
+                </form>
+            </div>
+            <!-- /new-entry-guestbook -->
+
+            <div id="view-guestbook-content" class="container">
+            </div>
+            <!-- /view-entries-guestbook -->
+
+        </div>
+    </div>
+    <!-- /guestbook -->
+
+    <div class="container hidden" id="contact-content" style="width: 70%">
+        <div class="jumbotron">
+            <h2 style="text-align: center;">Contact us</h2>
+            <form role="form">
+                <div class="form-signin">
+                    <label for="input-email" class="sr-only">Email address</label>
+                    <input type="email" id="gb-input-email" class="form-control" placeholder="Email address" required>
+                    <label for="input-fname" class="sr-only">First name</label>
+                    <input type="text" id="gb-input-fname" class="form-control" placeholder="First name" required>
+                    <label for="input-lname" class="sr-only">Last name</label>
+                    <input type="text" id="gb-input-lname" class="form-control" placeholder="Last name" required>
+                    <textarea class="form-control" id="gb-input-entry" rows="10" placeholder="Message"></textarea>
+                </div>
+                <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="contactFormSubmit()">Send</button>
+            </form>
+        </div>
+    </div>
+    <!-- /contact -->
+
+    <footer style="text-align: center;">
+        Copyright © IDC Suite 2015
+    </footer>
+
+</body>
+
+</html>
