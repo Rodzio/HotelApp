@@ -59,7 +59,7 @@ function messageHandler(msgString, client)
 
 	else if(serverSettings.mode == "default")
 	{
-		if(client.confirmed === false)
+		//if(client.confirmed === false)
 		{
 			if(msg.command == "hello")
 			{
@@ -77,7 +77,7 @@ function messageHandler(msgString, client)
 		}
 
 		{
-			if(msg.command == "login" && client.info == null)
+			if(msg.command == "login")
 			{
 				database.getConnection(function(err,connection)
 				{
@@ -116,14 +116,15 @@ function messageHandler(msgString, client)
 						loginResponse.command = "login";
 						loginResponse.requestId = msg.requestId;
 						loginResponse.result = loginStatus;
+						loginResponse.info = client.info;
 							
 						client.socket.send(JSON.stringify(loginResponse));	
 
 						if(loginStatus == true)
 						{
-							var loginQuery = "SELECT * FROM `userpermissionlevels` WHERE UserPermissionsLevelName = " + client.info.UserPermissionsLevelName;
+							var loginQuery = "SELECT * FROM `userpermissionlevels` WHERE UserPermissionsLevelName = '" + client.info.UserPermissionsLevelName + "'";
 							connection.query(loginQuery,function(err, rows, fields) {
-							connection.release();	
+							connection.release();
 							if(rows.length > 0)
 								client.permissions = rows[0];
 	 						});
@@ -161,7 +162,7 @@ function messageHandler(msgString, client)
 					}
 					
 					//to avoid undefined
-					if(msg.registerData.userHotelId == null) msg.registerData.userHotelId = null;
+					if(msg.registerData.userHotelId == undefined || msg.registerData.userHotelId == null || msg.registerData.userHotelId == "") msg.registerData.userHotelId = "null";
 
 					var registerQuery = "INSERT INTO `idc hotel suite database`.`users` VALUES ('" + msg.registerData.userId + "','" + msg.registerData.userPermissionLevel + "','" + msg.registerData.userFirstName + "','" + msg.registerData.userSecondName + "','" + msg.registerData.userLastName + "','" + msg.registerData.userEmail + "','" + msg.registerData.userPasswordHash + "'," + msg.registerData.userHotelId + ");";
 					console.log(registerQuery);
