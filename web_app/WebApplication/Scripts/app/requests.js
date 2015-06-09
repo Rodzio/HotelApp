@@ -1,17 +1,30 @@
-﻿//var connection = new WebSocket("ws://83.145.169.112:9009/");
-//var resString = '{"command": "hello"}';
-//var loginString = '{"command":"login","loginData":{"userEmail":"komrad@cccp.cccp","userPasswordHash":"12345"}}'
-//connection.onerror = function (error) {
-//    console.log('WebSocket Error ' + error);
-//};
+﻿var aaaconnection = new WebSocket("ws://83.145.184.80:9009/");
+var resString = '{"command":"room","action":"get"}';
+var loginString = '{"command":"reservation","action":"get"}';
+var string = '{"command":"template","action":"get"}';
+var roomData;
+var reservationData;
+var templateData;
 
-//connection.onopen = function () {
-//    connection.send(loginString);
-//};
+aaaconnection.onerror = function (error) {
+    console.log('WebSocket Error ' + error);
+};
 
-//connection.onmessage = function (e) {
-//    var u = JSON.stringify(eval('(' + e.data + ')'))
-//    json = JSON.parse(u);
-//    //if (json.command === "login") connection.send(resString);
-//    console.log(json); //json - obiekt
-//};
+aaaconnection.onopen = function () {
+    aaaconnection.send(loginString);
+};
+
+aaaconnection.onmessage = function (e) {
+    var u = JSON.stringify(eval('(' + e.data + ')'))
+    json = JSON.parse(u);
+    if (json.command === "reservation") {
+        aaaconnection.send(resString);
+        reservationData = json;
+    } else if (json.command === "room") {
+        aaaconnection.send(string);
+        roomData = json;
+    } else {
+        templateData = json;
+    }
+    console.log(json); //json - obiekt
+};

@@ -218,14 +218,14 @@
                         <div class="panel" id="region-container" target="none">
                             <form id="region-form">
                                 <div class="btn-group btn-group-radio btn-group-justified" data-toggle="buttons" id="region-radio">
-                                    
+
                                 </div>
                             </form>
                         </div>
                         <div class="panel hidden" id="city-container" target="next">
                             <form id="region-form">
                                 <div class="btn-group btn-group-radio btn-group-justified" data-toggle="buttons" id="city-radio">
-                                    
+
                                 </div>
                             </form>
                         </div>
@@ -241,14 +241,14 @@
                         <div class="panel" id="room-type" target="none">
                             <form id="type-form">
                                 <div class="btn-group btn-group-radio btn-group-justified" data-toggle="buttons" id="type-radio">
-                                    
+
                                 </div>
                             </form>
                         </div>
                         <div class="panel hidden" id="room-size" target="next">
                             <form id="size-form">
                                 <div class="btn-group btn-group-radio btn-group-justified" data-toggle="buttons" id="size-radio">
-                                    
+
                                 </div>
                             </form>
                         </div>
@@ -264,38 +264,18 @@
                     <div id="sandbox-container" style="text-align: center;">
                         <h3>Choose reservation dates</h3>
                         <div class="input-group date">
-                            <input type="text" class="form-control" id="from-date" placeholder="From"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
-                            <script>
-                                $('#sandbox-container .input-group.date').datepicker({
-                                    format: "yyyy/mm/dd",
-                                    clearBtn: true,
-                                    orientation: "bottom auto",
-                                    multidate: false,
-                                    calendarWeeks: true,
-                                    startDate: "Today",
-                                    todayHighlight: true
-                                });
-                            </script>
+                            <input type="text" class="form-control" value id="from-date" placeholder="From"><span class=" input-group-addon"></span>
+                            <script src="Scripts/app/datepicker-from.js"></script>
                         </div>
                         <div class="input-group date">
-                            <input type="text" class="form-control" id="to-date" placeholder="To"><span class=" input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
-                            <script>
-                                $('#sandbox-container .input-group.date').datepicker({
-                                    format: "yyyy/mm/dd",
-                                    clearBtn: true,
-                                    orientation: "bottom auto",
-                                    multidate: false,
-                                    calendarWeeks: true,
-                                    startDate: "+1d",
-                                    todayHighlight: true
-                                });
-                            </script>
+                            <input type="text" class="form-control" value id="to-date" placeholder="To"><span class=" input-group-addon"></span>
+                            <script src="Scripts/app/datepicker-to.js"></script>
                         </div>
                     </div>
                     <button id="make-button" class="btn btn-lg btn-primary btn-block" type="submit" onclick="navPage('new-form-button')">Make a reservation</button>
 
                     <div id="hotel-imgs" class="col-md-6">
-                        <h3 style ="text-align: center;">Hotel images</h3>
+                        <h3 style="text-align: center;">Hotel images</h3>
                         <div class="well">
                             <ul class="x-ul row">
                                 <li class="x-li col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -326,9 +306,9 @@
                             </ul>
                         </div>
                     </div>
-                </div> 
+                </div>
                 <!-- /hotel and room images -->
-                
+
             </div>
             <!-- /new-reservation -->
 
@@ -347,7 +327,7 @@
     <!-- /reservations -->
 
     <div id="user-reservation-content" class="container hidden">
-        
+
     </div>
     <!-- /user-reservation -->
 
@@ -365,7 +345,7 @@
                     <label for="input-phone" class="sr-only">Phone number</label>
                     <input type="text" id="gb-input-phone" class="form-control" placeholder="Phone number">
                     <label for="input-id" class="sr-only">ID Number</label>
-                    <input type="text" id="gb-input-id" class="form-control" placeholder="ID number">
+                    <input type="text" id="gb-input-id" class="form-control" placeholder="Your ID card number">
                     <label for="input-psswd" class="sr-only">Password (for checking and editing reservation info)</label>
                     <input type="password" id="gb-input-psswd" class="form-control" placeholder="Password (for checking and editing reservation info)">
                     <!--<label>
@@ -381,7 +361,7 @@
                 <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="register()">Send reservation form</button>
             </form>
         </div>
-    </div> 
+    </div>
     <!-- /new-reservation-form -->
 
     <div class="container hidden" id="guestbook-content">
